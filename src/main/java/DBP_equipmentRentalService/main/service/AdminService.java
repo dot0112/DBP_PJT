@@ -18,18 +18,6 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-    /*
-     * 관리자 로그인 기능
-     * 반환값: boolean
-     * 설명: adminId와 password를 이용하여 Database에 해당 정보를 가진 Admin이 있는지 확인
-     *       각 adminId와 password는 Admin 객체를 이용하여 전달
-     * */
-    public Boolean login(Admin admin) {
-        if (admin == null) return false;
-        Admin foundAdmin = adminRepository.findById(admin.getAdminId()).orElse(null);
-        return (foundAdmin != null) && (foundAdmin.getPassword().equals(admin.getPassword()));
-    }
-
     public List<Admin> findAll() {
         return adminRepository.findAll();
     }

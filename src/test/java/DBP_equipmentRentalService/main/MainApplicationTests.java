@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-class UserApplicationTests {
+class MainApplicationTests {
 
 	@Autowired
 	private AdminService adminService; // 서비스 클래스 주입

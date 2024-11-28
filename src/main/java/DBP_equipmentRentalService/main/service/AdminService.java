@@ -14,11 +14,11 @@ public class AdminService {
     private final AdminRepository adminRepository;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository){
+    public AdminService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
     }
 
-    public List<Admin> findAll(){
+    public List<Admin> findAll() {
         return adminRepository.findAll();
     }
 }

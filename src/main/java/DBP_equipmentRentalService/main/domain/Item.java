@@ -13,8 +13,8 @@ public class Item {
     String buildingName;
     String currentState;
     String adminId;
-    int rentableStatus;
-    int rentalStatus;
+    String rentableStatus;
+    String rentalStatus;
 
     public String getItemId() {
         return itemId;
@@ -72,19 +72,19 @@ public class Item {
         this.adminId = adminId;
     }
 
-    public int getRentableStatus() {
+    public String getRentableStatus() {
         return rentableStatus;
     }
 
-    public void setRentableStatus(int rentableStatus) {
+    public void setRentableStatus(String rentableStatus) {
         this.rentableStatus = rentableStatus;
     }
 
-    public int getRentalStatus() {
+    public String getRentalStatus() {
         return rentalStatus;
     }
 
-    public void setRentalStatus(int rentalStatus) {
+    public void setRentalStatus(String rentalStatus) {
         this.rentalStatus = rentalStatus;
     }
 }

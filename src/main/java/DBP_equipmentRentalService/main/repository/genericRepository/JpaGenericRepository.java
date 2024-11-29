@@ -1,4 +1,4 @@
-package DBP_equipmentRentalService.main.repository;
+package DBP_equipmentRentalService.main.repository.genericRepository;
 
 import DBP_equipmentRentalService.main.repository.util.ReflectionUtil;
 import jakarta.persistence.EntityManager;

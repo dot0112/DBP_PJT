@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Users {
     @Id
     String userId;
-    String passwd;
+    String password;
     String name;
     LocalDate dateOfBirth;
     String email;
@@ -25,12 +25,12 @@ public class Users {
         this.userId = userId;
     }
 
-    public String getPasswd() {
-        return passwd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {

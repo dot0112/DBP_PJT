@@ -2,7 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <body>
 <section th:fragment="repairRequest">
-  <h2>수리 요청</h2>
+  <h3>수리 요청</h3>
+  <form th:action="@{/reapir}" method="post">
+    비품 ID <input type="text" placeholder="비품 종류"><br>
+    <input type="submit" value="수리 요청하기">
+  </form>
 </section>
 </body>
 </html>

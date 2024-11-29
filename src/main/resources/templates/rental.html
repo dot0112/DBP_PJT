@@ -2,7 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <body>
 <section th:fragment="rental">
-  <h2>대여</h2>
+  <h3>대여</h3>
+  <form th:action="@{/rent}" method="post">
+    비품 ID <input type="text" placeholder="비품 종류"><br>
+    반납 예정일 <input type="date"><br>
+    <input type="submit" value="신청하기">
+  </form>
 </section>
 </body>
 </html>

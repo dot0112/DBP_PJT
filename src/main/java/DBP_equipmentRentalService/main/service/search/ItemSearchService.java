@@ -1,4 +1,4 @@
-package DBP_equipmentRentalService.main.service;
+package DBP_equipmentRentalService.main.service.search;
 
 import DBP_equipmentRentalService.main.domain.Item;
 import DBP_equipmentRentalService.main.repository.item.ItemRepository;
@@ -43,6 +43,14 @@ public class ItemSearchService {
     }
 
     public Optional<Item> searchById(String id) {
-        
+        return itemRepository.findById(id);
+    }
+
+    public List<Item> searchByLectureRoom(String roomNumber, String buildingName) {
+        Map<String, Object> criteria = Map.of(
+                "roomNumber", roomNumber,
+                "buildingName", buildingName
+        );
+        return itemRepository.findByCriteria(criteria);
     }
 }

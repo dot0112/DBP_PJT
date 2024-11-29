@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class JdbcGenericRepository<T> {
+public abstract class JdbcGenericRepository<T> {
     protected final DataSource dataSource;
     private final Class<T> entityType;
 

@@ -28,6 +28,10 @@ public class ItemSearchService {
      * 물품 강의실로 검색
      * */
 
+    public List<Item> searchAll(){
+        return itemRepository.findAll();
+    }
+
     public List<Item> searchByName(String name) {
         Map<String, Object> criteria = Map.of(
                 "itemName", name

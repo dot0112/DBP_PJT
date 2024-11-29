@@ -31,9 +31,7 @@ public abstract class JpaGenericRepository<T, ID> {
     }
 
     public List<T> findByCriteria(Map<String, Object> criteria) {
-        // Get valid fields dynamically
         Set<String> validFields = ReflectionUtil.getFieldNames(entityType);
-
         StringBuilder jpql = new StringBuilder("SELECT e FROM ").append(entityType.getSimpleName()).append(" e WHERE 1=1");
         Map<String, Object> parameters = new HashMap<>();
 
@@ -45,7 +43,11 @@ public abstract class JpaGenericRepository<T, ID> {
                 throw new IllegalArgumentException("Invalid field: " + key);
             }
 
-            jpql.append(" AND e.").append(key).append(" = :").append(key);
+            if (value instanceof String && ((String) value).contains("%")) {
+                jpql.append(" AND e.").append(key).append(" LIKE :").append(key);
+            } else {
+                jpql.append(" AND e.").append(key).append(" = :").append(key);
+            }
             parameters.put(key, value);
         }
 

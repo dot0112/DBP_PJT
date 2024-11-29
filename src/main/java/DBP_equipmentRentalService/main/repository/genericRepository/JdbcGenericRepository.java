@@ -21,20 +21,24 @@ public class JdbcGenericRepository<T> {
         this.entityType = entityType;
     }
 
-    public T save(T entity) throws SQLException, IllegalAccessException {
+    public T save(T entity) {
         Field[] fields = entityType.getDeclaredFields();
         List<Field> validFields = new ArrayList<>();
         StringBuilder columns = new StringBuilder();
         StringBuilder values = new StringBuilder();
 
-        for (Field field : fields) {
-            field.setAccessible(true);
-            Object value = field.get(entity);
-            if (value != null) {
-                validFields.add(field);
-                columns.append(field.getName()).append(", ");
-                values.append("?, ");
+        try {
+            for (Field field : fields) {
+                field.setAccessible(true);
+                Object value = field.get(entity);
+                if (value != null) {
+                    validFields.add(field);
+                    columns.append(field.getName()).append(", ");
+                    values.append("?, ");
+                }
             }
+        } catch (Exception e){
+            throw new IllegalStateException(e);
         }
 
         columns.setLength(columns.length() - 2);
@@ -151,12 +155,11 @@ public class JdbcGenericRepository<T> {
         }
     }
 
-    private Connection getConnection() {
+    protected Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);
         //하나의 일관된 connection 관리용. close도 마찬가지
     }
-
-    private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
+    protected void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         //rs, stmt, conn 순서대로 처리
         try {
             if (rs != null) {                rs.close();
@@ -174,7 +177,7 @@ public class JdbcGenericRepository<T> {
         } catch (SQLException e) {            e.printStackTrace();
         }
     }
-    private void close(Connection conn) throws SQLException {
+    protected void close(Connection conn) throws SQLException {
         DataSourceUtils.releaseConnection(conn, dataSource);
     }    //스프링부트용 DB Connection 풀관리 :
 }

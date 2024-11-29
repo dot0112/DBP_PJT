@@ -1,10 +1,12 @@
 package DBP_equipmentRentalService.main.repository.genericRepository;
 
 import DBP_equipmentRentalService.main.repository.util.ReflectionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
+import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,8 +17,8 @@ public abstract class JdbcTemplateGenericRepository<T> {
     protected final JdbcTemplate jdbcTemplate;
     private final Class<T> entityType;
 
-    public JdbcTemplateGenericRepository(JdbcTemplate jdbcTemplate, Class<T> entityType) {
-        this.jdbcTemplate = jdbcTemplate;
+    public JdbcTemplateGenericRepository(DataSource dataSource, Class<T> entityType) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.entityType = entityType;
     }
 

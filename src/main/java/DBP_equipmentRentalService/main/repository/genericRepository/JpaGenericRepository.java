@@ -3,6 +3,7 @@ package DBP_equipmentRentalService.main.repository.genericRepository;
 import DBP_equipmentRentalService.main.repository.util.ReflectionUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 

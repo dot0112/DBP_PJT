@@ -3,6 +3,7 @@ package DBP_equipmentRentalService.main.repository.repairRequest;
 import DBP_equipmentRentalService.main.domain.Item;
 import DBP_equipmentRentalService.main.domain.RepairRequest;
 import DBP_equipmentRentalService.main.repository.genericRepository.JdbcGenericRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Repository
 public class JdbcRepairRequestRepository extends JdbcGenericRepository<RepairRequest> implements RepairRequestRepository {
+    @Autowired
     public JdbcRepairRequestRepository(DataSource dataSource){
         super(dataSource, RepairRequest.class);
     }

@@ -1,6 +1,7 @@
 package DBP_equipmentRentalService.main.repository.genericRepository;
 
 import DBP_equipmentRentalService.main.repository.util.ReflectionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;

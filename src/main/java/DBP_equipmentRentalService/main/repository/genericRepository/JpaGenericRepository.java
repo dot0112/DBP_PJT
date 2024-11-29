@@ -6,7 +6,7 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.*;
 
-public abstract class JpaGenericRepository<T, ID> {
+public abstract class JpaGenericRepository<T> {
     protected final EntityManager em;
     private final Class<T> entityType;
 
@@ -18,11 +18,6 @@ public abstract class JpaGenericRepository<T, ID> {
     public T save(T entity) {
         em.persist(entity);
         return entity;
-    }
-
-    public Optional<T> findById(ID id) {
-        T entity = em.find(entityType, id);
-        return Optional.ofNullable(entity);
     }
 
     public List<T> findAll() {

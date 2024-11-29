@@ -2,7 +2,7 @@ package DBP_equipmentRentalService.main.repository.item;
 
 import DBP_equipmentRentalService.main.domain.Item;
 
-import DBP_equipmentRentalService.main.repository.JpaGenericRepository;
+import DBP_equipmentRentalService.main.repository.genericRepository.JpaGenericRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

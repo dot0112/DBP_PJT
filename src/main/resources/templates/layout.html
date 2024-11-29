@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>강의실 비품 관리</title>
+</head>
+<body>
+<header>
+  <h3>강의실 비품 관리</h3>
+</header>
+<div th:if="${!isLoggedIn}">
+  <button onclick="location.href='/login'">로그인</button> <!-- 로그인 페이지로 이동 -->
+</div>
+<nav>
+  <ul>
+    <li><a th:href="@{/}">홈</a></li>
+    <li><a th:href="@{/repairRequest}">수리요청</a></li>
+    <li><a th:href="@{/rental}">대여</a></li>
+    <li><a th:href="@{/return}">반납</a></li>
+  </ul>
+</nav>
+<section th:replace="${contentFragment}"></section>
+</body>
+</html>

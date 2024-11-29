@@ -2,6 +2,7 @@ package DBP_equipmentRentalService.main.repository.admin;
 
 import DBP_equipmentRentalService.main.domain.Admin;
 import DBP_equipmentRentalService.main.repository.genericRepository.JdbcGenericRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 public class JdbcAdminRepository extends JdbcGenericRepository<Admin> implements AdminRepository {
+    @Autowired
     public JdbcAdminRepository(DataSource dataSource){
         super(dataSource, Admin.class);
     }

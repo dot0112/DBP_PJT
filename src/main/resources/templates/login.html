@@ -9,16 +9,25 @@
     <h3>로그인</h3>
 </header>
 <section>
-    <form action="#" method="post">
+    <form action="/signin" method="post">
         <label for="username">아이디</label>
-        <input type="text" id="username" name="username" th:value="${username}"><br>
+        <input type="text" id="username" name="username"><br>
 
         <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password" th:value="${password}"><br>
+        <input type="password" id="password" name="password"><br>
 
         <input type="submit" value="로그인"><br>
     </form>
     <button onclick="location.href='/signUp'">회원가입</button>
 </section>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+
+    if (error !== null) {
+        alert("로그인에 실패했습니다. 다시 시도하세요.");
+    }
+</script>
 </body>
 </html>

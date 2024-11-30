@@ -28,12 +28,4 @@ public class MainController {
         model.addAttribute("items", items);
         return "layout";
     }
-
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
-
-    @GetMapping("/signUp")
-    public String signUp() {return "signUp";}
 }

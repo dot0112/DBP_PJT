@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class MemoryGenericRepository<T> {
-
+ 
     protected boolean matchesCriteria(T entity, Map<String, Object> criteria) {
         for (Map.Entry<String, Object> entry : criteria.entrySet()) {
             String key = entry.getKey();

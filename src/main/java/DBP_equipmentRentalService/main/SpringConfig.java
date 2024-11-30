@@ -3,6 +3,10 @@ package DBP_equipmentRentalService.main;
 import DBP_equipmentRentalService.main.repository.admin.*;
 import DBP_equipmentRentalService.main.repository.item.*;
 import DBP_equipmentRentalService.main.repository.lectureRoom.*;
+import DBP_equipmentRentalService.main.repository.procedure.JdbcProcedureRepository;
+import DBP_equipmentRentalService.main.repository.procedure.JdbcTemplateProcedureRepository;
+import DBP_equipmentRentalService.main.repository.procedure.JpaProcedureRepository;
+import DBP_equipmentRentalService.main.repository.procedure.ProcedureRepository;
 import DBP_equipmentRentalService.main.repository.rental.*;
 import DBP_equipmentRentalService.main.repository.repairRecord.*;
 import DBP_equipmentRentalService.main.repository.repairRequest.*;
@@ -114,6 +118,16 @@ public class SpringConfig {
             case "JDBC" -> new JdbcUsersRepository(dataSource);
             case "JDBCTEMPLATE" -> new JdbcTemplateUsersRepository(dataSource);
             case "JPA" -> new JpaUsersRepository(em);
+            default -> throw new IllegalArgumentException("Invalid Repository Type");
+        };
+    }
+
+    @Bean
+    public ProcedureRepository procedureRepository() {
+        return switch (repositoryType) {
+            case "JDBC" -> new JdbcProcedureRepository(dataSource);
+            case "JDBCTEMPLATE" -> new JdbcTemplateProcedureRepository(dataSource);
+            case "JPA" -> new JpaProcedureRepository(em);
             default -> throw new IllegalArgumentException("Invalid Repository Type");
         };
     }

@@ -3,9 +3,11 @@ package DBP_equipmentRentalService.main.repository.genericRepository;
 import DBP_equipmentRentalService.main.repository.util.ReflectionUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class JpaGenericRepository<T> {
     protected final EntityManager em;

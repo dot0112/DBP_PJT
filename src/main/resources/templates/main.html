@@ -27,6 +27,13 @@
             </thead>
             <!-- 랜덤한 비품 정보 출력 -->
             <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.itemName}"></td>
+                <td th:text="${item.itemId}"></td>
+                <td th:text="${item.itemType}"></td>
+                <td th:text="${item.currentState}"></td>
+                <td th:text="${item.rentableStatus}"></td>
+            </tr>
             </tbody>
         </table>
     </article>

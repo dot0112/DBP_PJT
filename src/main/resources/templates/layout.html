@@ -8,15 +8,27 @@
 <header>
   <h3>강의실 비품 관리</h3>
 </header>
-<div><!--th:if="${!isLoggedIn}"-->
+<div th:if="${!isLoggedIn}"><!--th:if="${!isLoggedIn}"-->
   <button onclick="location.href='/login'">로그인</button>
+</div>
+<div th:if="${isLoggedIn}">
+  <button>로그아웃</button>
 </div>
 <nav>
   <ul>
     <li><a th:href="@{/}">홈</a></li>
-    <li><a th:href="@{/repairRequest}">수리요청</a></li>
-    <li><a th:href="@{/rental}">대여</a></li>
-    <li><a th:href="@{/return}">반납</a></li>
+    <li>
+      <a th:if="${isLoggedIn}" th:href="@{/repairRequest}">수리요청</a>
+      <a th:if="${!isLoggedIn}" th:href="@{/login}" onclick="alert('로그인이 필요합니다.')">수리요청</a>
+    </li>
+    <li>
+      <a th:if="${isLoggedIn}" th:href="@{/rental}">대여</a>
+      <a th:if="${!isLoggedIn}" th:href="@{/login}" onclick="alert('로그인이 필요합니다.')">대여</a>
+    </li>
+    <li>
+      <a th:if="${isLoggedIn}" th:href="@{/return}">반납</a>
+      <a th:if="${!isLoggedIn}" th:href="@{/login}" onclick="alert('로그인이 필요합니다.')">반납</a>
+    </li>
   </ul>
 </nav>
 <!-- 네비게이션바까지 분리 -->

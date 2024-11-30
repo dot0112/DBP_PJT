@@ -2,6 +2,7 @@ package DBP_equipmentRentalService.main.controller;
 
 import DBP_equipmentRentalService.main.domain.Item;
 import DBP_equipmentRentalService.main.service.ItemService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,21 +20,17 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String home(Model model){
-        boolean isLoggedIn = false;
+    public String home(Model model, HttpSession session){
         List<Item> items = itemService.findItems();
+        Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+
+        if(isLoggedIn == null){
+            isLoggedIn = false;
+        }
 
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("contentFragment", "main");
         model.addAttribute("items", items);
         return "layout";
     }
-
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
-
-    @GetMapping("/signUp")
-    public String signUp() {return "signUp";}
 }

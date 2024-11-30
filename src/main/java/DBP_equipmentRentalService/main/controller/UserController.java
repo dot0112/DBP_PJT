@@ -26,14 +26,18 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/signin")
-    public String signin(@RequestParam String username, @RequestParam String password, Model model){
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password, HttpSession session){
         boolean isLoggedIn = userService.signIn(username, password);
 
         if(isLoggedIn){
+            session.setAttribute("isLoggedIn", true);
+
             return "redirect:/";
         }
         else{
+            session.setAttribute("isLoggedIn", false);
+
             return "redirect:/login?error";
         }
     }

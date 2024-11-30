@@ -8,7 +8,10 @@ import java.util.Optional;
 
 public interface LectureRoomRepository {
     LectureRoom save(LectureRoom lectureRoom);
-    Optional<LectureRoom> findByKey(String roomNumber, String buildingName);
+
+    Optional<LectureRoom> findById(String roomNumber, String buildingName);
+
     List<LectureRoom> findByCriteria(Map<String, Object> criteria);
+
     List<LectureRoom> findAll();
 }

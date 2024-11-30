@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 public class LectureRoom {
     @Id
     String roomNumber;
+    @Id
     String buildingName;
     String departmentName;
     String adminId;

@@ -19,7 +19,7 @@ public class MemoryLectureRoomRepository extends MemoryGenericRepository<Lecture
     }
 
     @Override
-    public Optional<LectureRoom> findByKey(String roomNumber, String buildingName) {
+    public Optional<LectureRoom> findById(String roomNumber, String buildingName) {
         return Optional.ofNullable(store.get(Arrays.asList(roomNumber, buildingName)));
     }
 

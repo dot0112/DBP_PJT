@@ -20,7 +20,7 @@ public class MemoryRepairRecordRepository extends MemoryGenericRepository<Repair
     }
 
     @Override
-    public Optional<RepairRecord> findByKey(String itemId, LocalDate repairDate) {
+    public Optional<RepairRecord> findById(String itemId, LocalDate repairDate) {
         return Optional.ofNullable(store.get(Arrays.asList(itemId, repairDate)));
     }
 

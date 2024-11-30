@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class RepairRecord {
     @Id
     String itemId;
+    @Id
     LocalDate repairDate;
     String repairDesc;
     int repairCost;

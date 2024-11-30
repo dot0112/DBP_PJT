@@ -21,7 +21,7 @@ public class JdbcTemplateRepairRecordRepository extends JdbcTemplateGenericRepos
     }
 
     @Override
-    public Optional<RepairRecord> findByKey(String itemId, LocalDate repairDate) {
+    public Optional<RepairRecord> findById(String itemId, LocalDate repairDate) {
         List<RepairRecord> result = jdbcTemplate.query("SELECT * FROM REPAIRRECORD WHERE ITEMID = ? AND REPAIRDATE = ?", rowMapper(), Arrays.asList(itemId, Date.valueOf(repairDate)));
         return result.stream().findAny();
     }

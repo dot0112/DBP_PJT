@@ -9,7 +9,10 @@ import java.util.Optional;
 
 public interface RepairRecordRepository {
     RepairRecord save(RepairRecord repairRecord);
-    Optional<RepairRecord> findByKey(String itemId, LocalDate repairDate);
+
+    Optional<RepairRecord> findById(String itemId, LocalDate repairDate);
+
     List<RepairRecord> findByCriteria(Map<String, Object> criteria);
+
     List<RepairRecord> findAll();
 }

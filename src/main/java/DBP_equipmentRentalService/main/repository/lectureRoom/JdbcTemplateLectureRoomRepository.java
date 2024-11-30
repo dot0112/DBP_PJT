@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -15,12 +14,12 @@ import java.util.Optional;
 @Repository
 public class JdbcTemplateLectureRoomRepository extends JdbcTemplateGenericRepository<LectureRoom> implements LectureRoomRepository {
     @Autowired
-    public JdbcTemplateLectureRoomRepository(DataSource dataSource){
+    public JdbcTemplateLectureRoomRepository(DataSource dataSource) {
         super(dataSource, LectureRoom.class);
     }
 
     @Override
-    public Optional<LectureRoom> findByKey(String roomNumber, String buildingName) {
+    public Optional<LectureRoom> findById(String roomNumber, String buildingName) {
         List<LectureRoom> result = jdbcTemplate.query("SELECT * FROM LECTUREROOM WHERE ROOMNUMBER = ? AND BUILDINGNAME = ?", rowMapper(), Arrays.asList(roomNumber, buildingName));
         return result.stream().findAny();
     }

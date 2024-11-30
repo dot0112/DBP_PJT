@@ -3,7 +3,6 @@ package DBP_equipmentRentalService.main.repository.admin;
 import DBP_equipmentRentalService.main.domain.Admin;
 import DBP_equipmentRentalService.main.repository.genericRepository.JdbcTemplateGenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -27,13 +26,14 @@ public class JdbcTemplateAdminRepository extends JdbcTemplateGenericRepository<A
     @Override
     protected RowMapper<Admin> rowMapper() {
         return (rs, rowNum) -> {
-          Admin admin = new Admin();
-          admin.setAdminId(rs.getString("ADMINID"));
-          admin.setPassword(rs.getString("PASSWORD"));
-          admin.setName(rs.getString("NAME"));
-          admin.setEmail(rs.getString("EMAIL"));
-          admin.setPhoneNumber(rs.getString("PHONENUMBER"));
-          return admin;
+            Admin admin = new Admin();
+            admin.setAdminId(rs.getString("ADMINID"));
+            admin.setPassword(rs.getString("PASSWORD"));
+            admin.setName(rs.getString("NAME"));
+            admin.setDateOfBirth(rs.getDate("DATEOFBIRTH").toLocalDate());
+            admin.setEmail(rs.getString("EMAIL"));
+            admin.setPhoneNumber(rs.getString("PHONENUMBER"));
+            return admin;
         };
     }
 }

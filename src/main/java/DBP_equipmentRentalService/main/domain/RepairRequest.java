@@ -6,9 +6,9 @@ import jakarta.persistence.Id;
 @Entity
 public class RepairRequest {
     @Id
+    String repairRequestId;
     String itemId;
     String userId;
-    String repairRequestId;
     String itemName;
 
     public String getItemId() {

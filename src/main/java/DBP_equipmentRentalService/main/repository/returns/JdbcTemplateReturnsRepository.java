@@ -32,6 +32,7 @@ public class JdbcTemplateReturnsRepository extends JdbcTemplateGenericRepository
             returns.setRentalId(rs.getString("RENTALID"));
             returns.setReturnId(rs.getString("RETURNID"));
             returns.setActualReturnDate(rs.getDate("ACTUALRETURNDATE").toLocalDate());
+            returns.setRepairRequest(rs.getString("REPAIR_REQUEST"));
             return returns;
         };
     }

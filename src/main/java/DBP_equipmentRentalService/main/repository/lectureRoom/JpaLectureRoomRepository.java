@@ -12,12 +12,12 @@ import java.util.Optional;
 @Repository
 public class JpaLectureRoomRepository extends JpaGenericRepository<LectureRoom> implements LectureRoomRepository {
     @Autowired
-    public JpaLectureRoomRepository(EntityManager em){
+    public JpaLectureRoomRepository(EntityManager em) {
         super(em, LectureRoom.class);
     }
 
     @Override
-    public Optional<LectureRoom> findByKey(String roomNumber, String buildingName) {
+    public Optional<LectureRoom> findById(String roomNumber, String buildingName) {
         String jpql = "SELECT e FROM LECTUREROOM e WHERE e.ROOMNUMBER = :ROOMNUMBER AND e.BUILDINGNAME = :BUILDINGNAME";
         TypedQuery<LectureRoom> query = em.createQuery(jpql, LectureRoom.class);
 

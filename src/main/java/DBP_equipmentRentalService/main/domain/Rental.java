@@ -8,9 +8,9 @@ import java.time.LocalDate;
 @Entity
 public class Rental {
     @Id
+    String rentalId;
     String userId;
     String itemId;
-    String rentalId;
     LocalDate rentalDate;
     LocalDate returnDate;
 

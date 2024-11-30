@@ -3,12 +3,15 @@ package DBP_equipmentRentalService.main.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
+
 @Entity
 public class Admin {
     @Id
     String adminId;
     String password;
     String name;
+    LocalDate dateOfBirth;
     String email;
     String phoneNumber;
 
@@ -50,5 +53,13 @@ public class Admin {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

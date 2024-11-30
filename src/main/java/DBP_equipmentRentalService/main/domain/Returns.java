@@ -1,5 +1,6 @@
 package DBP_equipmentRentalService.main.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -8,11 +9,14 @@ import java.time.LocalDate;
 @Entity
 public class Returns {
     @Id
+    String returnId;
     String userId;
     String itemId;
     String rentalId;
-    String returnId;
     LocalDate actualReturnDate;
+
+    @JsonProperty("repair_request")
+    String repairRequest;
 
     public String getUserId() {
         return userId;
@@ -52,5 +56,13 @@ public class Returns {
 
     public void setActualReturnDate(LocalDate actualReturnDate) {
         this.actualReturnDate = actualReturnDate;
+    }
+
+    public String getRepairRequest() {
+        return repairRequest;
+    }
+
+    public void setRepairRequest(String repairRequest) {
+        this.repairRequest = repairRequest;
     }
 }

@@ -1,11 +1,9 @@
 package DBP_equipmentRentalService.main.repository.genericRepository;
 
 import DBP_equipmentRentalService.main.repository.util.ReflectionUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
-import java.beans.Transient;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,7 +36,7 @@ public abstract class JdbcGenericRepository<T> {
                     values.append("?, ");
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         }
 
@@ -59,12 +57,12 @@ public abstract class JdbcGenericRepository<T> {
                 pstmt.setObject(index++, field.get(entity));
             }
             int num = pstmt.executeUpdate();
-            if(num == 1){
+            if (num == 1) {
                 return entity;
-            } else{
+            } else {
                 throw new SQLException("Failed to insert");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         } finally {
             close(conn, pstmt, rs);
@@ -81,7 +79,7 @@ public abstract class JdbcGenericRepository<T> {
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
             List<T> objects = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 T object = entityType.getDeclaredConstructor().newInstance();
 
                 for (Field field : entityType.getDeclaredFields()) {
@@ -93,7 +91,7 @@ public abstract class JdbcGenericRepository<T> {
                 objects.add(object);
             }
             return objects;
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         } finally {
             close(conn, pstmt, rs);
@@ -105,7 +103,7 @@ public abstract class JdbcGenericRepository<T> {
         StringBuilder sql = new StringBuilder("SELECT * FROM " + entityType.getSimpleName().toLowerCase() + " WHERE 1=1");
         Map<String, Object> parameters = new HashMap<>();
 
-        for(Map.Entry<String, Object> entry : criteria.entrySet()) {
+        for (Map.Entry<String, Object> entry : criteria.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
@@ -137,7 +135,7 @@ public abstract class JdbcGenericRepository<T> {
 
             rs = pstmt.executeQuery();
             List<T> objects = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 T object = entityType.getDeclaredConstructor().newInstance();
 
                 for (Field field : entityType.getDeclaredFields()) {
@@ -149,7 +147,7 @@ public abstract class JdbcGenericRepository<T> {
                 objects.add(object);
             }
             return objects;
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         } finally {
             close(conn, pstmt, rs);
@@ -160,24 +158,32 @@ public abstract class JdbcGenericRepository<T> {
         return DataSourceUtils.getConnection(dataSource);
         //하나의 일관된 connection 관리용. close도 마찬가지
     }
+
     protected void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         //rs, stmt, conn 순서대로 처리
         try {
-            if (rs != null) {                rs.close();
+            if (rs != null) {
+                rs.close();
             }
-        } catch (SQLException e) {            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         try {
-            if (pstmt != null) {                pstmt.close();
+            if (pstmt != null) {
+                pstmt.close();
             }
-        } catch (SQLException e) {            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         try {
-            if (conn != null) {                close(conn);  // private method
+            if (conn != null) {
+                close(conn);  // private method
             }
-        } catch (SQLException e) {            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+
     protected void close(Connection conn) throws SQLException {
         DataSourceUtils.releaseConnection(conn, dataSource);
     }    //스프링부트용 DB Connection 풀관리 :

@@ -1,16 +1,12 @@
 package DBP_equipmentRentalService.main.repository.genericRepository;
 
 import DBP_equipmentRentalService.main.repository.util.ReflectionUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.*;
 
 public abstract class JdbcTemplateGenericRepository<T> {
@@ -46,7 +42,7 @@ public abstract class JdbcTemplateGenericRepository<T> {
     }
 
     public List<T> findAll() {
-        return jdbcTemplate.query("SELECT * FROM "+entityType.getSimpleName().toLowerCase(), rowMapper());
+        return jdbcTemplate.query("SELECT * FROM " + entityType.getSimpleName().toLowerCase(), rowMapper());
     }
 
     public List<T> findByCriteria(Map<String, Object> criteria) {
@@ -54,11 +50,11 @@ public abstract class JdbcTemplateGenericRepository<T> {
         StringBuilder sql = new StringBuilder("SELECT * FROM ").append(entityType.getSimpleName().toLowerCase()).append(" WHERE 1=1");
         List<Object> parameters = new ArrayList<>();
 
-        for(Map.Entry<String, Object> entry : criteria.entrySet()){
+        for (Map.Entry<String, Object> entry : criteria.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
-            if(!validFields.contains(key)) {
+            if (!validFields.contains(key)) {
                 throw new IllegalArgumentException("Invalid field: " + key);
             }
 

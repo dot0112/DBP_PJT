@@ -7,8 +7,13 @@
 <section th:fragment="main">
     <article>
         <form th:action="@{/search}" method="get">
-            검색
-            <input type="text" name="equipment" placeholder="비품명" th:values="${searchKeyword}">
+            <h3>검색</h3><br>
+            <select name ="how">
+                <option value="id" th:selected="${how == 'id'}">ID</option>
+                <option value="name" th:selected="${how == 'name'}">이름</option>
+                <option value="type" th:selected="${how == 'type'}">카테고리</option>
+            </select>
+            <input type="text" name="equipment" placeholder="검색어를 입력하세요" th:attr="value=${equipment != '' ? equipment : null}">
             <button type="submit">
                 <img src="/media/search.png" alt="검색" width="30px">
             </button>

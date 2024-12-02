@@ -14,7 +14,8 @@
             </button>
         </form>
     </article>
-    <article>
+    <!-- 검색을 하지 않았을 때 보이는 테이블 -->
+    <article th:if="${!isSearched}">
         <table>
             <thead>
             <tr>
@@ -33,6 +34,36 @@
                 <td th:text="${item.itemType}"></td>
                 <td th:text="${item.currentState}"></td>
                 <td th:text="${item.rentableStatus}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </article>
+    <!-- 검색을 했을 때 보이는 테이블 -->
+    <article th:if="${isSearched}">
+        <table>
+            <thead>
+            <tr>
+                <td>비품 ID</td>
+                <td>비품 명</td>
+                <th>종류</th>
+                <td colspan="2">위치</td>
+                <th>상태</th>
+                <td>관리자</td>
+                <th>대여 가능 여부</th>
+                <td>대여 상태</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.itemId}"></td>
+                <td th:text="${item.itemName}"></td>
+                <td th:text="${item.itemType}"></td>
+                <td th:text="${item.buildingName}"></td>
+                <td th:text="${item.roomNumber}"></td>
+                <td th:text="${item.currentState}"></td>
+                <td th:text="${item.adminId}"></td>
+                <td th:text="${item.rentableStatus}"></td>
+                <td th:text="${item.rentalStatus}"></td>
             </tr>
             </tbody>
         </table>

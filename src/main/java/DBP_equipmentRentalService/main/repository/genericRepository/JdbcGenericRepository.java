@@ -111,7 +111,7 @@ public abstract class JdbcGenericRepository<T> {
                 throw new IllegalArgumentException("Invalid field: " + key);
             }
 
-            if (value instanceof String && ((String) value).contains("%")) {
+            if (value instanceof String && (((String) value).contains("%") || ((String) value).contains("_"))) {
                 sql.append(" AND ").append(key).append(" LIKE ?");
             } else {
                 sql.append(" AND ").append(key).append(" = ?");

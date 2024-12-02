@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -38,13 +41,32 @@ public class MainController {
         model.addAttribute("contentFragment", "main");
         model.addAttribute("isSearched", isSearched);
         model.addAttribute("items", items);
+        model.addAttribute("equipment", "");
+        model.addAttribute("how", "type");
         return "layout";
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(name = "type", required = false, defaultValue = "") String type, Model model, HttpSession session){
+    public String search(@RequestParam(name = "how", required = false, defaultValue = "type") String how, @RequestParam(name = "equipment", required = false, defaultValue = "") String equipment, Model model, HttpSession session){
         isSearched = true;
-        List<Item> items = itemSearchService.searchByType(type);
+        List<Item> items = new ArrayList<>();
+
+        switch (how){
+            case "id":
+                Optional<Item> optionalItem = itemSearchService.searchById(equipment);
+                items = optionalItem.map(Collections::singletonList).orElse(Collections.emptyList());
+                break;
+            case "name":
+                items = itemSearchService.searchByName(equipment);
+                break;
+            case "type":
+                items = itemSearchService.searchByType(equipment);
+                break;
+            default:
+                items = new ArrayList<>();
+                break;
+        }
+
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 
         if(isLoggedIn == null){
@@ -54,6 +76,7 @@ public class MainController {
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("contentFragment", "main");
         model.addAttribute("isSearched", isSearched);
+        model.addAttribute("equipment", equipment);
         model.addAttribute("items", items);
         return "layout";
     }

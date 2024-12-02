@@ -7,7 +7,7 @@
 <section th:fragment="main">
     <article>
         <form th:action="@{/search}" method="get">
-            <h3>검색</h3><br>
+            <h4>검색</h4>
             <select name ="how">
                 <option value="id" th:selected="${how == 'id'}">ID</option>
                 <option value="name" th:selected="${how == 'name'}">이름</option>

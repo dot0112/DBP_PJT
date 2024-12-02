@@ -1,7 +1,6 @@
 package DBP_equipmentRentalService.main.controller;
 
 import DBP_equipmentRentalService.main.domain.Item;
-import DBP_equipmentRentalService.main.service.ItemService;
 import DBP_equipmentRentalService.main.service.search.ItemSearchService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +16,20 @@ import java.util.Optional;
 
 @Controller
 public class MainController {
-    private final ItemService itemService;
     private final ItemSearchService itemSearchService;
     private boolean isSearched;
 
     @Autowired
-    public MainController(ItemService itemService, ItemSearchService itemSearchService){
-        this.itemService = itemService;
+    public MainController(ItemSearchService itemSearchService){
         this.itemSearchService = itemSearchService;
     }
 
     @GetMapping("/")
     public String home(Model model, HttpSession session){
-        List<Item> items = itemService.findItems();
+        List<Item> allitems = itemSearchService.searchAll();
+        Collections.shuffle(allitems);
+        List<Item> items = allitems.subList(0, Math.min(10, allitems.size()));
+
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
         isSearched = false;
 

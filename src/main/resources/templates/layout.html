@@ -32,6 +32,6 @@
   </ul>
 </nav>
 <!-- 네비게이션바까지 분리 -->
-<section th:replace="${contentFragment}"></section> <!-- 페이지를 선택할 때마다 바뀌는 부분 -->
+<section th:replace="~{${contentFragment}}"></section> <!-- 페이지를 선택할 때마다 바뀌는 부분 -->
 </body>
 </html>

@@ -29,4 +29,6 @@ public interface ProcedureRepository {
      * @return 검색된 비품의 기록
      */
     List<Map<String, Object>> equipmentHistory(String itemId);
+
+    void manageItems(String itemName, String itemType, String adminId, Integer quantity, String roomNumber, String buildingName);
 }

@@ -13,7 +13,7 @@ public class RepairRecord {
     @Id
     LocalDate repairDate;
     String repairDesc;
-    int repairCost;
+    Integer repairCost;
 
     public String getItemId() {
         return itemId;
@@ -39,7 +39,7 @@ public class RepairRecord {
         this.repairDesc = repairDesc;
     }
 
-    public int getRepairCost() {
+    public Integer getRepairCost() {
         return repairCost;
     }
 

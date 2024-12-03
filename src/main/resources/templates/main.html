@@ -7,14 +7,20 @@
 <section th:fragment="main">
     <article>
         <form th:action="@{/search}" method="get">
-            검색
-            <input type="text" name="equipment" placeholder="비품명" th:values="${searchKeyword}">
+            <h4>검색</h4>
+            <select name ="how">
+                <option value="id" th:selected="${how == 'id'}">ID</option>
+                <option value="name" th:selected="${how == 'name'}">이름</option>
+                <option value="type" th:selected="${how == 'type'}">카테고리</option>
+            </select>
+            <input type="text" name="equipment" placeholder="검색어를 입력하세요" th:attr="value=${equipment != '' ? equipment : null}">
             <button type="submit">
                 <img src="/media/search.png" alt="검색" width="30px">
             </button>
         </form>
     </article>
-    <article>
+    <!-- 검색을 하지 않았을 때 보이는 테이블 -->
+    <article th:if="${!isSearched}">
         <table>
             <thead>
             <tr>
@@ -33,6 +39,36 @@
                 <td th:text="${item.itemType}"></td>
                 <td th:text="${item.currentState}"></td>
                 <td th:text="${item.rentableStatus}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </article>
+    <!-- 검색을 했을 때 보이는 테이블 -->
+    <article th:if="${isSearched}">
+        <table>
+            <thead>
+            <tr>
+                <td>비품 ID</td>
+                <td>비품 명</td>
+                <th>종류</th>
+                <td colspan="2">위치</td>
+                <th>상태</th>
+                <td>관리자</td>
+                <th>대여 가능 여부</th>
+                <td>대여 상태</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.itemId}"></td>
+                <td th:text="${item.itemName}"></td>
+                <td th:text="${item.itemType}"></td>
+                <td th:text="${item.buildingName}"></td>
+                <td th:text="${item.roomNumber}"></td>
+                <td th:text="${item.currentState}"></td>
+                <td th:text="${item.adminId}"></td>
+                <td th:text="${item.rentableStatus}"></td>
+                <td th:text="${item.rentalStatus}"></td>
             </tr>
             </tbody>
         </table>

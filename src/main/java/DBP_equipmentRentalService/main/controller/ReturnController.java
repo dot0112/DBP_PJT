@@ -1,5 +1,6 @@
 package DBP_equipmentRentalService.main.controller;
 
+import DBP_equipmentRentalService.main.domain.Returns;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

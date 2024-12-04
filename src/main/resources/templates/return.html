@@ -2,7 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <body>
 <section th:fragment="return">
-  <h2>반납</h2>
+  <h3>반납</h3>
+  <form th:action="@{/returnitem}" method="post">
+    <table>
+      <thead>
+      <tr>
+        <td>비품 ID</td>
+        <td>비품 명</td>
+        <td>반납</td>
+        <td>수리 요청</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item : ${items}">
+        <td th:text="${item.itemId}"></td>
+        <td th:text="${item.itemName}"></td>
+        <td><button name="returnBtn">반납</button></td>
+        <td><input type="checkbox" name="returnAndRepair"></td>
+      </tr>
+      </tbody>
+    </table>
+  </form>
 </section>
 </body>
 </html>

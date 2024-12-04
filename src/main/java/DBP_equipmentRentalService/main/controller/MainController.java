@@ -26,9 +26,9 @@ public class MainController {
 
     @GetMapping("/")
     public String home(Model model, HttpSession session){
-        List<Item> allitems = itemSearchService.searchAll();
-        Collections.shuffle(allitems);
-        List<Item> items = allitems.subList(0, Math.min(10, allitems.size()));
+        List<Item> allItems = itemSearchService.searchAll();
+        Collections.shuffle(allItems);
+        List<Item> items = allItems.subList(0, Math.min(10, allItems.size()));
 
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
         isSearched = false;

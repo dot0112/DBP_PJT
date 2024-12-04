@@ -41,13 +41,13 @@ public class UserController {
 
             return "redirect:/";
         }
-//        else if(isAdminLoggedIn){
-//            session.setAttribute("isLoggedIn", true);
-//            session.setAttribute("ID", username);
-//            session.setAttribute("role", "admin");
-//
-//            return "redirect:/";
-//        }
+        else if(isAdminLoggedIn){
+            session.setAttribute("isLoggedIn", true);
+            session.setAttribute("ID", username);
+            session.setAttribute("role", "admin");
+
+            return "redirect:/";
+        }
         else{
             session.setAttribute("isLoggedIn", false);
 

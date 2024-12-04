@@ -5,8 +5,15 @@
   <h3>수리 요청</h3>
   <form th:action="@{/searchRepair}" method="get">
     비품 ID
-    <input type="text" placeholder="비품 종류">
-    <button onclick="location.href='/search'">검색</button><br>
+    <select name ="way">
+      <option value="id" th:selected="${way == 'id'}">ID</option>
+      <option value="name" th:selected="${way == 'name'}">이름</option>
+      <option value="type" th:selected="${way == 'type'}">카테고리</option>
+    </select>
+    <input type="text" name="searchRepairItem" placeholder="검색어를 입력하세요">
+    <button onclick="location.href='/search'">
+      <img src="/media/search.png" alt="검색" width="30px">
+    </button><br>
   </form>
 
   <form th:action="@{/applyRepair}" method="post">
@@ -29,11 +36,10 @@
         <td th:text="${item.buildingName}"></td>
         <td th:text="${item.roomNumber}"></td>
         <td th:text="${item.currentState}"></td>
-        <td><input type="checkbox" name="repair"></td>
+        <td><input type="checkbox" name="repairIDs" th:value="${item.itemId+','+item.itemName}"></td>
       </tr>
       </tbody>
     </table>
-
     <input type="submit" value="수리 요청하기">
   </form>
 </section>

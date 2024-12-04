@@ -22,10 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(value = "error", required = false) String error, Model model){
-        if (error != null) {
-            model.addAttribute("errorMessage", "로그인에 실패했습니다. 다시 시도하세요.");
-        }
+    public String login(){
         return "login";
     }
 

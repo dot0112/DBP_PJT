@@ -36,7 +36,7 @@
         <td th:text="${item.buildingName}"></td>
         <td th:text="${item.roomNumber}"></td>
         <td th:text="${item.currentState}"></td>
-        <td><input type="checkbox" name="repairIDs" th:value="${item.itemId+','+item.itemName}"></td>
+        <td><input type="checkbox" name="repairItems" th:value="${item.itemId+':'+item.itemName}"></td>
       </tr>
       </tbody>
     </table>

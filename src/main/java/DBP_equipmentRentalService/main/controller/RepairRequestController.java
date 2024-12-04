@@ -2,6 +2,7 @@ package DBP_equipmentRentalService.main.controller;
 
 import DBP_equipmentRentalService.main.domain.Item;
 import DBP_equipmentRentalService.main.domain.RepairRequest;
+import DBP_equipmentRentalService.main.service.RepairRequestService;
 import DBP_equipmentRentalService.main.service.search.ItemSearchService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,12 @@ import java.util.Optional;
 @Controller
 public class RepairRequestController {
     private final ItemSearchService itemSearchService;
+    private final RepairRequestService repairRequestService;
 
     @Autowired
-    public RepairRequestController(ItemSearchService itemSearchService){
+    public RepairRequestController(ItemSearchService itemSearchService, RepairRequestService repairRequestService){
         this.itemSearchService = itemSearchService;
+        this.repairRequestService = repairRequestService;
     }
 
     @GetMapping ("/repairRequest")
@@ -73,15 +76,23 @@ public class RepairRequestController {
     }
 
     @PostMapping ("/applyRepair")
-    public String applyRepair(@RequestParam("repairItems") String[]  repairItems, HttpSession session){
+    public String applyRepair(@RequestParam(value = "repairItems", required = false, defaultValue = "") String[] repairItems, HttpSession session){
         RepairRequest repairRequest = new RepairRequest();
 
-        for(String repairItem : repairItems){
-            String[] item = repairItem.split(",");
-            repairRequest.setItemId(item[0]);
-            repairRequest.setUserId((String) session.getAttribute("ID"));
-            repairRequest.setItemName(item[1]);
+        try{
+            for(String repairItem : repairItems){
+                String[] item = repairItem.split(":");
+                repairRequest.setItemId(item[0]);
+                repairRequest.setUserId((String) session.getAttribute("ID"));
+                repairRequest.setItemName(item[1]);
+                repairRequest.setRepairRequestId("y");
+
+                repairRequestService.join(repairRequest);
+            }
         }
-        return "/";
+        catch (Exception e){
+            return "redirect:/?requestError";
+        }
+        return "redirect:/?requestSuccess";
     }
 }

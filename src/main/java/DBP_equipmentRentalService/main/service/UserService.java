@@ -2,6 +2,7 @@ package DBP_equipmentRentalService.main.service;
 
 import DBP_equipmentRentalService.main.domain.Users;
 import DBP_equipmentRentalService.main.repository.users.UsersRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService {
     private final UsersRepository usersRepository;
 

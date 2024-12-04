@@ -1,6 +1,8 @@
 package DBP_equipmentRentalService.main.controller;
 
 import DBP_equipmentRentalService.main.domain.Item;
+import DBP_equipmentRentalService.main.domain.RepairRequest;
+import DBP_equipmentRentalService.main.service.RepairRequestService;
 import DBP_equipmentRentalService.main.service.search.ItemSearchService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +12,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
 public class RepairRequestController {
     private final ItemSearchService itemSearchService;
-    private List<Item> searchedItems;
+    private final RepairRequestService repairRequestService;
 
     @Autowired
-    public RepairRequestController(ItemSearchService itemSearchService){
+    public RepairRequestController(ItemSearchService itemSearchService, RepairRequestService repairRequestService){
         this.itemSearchService = itemSearchService;
+        this.repairRequestService = repairRequestService;
     }
 
     @GetMapping ("/repairRequest")
@@ -37,9 +43,26 @@ public class RepairRequestController {
     }
 
     @GetMapping ("/searchRepair")
-    public String searchRepair(@RequestParam(name="type", required = false, defaultValue = "") String type, Model model, HttpSession session){
+    public String searchRepair(@RequestParam(name="way", required = false, defaultValue = "") String way, @RequestParam(name = "searchRepairItem", required = false, defaultValue = "") String searchRepairItem,  Model model, HttpSession session){
+        List<Item> searchedItems = new ArrayList<>();
+
+        switch (way){
+            case "id":
+                Optional<Item> optionalItem = itemSearchService.searchById(searchRepairItem);
+                searchedItems = optionalItem.map(Collections::singletonList).orElse(Collections.emptyList());
+                break;
+            case "name":
+                searchedItems = itemSearchService.searchByName(searchRepairItem);
+                break;
+            case "type":
+                searchedItems = itemSearchService.searchByType(searchRepairItem);
+                break;
+            default:
+                searchedItems = new ArrayList<>();
+                break;
+        }
+
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
-        searchedItems = itemSearchService.searchByType(type);
 
         if(isLoggedIn == null){
             isLoggedIn = false;
@@ -47,12 +70,29 @@ public class RepairRequestController {
 
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("contentFragment", "repairRequest");
+        model.addAttribute("searchRepairItem", searchRepairItem);
         model.addAttribute("items", searchedItems);
         return "layout";
     }
 
     @PostMapping ("/applyRepair")
-    public String applyRepair(){
-        return "layout";
+    public String applyRepair(@RequestParam(value = "repairItems", required = false, defaultValue = "") String[] repairItems, HttpSession session){
+        RepairRequest repairRequest = new RepairRequest();
+
+        try{
+            for(String repairItem : repairItems){
+                String[] item = repairItem.split(":");
+                repairRequest.setItemId(item[0]);
+                repairRequest.setUserId((String) session.getAttribute("ID"));
+                repairRequest.setItemName(item[1]);
+                repairRequest.setRepairRequestId("y");
+
+                repairRequestService.join(repairRequest);
+            }
+        }
+        catch (Exception e){
+            return "redirect:/?requestError";
+        }
+        return "redirect:/?requestSuccess";
     }
 }

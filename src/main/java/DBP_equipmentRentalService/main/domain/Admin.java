@@ -11,7 +11,7 @@ public class Admin {
     String adminId;
     String password;
     String name;
-    LocalDate dateOfBirth;
+    String dateOfBirth;
     String email;
     String phoneNumber;
 
@@ -55,11 +55,11 @@ public class Admin {
         this.phoneNumber = phoneNumber;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 }

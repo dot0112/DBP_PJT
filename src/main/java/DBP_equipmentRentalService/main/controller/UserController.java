@@ -1,5 +1,6 @@
 package DBP_equipmentRentalService.main.controller;
 
+import DBP_equipmentRentalService.main.service.AdminService;
 import DBP_equipmentRentalService.main.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,26 +13,35 @@ import org.springframework.ui.Model;
 @Controller
 public class UserController {
     private UserService userService;
+    private AdminService adminService;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService, AdminService adminService){
         this.userService = userService;
+        this.adminService = adminService;
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(value = "error", required = false) String error, Model model){
-        if (error != null) {
-            model.addAttribute("errorMessage", "로그인에 실패했습니다. 다시 시도하세요.");
-        }
+    public String login(){
         return "login";
     }
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, HttpSession session){
-        boolean isLoggedIn = userService.signIn(username, password);
+        boolean isUserLoggedIn = userService.signIn(username, password);
+        boolean isAdminLoggedIn = adminService.signIn(username, password);
 
-        if(isLoggedIn){
+        if(isUserLoggedIn){
             session.setAttribute("isLoggedIn", true);
+            session.setAttribute("ID", username);
+            session.setAttribute("role", "user");
+
+            return "redirect:/";
+        }
+        else if(isAdminLoggedIn){
+            session.setAttribute("isLoggedIn", true);
+            session.setAttribute("ID", username);
+            session.setAttribute("role", "admin");
 
             return "redirect:/";
         }

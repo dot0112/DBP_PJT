@@ -30,7 +30,7 @@ public class JdbcTemplateAdminRepository extends JdbcTemplateGenericRepository<A
             admin.setAdminId(rs.getString("ADMINID"));
             admin.setPassword(rs.getString("PASSWORD"));
             admin.setName(rs.getString("NAME"));
-            admin.setDateOfBirth(rs.getDate("DATEOFBIRTH").toLocalDate());
+            admin.setDateOfBirth(rs.getString("DATEOFBIRTH"));
             admin.setEmail(rs.getString("EMAIL"));
             admin.setPhoneNumber(rs.getString("PHONENUMBER"));
             return admin;

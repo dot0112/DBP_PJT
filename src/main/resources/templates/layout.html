@@ -2,18 +2,140 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>강의실 비품 관리</title>
+  <style>
+    /* 기본 스타일 */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #004085;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    header h3 {
+      margin: 0;
+    }
+
+    nav {
+      background-color: #343a40;
+      color: white;
+      padding: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin-right: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #007bff;
+    }
+
+    /* 버튼 스타일 */
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    /* 비품 목록 테이블 */
+    .equipment-table {
+      width: 80%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    .equipment-table th, .equipment-table td {
+      padding: 15px;
+      border: 1px solid #ddd;
+    }
+
+    .equipment-table th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .equipment-table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    /* 로그인 / 로그아웃 버튼을 중앙 정렬 */
+    .auth-buttons {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 768px) {
+      nav ul li {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .equipment-table {
+        width: 100%;
+        margin: 10px 0;
+      }
+    }
+  </style>
 </head>
 <body>
 <header>
   <h3>강의실 비품 관리</h3>
 </header>
-<div th:if="${!isLoggedIn}">
+
+<div class="auth-buttons" th:if="${!isLoggedIn}">
   <button onclick="location.href='/login'">로그인</button>
 </div>
-<div th:if="${isLoggedIn}">
+
+<div class="auth-buttons" th:if="${isLoggedIn}">
   <button onclick="location.href='/logout'">로그아웃</button>
 </div>
+
 <nav>
   <ul>
     <li><a th:href="@{/}">홈</a></li>
@@ -35,32 +157,31 @@
     </li>
   </ul>
 </nav>
-<!-- 네비게이션바까지 분리 -->
-<section th:replace="~{${contentFragment}}"></section> <!-- 페이지를 선택할 때마다 바뀌는 부분 -->
+
+<section th:replace="~{${contentFragment}}"></section>
+
 <script>
   const urlParams = new URLSearchParams(window.location.search);
-  //request
+
   const requestSuccess = urlParams.get('requestSuccess');
   const requestError = urlParams.get('requestError');
-
-  //rental
   const rentalSuccess = urlParams.get('rentalSuccess');
   const rentalError = urlParams.get('rentalError');
 
-  //request condition
-  if(requestSuccess !== null){
-      alert("성공적으로 수리 요청되었습니다.");
-  }
-  if(requestError !== null){
-      alert("수리 요청에 실패했습니다.");
+  if(requestSuccess !== null) {
+    alert("성공적으로 수리 요청되었습니다.");
   }
 
-  //rental condition
-  if(rentalSuccess !== null){
-      alert("성공적으로 대여했습니다.");
+  if(requestError !== null) {
+    alert("수리 요청에 실패했습니다.");
   }
-  if(rentalError !== null){
-      alert("대여에 실패했습니다.");
+
+  if(rentalSuccess !== null) {
+    alert("성공적으로 대여했습니다.");
+  }
+
+  if(rentalError !== null) {
+    alert("대여에 실패했습니다.");
   }
 </script>
 </body>

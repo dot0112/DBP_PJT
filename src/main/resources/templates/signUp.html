@@ -3,64 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <title>회원가입</title>
-  <script>
-    let isUsernameChanged = false;
-    let isDuplicateChecked = false;
-
-    function checkDuplicate(){
-      const username = document.getElementById('username').value;
-
-      if(!username){
-        alert('아이디를 입력해주세요.');
-        return;
-      }
-
-      if (isDuplicateChecked) {
-        alert('이미 중복 확인을 했습니다.');
-        return;
-      }
-
-      fetch(`/checkUsername?username=${encodeURIComponent(username)}`, {
-      method: 'GET',
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.isDuplicate) {
-          alert('이미 사용 중인 아이디입니다.');
-          document.getElementById('username').value = '';
-          isDuplicateChecked = false;
-        } else {
-          alert('사용 가능한 아이디입니다.');
-          isDuplicateChecked = true;
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('중복 확인 중 오류가 발생했습니다.');
-      });
+  <style>
+    /* 기본 스타일 설정 */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
     }
 
-    function validateForm(event) {
-      if (!isDuplicateChecked) {
-        alert('아이디 중복 확인을 먼저 해주세요.');
-        event.preventDefault();
-      }
+    header {
+        text-align: center;
+        width: 100%;
+        margin-bottom: 20px;
     }
 
-    function resetDuplicateCheck() {
-      isDuplicateChecked = false;
+    h3 {
+        font-size: 1.6em;  /* 글씨 크기 줄임 */
+        color: #333;
     }
-  </script>
+
+    /* 회원가입 폼 스타일 */
+    section {
+        background-color: white;
+        padding: 30px; /* 패딩 줄임 */
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px; /* 폼 너비 줄임 */
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* 간격 줄임 */
+    }
+
+    label {
+        font-size: 1em;  /* 글씨 크기 줄임 */
+        color: #333;
+    }
+
+    input[type="text"], input[type="password"], input[type="date"], input[type="email"], input[type="tel"] {
+        padding: 8px;  /* 패딩 줄임 */
+        font-size: 0.95em; /* 글씨 크기 줄임 */
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    input[type="submit"] {
+        padding: 10px;  /* 패딩 줄임 */
+        font-size: 1em;  /* 글씨 크기 줄임 */
+        color: white;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    /* 중복확인 버튼 스타일 */
+    .duplicate-check {
+        padding: 8px;  /* 패딩 줄임 */
+        font-size: 0.95em; /* 글씨 크기 줄임 */
+        color: white;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+    .duplicate-check:hover {
+        background-color: #0056b3;
+    }
+
+    /* 에러 메시지 스타일 */
+    .error {
+        color: red;
+        font-size: 0.9em;  /* 글씨 크기 줄임 */
+        text-align: center;
+        margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
+
 <header>
   <h3>회원가입</h3>
 </header>
+
 <section>
-  <form action="/signUp" method="post" onsubmit="validateForm(event)">
+  <form action="#" method="post">
     <label for="username">아이디</label>
-    <input type="text" id="username" name="username" oninput="resetDuplicateCheck()" required>
-    <button onclick="checkDuplicate()">중복확인</button><br>
+    <input type="text" id="username" name="username" required>
+
+    <input type="submit" value="중복확인" class="duplicate-check"><br>
 
     <label for="password">비밀번호</label>
     <input type="password" id="password" name="password" required><br>
@@ -75,10 +125,11 @@
     <input type="email" id="mail" name="mail"><br>
 
     <label for="phone">전화번호</label>
-    <input type="tel" id="phone" name="phone" required><br>
+    <input type="tel" id="phone" name="phone"><br>
 
     <input type="submit" value="회원가입">
   </form>
 </section>
+
 </body>
 </html>

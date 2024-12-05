@@ -1,6 +1,5 @@
 package DBP_equipmentRentalService.main.repository.repairRequest;
 
-import DBP_equipmentRentalService.main.domain.Item;
 import DBP_equipmentRentalService.main.domain.RepairRequest;
 import DBP_equipmentRentalService.main.repository.genericRepository.JdbcGenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.Optional;
 @Repository
 public class JdbcRepairRequestRepository extends JdbcGenericRepository<RepairRequest> implements RepairRequestRepository {
     @Autowired
-    public JdbcRepairRequestRepository(DataSource dataSource){
+    public JdbcRepairRequestRepository(DataSource dataSource) {
         super(dataSource, RepairRequest.class);
     }
 
@@ -23,25 +22,27 @@ public class JdbcRepairRequestRepository extends JdbcGenericRepository<RepairReq
     public Optional<RepairRequest> findById(String id) {
         String sql = "SELECT * FROM REPAIRREQUEST WHERE REPAIRREQUESTID = ?";
         Connection conn = null;
-        PreparedStatement pstmt =null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,id);
+            pstmt.setString(1, id);
             rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 RepairRequest repairRequest = new RepairRequest();
                 repairRequest.setItemId(rs.getString("ITEMID"));
                 repairRequest.setUserId(rs.getString("USERID"));
                 repairRequest.setRepairRequestId(rs.getString("REPAIRREQUESTID"));
                 repairRequest.setItemName(rs.getString("ITEMNAME"));
+                repairRequest.setRequestDate(rs.getDate("REQUESTDATE").toLocalDate());
+                repairRequest.setIsRepaired(rs.getInt("ISREPAIRED"));
                 return Optional.of(repairRequest);
             } else {
                 return Optional.empty();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         } finally {
             close(conn, pstmt, rs);

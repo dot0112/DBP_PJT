@@ -1,13 +1,14 @@
 package DBP_equipmentRentalService.main.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
 public class Rental {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rentalId", updatable = false, nullable = false)
     String rentalId;
     String userId;
     String itemId;

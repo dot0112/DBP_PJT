@@ -1,11 +1,12 @@
 package DBP_equipmentRentalService.main.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class RepairRequest {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "repairRequestId", updatable = false, nullable = false)
     String repairRequestId;
     String itemId;
     String userId;

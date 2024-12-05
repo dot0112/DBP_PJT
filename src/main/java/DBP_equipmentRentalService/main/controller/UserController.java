@@ -4,11 +4,14 @@ import DBP_equipmentRentalService.main.service.AdminService;
 import DBP_equipmentRentalService.main.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
+
+import java.util.Map;
 
 @Controller
 public class UserController {
@@ -62,4 +65,16 @@ public class UserController {
     public String signUp() {
         return "signUp";
     }
+
+    @GetMapping("/checkUsername")
+    public ResponseEntity<?> checkUsername(@RequestParam String username) {
+        if (username == null || username.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Username must not be empty.");
+        }
+
+        boolean isDuplicate = userService.isDuplicateMember(username);
+        return ResponseEntity.ok().body(Map.of("isDuplicate", isDuplicate));
+    }
+
+    //@PostMapping("/signUp")
 }

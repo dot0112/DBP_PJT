@@ -1,16 +1,18 @@
 package DBP_equipmentRentalService.main.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Item {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "itemId", updatable = false, nullable = false)
     String itemId;
     String itemName;
     String itemType;
     String roomNumber;
     String buildingName;
+    @Column(name = "currentState", insertable = false)
     String currentState;
     String adminId;
     String rentableStatus;

@@ -22,15 +22,15 @@ public class JdbcItemRepository extends JdbcGenericRepository<Item> implements I
     public Optional<Item> findById(String id) {
         String sql = "SELECT * FROM ITEM WHERE ITEMID = ?";
         Connection conn = null;
-        PreparedStatement pstmt =null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,id);
+            pstmt.setString(1, id);
             rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 Item item = new Item();
                 item.setItemId(rs.getString("ITEMID"));
                 item.setItemName(rs.getString("ITEMNAME"));
@@ -45,7 +45,7 @@ public class JdbcItemRepository extends JdbcGenericRepository<Item> implements I
             } else {
                 return Optional.empty();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         } finally {
             close(conn, pstmt, rs);

@@ -9,16 +9,16 @@
       <tr>
         <td>비품 ID</td>
         <td>비품 명</td>
-        <td>반납</td>
         <td>수리 요청</td>
+        <td>반납</td>
       </tr>
       </thead>
       <tbody>
       <tr th:each="item : ${items}">
         <td th:text="${item.itemId}"></td>
         <td th:text="${item.itemName}"></td>
-        <td><button name="returnBtn">반납</button></td>
         <td><input type="checkbox" name="returnAndRepair"></td>
+        <td><button name="returnBtn" th:value="${item.rentalId}">반납</button></td>
       </tr>
       </tbody>
     </table>

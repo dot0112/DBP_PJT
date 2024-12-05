@@ -69,6 +69,48 @@ public abstract class JdbcTemplateGenericRepository<T> {
         return jdbcTemplate.query(sql.toString(), rowMapper(), parameters.toArray());
     }
 
+    public Boolean update(Map<String, Object> criteria, Map<String, Object> changeValues) {
+        Set<String> validFields = ReflectionUtil.getFieldNames(entityType);
+        StringBuilder sql = new StringBuilder("UPDATE ").append(entityType.getSimpleName().toLowerCase()).append(" SET 1 = 1");
+        List<Object> parameters = new ArrayList<>();
+
+        for (Map.Entry<String, Object> entry : changeValues.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (!validFields.contains(key)) {
+                throw new IllegalArgumentException("Invalid field: " + key);
+            }
+
+            sql.append(", ").append(key).append(" = ?");
+            parameters.add(value);
+        }
+
+        sql.append(" WHERE 1 = 1");
+
+        for (Map.Entry<String, Object> entry : criteria.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (!validFields.contains(key)) {
+                throw new IllegalArgumentException("Invalid field: " + key);
+            }
+            if (value instanceof String && (((String) value).contains("%") || ((String) value).contains("_"))) {
+                sql.append(" AND ").append(key).append(" LIKE ?");
+            } else {
+                sql.append(" AND ").append(key).append(" = ?");
+            }
+            parameters.add(value);
+        }
+
+        try {
+            jdbcTemplate.update(sql.toString(), rowMapper(), parameters.toArray());
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+        return true;
+    }
+
     abstract protected RowMapper<T> rowMapper();
 
 

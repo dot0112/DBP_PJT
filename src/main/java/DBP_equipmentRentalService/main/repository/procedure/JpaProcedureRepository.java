@@ -28,6 +28,19 @@ import java.util.Map;
         }
 )
 
+@NamedStoredProcedureQuery(
+        name = "manageItems",
+        procedureName = "MANAGE_ITEMS",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemname"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemtype"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_adminid"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "p_quantity"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_roomnumber"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_buildingname"),
+        }
+)
+
 @Repository
 public class JpaProcedureRepository implements ProcedureRepository {
     private final EntityManager em;
@@ -39,18 +52,22 @@ public class JpaProcedureRepository implements ProcedureRepository {
 
     @Override
     public void setBorrowLimit(String userId) {
-        em.createNamedStoredProcedureQuery("setBorrowLimit")
-                .setParameter("p_userid", userId)
-                .execute();
+        try {
+            em.createNamedStoredProcedureQuery("setBorrowLimit")
+                    .setParameter("p_userid", userId)
+                    .execute();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     @Override
     public List<Map<String, Object>> equipmentHistory(String itemId) {
-        StoredProcedureQuery query = em.createNamedStoredProcedureQuery("equipmentHistory");
-        query.setParameter("p_itemid", itemId);
-
         ResultSet rs = null;
         try {
+            StoredProcedureQuery query = em.createNamedStoredProcedureQuery("equipmentHistory");
+            query.setParameter("p_itemid", itemId);
+
             query.execute();
             rs = (ResultSet) query.getOutputParameterValue("p_result");
             List<Map<String, Object>> procedureResult = new ArrayList<>();
@@ -76,6 +93,15 @@ public class JpaProcedureRepository implements ProcedureRepository {
                     throw new IllegalStateException(e);
                 }
             }
+        }
+    }
+
+    @Override
+    public void manageItems(String itemName, String itemType, String adminId, Integer quantity, String roomNumber, String buildingName) {
+        try {
+            em.createNamedStoredProcedureQuery("manageItem").setParameter("p_itemname", itemName).setParameter("p_itemtype", itemType).setParameter("p_adminid", adminId).setParameter("p_quantity", quantity).setParameter("p_roomnumber", roomNumber).setParameter("p_buildingname", buildingName).execute();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
     }
 }

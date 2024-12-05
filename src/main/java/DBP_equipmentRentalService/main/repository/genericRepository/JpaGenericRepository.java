@@ -4,6 +4,7 @@ import DBP_equipmentRentalService.main.repository.util.ReflectionUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,5 +57,31 @@ public abstract class JpaGenericRepository<T> {
         }
 
         return query.getResultList();
+    }
+
+    public Boolean update(Map<String, Object> criteria, Map<String, Object> changeValues) {
+        Set<String> validFields = ReflectionUtil.getFieldNames(entityType);
+        List<T> objectToChange = findByCriteria(criteria);
+
+        for (T object : objectToChange) {
+            for (Map.Entry<String, Object> entry : criteria.entrySet()) {
+                String fieldName = entry.getKey();
+                Object newValue = entry.getValue();
+
+                if (!validFields.contains(fieldName)) {
+                    throw new IllegalArgumentException("Invalid field: " + fieldName);
+                }
+
+                try {
+                    // 필드 접근 및 값 설정
+                    Field field = entityType.getDeclaredField(fieldName);
+                    field.setAccessible(true); // private 필드 접근 허용
+                    field.set(object, newValue); // 새로운 값 설정
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    throw new RuntimeException("Error updating field: " + fieldName, e);
+                }
+            }
+        }
+        return true;
     }
 }

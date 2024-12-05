@@ -31,6 +31,8 @@ public class JdbcTemplateRepairRequestRepository extends JdbcTemplateGenericRepo
             repairRequest.setUserId(rs.getString("USERID"));
             repairRequest.setRepairRequestId(rs.getString("REPAIRREQUESTID"));
             repairRequest.setItemName(rs.getString("ITEMNAME"));
+            repairRequest.setRequestDate(rs.getDate("REQUESTDATE").toLocalDate());
+            repairRequest.setIsRepaired(rs.getInt("ISREPAIRED"));
             return repairRequest;
         };
     }

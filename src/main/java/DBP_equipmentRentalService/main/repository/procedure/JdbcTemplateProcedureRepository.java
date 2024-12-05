@@ -77,4 +77,29 @@ public class JdbcTemplateProcedureRepository implements ProcedureRepository {
             }
         }
     }
+
+    @Override
+    public void manageItems(String itemName, String itemType, String adminId, Integer quantity, String roomNumber, String buildingName) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("MANAGE_ITEMS");
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_itemname", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_itemtype", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_adminid", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_quantity", Types.INTEGER));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_roomnumber", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_buildingname", Types.VARCHAR));
+
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("p_itemname", itemName);
+        paramMap.put("p_itemtype", itemType);
+        paramMap.put("p_adminid", adminId);
+        paramMap.put("p_quantity", quantity);
+        paramMap.put("p_roomnumber", roomNumber);
+        paramMap.put("p_buildingname", buildingName);
+
+        try {
+            Map<String, Object> result = jdbcCall.execute(paramMap);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
 }

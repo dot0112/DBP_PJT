@@ -75,6 +75,30 @@ public class JdbcProcedureRepository implements ProcedureRepository {
         }
     }
 
+    @Override
+    public void manageItems(String itemName, String itemType, String adminId, Integer quantity, String roomNumber, String buildingName) {
+        String sql = "{CALL MANAGE_ITEMS(?, ?, ?, ?, ?, ?)}";
+        Connection conn = null;
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            cstmt = conn.prepareCall(sql);
+            cstmt.setString(1, itemName);
+            cstmt.setString(2, itemType);
+            cstmt.setString(3, adminId);
+            cstmt.setInt(4, quantity);
+            cstmt.setString(5, roomNumber);
+            cstmt.setString(6, buildingName);
+            cstmt.execute();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, cstmt, rs);
+        }
+    }
+
     protected Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);
         //하나의 일관된 connection 관리용. close도 마찬가지

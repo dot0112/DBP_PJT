@@ -1,21 +1,21 @@
 package DBP_equipmentRentalService.main.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
 public class Returns {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false)
     String returnId;
     String userId;
     String itemId;
     String rentalId;
     LocalDate actualReturnDate;
 
-    @JsonProperty("repair_request")
+    @Column(name = "REPAIR_REQUEST")
     String repairRequest;
 
     public String getUserId() {

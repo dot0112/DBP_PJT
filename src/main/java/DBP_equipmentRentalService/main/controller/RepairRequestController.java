@@ -7,8 +7,8 @@ import DBP_equipmentRentalService.main.service.search.ItemSearchService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,16 +24,16 @@ public class RepairRequestController {
     private final RepairRequestService repairRequestService;
 
     @Autowired
-    public RepairRequestController(ItemSearchService itemSearchService, RepairRequestService repairRequestService){
+    public RepairRequestController(ItemSearchService itemSearchService, RepairRequestService repairRequestService) {
         this.itemSearchService = itemSearchService;
         this.repairRequestService = repairRequestService;
     }
 
-    @GetMapping ("/repairRequest")
-    public String repairRequest(Model model, HttpSession session){
+    @GetMapping("/repairRequest")
+    public String repairRequest(Model model, HttpSession session) {
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 
-        if(isLoggedIn == null){
+        if (isLoggedIn == null) {
             isLoggedIn = false;
         }
 
@@ -42,11 +42,11 @@ public class RepairRequestController {
         return "layout";
     }
 
-    @GetMapping ("/searchRepair")
-    public String searchRepair(@RequestParam(name="way", required = false, defaultValue = "") String way, @RequestParam(name = "searchRepairItem", required = false, defaultValue = "") String searchRepairItem,  Model model, HttpSession session){
+    @GetMapping("/searchRepair")
+    public String searchRepair(@RequestParam(name = "way", required = false, defaultValue = "") String way, @RequestParam(name = "searchRepairItem", required = false, defaultValue = "") String searchRepairItem, Model model, HttpSession session) {
         List<Item> searchedItems = new ArrayList<>();
 
-        switch (way){
+        switch (way) {
             case "id":
                 Optional<Item> optionalItem = itemSearchService.searchById(searchRepairItem);
                 searchedItems = optionalItem.map(Collections::singletonList).orElse(Collections.emptyList());
@@ -64,7 +64,7 @@ public class RepairRequestController {
 
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 
-        if(isLoggedIn == null){
+        if (isLoggedIn == null) {
             isLoggedIn = false;
         }
 
@@ -75,22 +75,20 @@ public class RepairRequestController {
         return "layout";
     }
 
-    @PostMapping ("/applyRepair")
-    public String applyRepair(@RequestParam(value = "repairItems", required = false, defaultValue = "") String[] repairItems, HttpSession session){
+    @PostMapping("/applyRepair")
+    public String applyRepair(@RequestParam(value = "repairItems", required = false, defaultValue = "") String[] repairItems, HttpSession session) {
         RepairRequest repairRequest = new RepairRequest();
 
-        try{
-            for(String repairItem : repairItems){
+        try {
+            for (String repairItem : repairItems) {
                 String[] item = repairItem.split(":");
                 repairRequest.setItemId(item[0]);
                 repairRequest.setUserId((String) session.getAttribute("ID"));
                 repairRequest.setItemName(item[1]);
-                repairRequest.setRepairRequestId("y");
 
                 repairRequestService.join(repairRequest);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return "redirect:/?requestError";
         }
         return "redirect:/?requestSuccess";

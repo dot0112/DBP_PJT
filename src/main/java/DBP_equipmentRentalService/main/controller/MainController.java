@@ -32,12 +32,14 @@ public class MainController {
 
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
         isSearched = false;
+        String role = (String) session.getAttribute("role");
 
         if(isLoggedIn == null){
             isLoggedIn = false;
         }
 
         model.addAttribute("isLoggedIn", isLoggedIn);
+        model.addAttribute("role", role);
         model.addAttribute("contentFragment", "main");
         model.addAttribute("isSearched", isSearched);
         model.addAttribute("items", items);

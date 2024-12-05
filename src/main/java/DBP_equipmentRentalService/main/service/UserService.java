@@ -36,7 +36,7 @@ public class UserService {
         return users.getUserId();
     }
 
-    private void validateDuplicateMember(Users users){
-        usersRepository.findById(users.getUserId()).ifPresent(m -> {throw new IllegalStateException("존재하는 ID입니다.");});
+    public boolean isDuplicateMember(String username){
+        return usersRepository.findById(username).isPresent();
     }
 }

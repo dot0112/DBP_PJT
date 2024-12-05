@@ -1,14 +1,19 @@
 package DBP_equipmentRentalService.main.controller;
 
+import DBP_equipmentRentalService.main.domain.Users;
 import DBP_equipmentRentalService.main.service.AdminService;
 import DBP_equipmentRentalService.main.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
+
+import java.time.LocalDate;
+import java.util.Map;
 
 @Controller
 public class UserController {
@@ -61,5 +66,31 @@ public class UserController {
     @GetMapping("/signUp")
     public String signUp() {
         return "signUp";
+    }
+
+    @GetMapping("/checkUsername")
+    public ResponseEntity<?> checkUsername(@RequestParam String username) {
+        if (username == null || username.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Username must not be empty.");
+        }
+
+        boolean isDuplicate = userService.isDuplicateMember(username);
+        return ResponseEntity.ok().body(Map.of("isDuplicate", isDuplicate));
+    }
+
+    @PostMapping("/signUp")
+    public String signUp(@RequestParam String username, @RequestParam String password, @RequestParam String name, @RequestParam(required = false) LocalDate birth, @RequestParam(required = false) String mail, @RequestParam String phone){
+        Users user = new Users();
+        String phoneNumber = phone.substring(0,3)+"-"+phone.substring(3,7)+"-"+phone.substring(7);
+
+        user.setUserId(username);
+        user.setPassword(password);
+        user.setName(name);
+        user.setDateOfBirth(birth);
+        user.setEmail(mail);
+        user.setPhoneNumber(phoneNumber);
+
+        userService.signUp(user);
+        return "redirect:/login";
     }
 }

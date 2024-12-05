@@ -154,6 +154,64 @@ public abstract class JdbcGenericRepository<T> {
         }
     }
 
+    public Boolean update(Map<String, Object> criteria, Map<String, Object> changeValues) {
+        Set<String> validFields = ReflectionUtil.getFieldNames(entityType);
+        StringBuilder sql = new StringBuilder("UPDATE " + entityType.getSimpleName().toLowerCase() + "SET 1 = 1");
+        Map<String, Object> parameters = new HashMap<>();
+
+        for (Map.Entry<String, Object> entry : changeValues.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (!validFields.contains(key)) {
+                throw new IllegalArgumentException("Invalid field: " + key);
+            }
+
+            sql.append(", ").append(key).append(" = ?");
+            parameters.put(key, value);
+        }
+
+        sql.append(" WHERE 1 = 1");
+
+        for (Map.Entry<String, Object> entry : criteria.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (!validFields.contains(key)) {
+                throw new IllegalArgumentException("Invalid field: " + key);
+            }
+
+            if (value instanceof String && (((String) value).contains("%") || ((String) value).contains("_"))) {
+                sql.append(" AND ").append(key).append(" LIKE ?");
+            } else {
+                sql.append(" AND ").append(key).append(" = ?");
+            }
+            parameters.put(key, value);
+        }
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql.toString());
+
+            int index = 1;
+            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+                pstmt.setObject(index++, entry.getValue());
+            }
+
+            pstmt.executeUpdate();
+
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+        return true;
+    }
+
     protected Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);
         //하나의 일관된 connection 관리용. close도 마찬가지

@@ -2,8 +2,10 @@ package DBP_equipmentRentalService.main.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 
 @Entity
+@IdClass(LectureRoomId.class)
 public class LectureRoom {
     @Id
     String roomNumber;

@@ -2,13 +2,122 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <style>
+        /* 전체 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        section {
+            width: 80%;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h4 {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* 검색 폼 스타일 */
+        form {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        select, input[type="text"] {
+            padding: 8px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        input[type="text"]::placeholder {
+            color: #aaa;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        /* 화면에 검색이 없을 때 */
+        article th:if="${!isSearched}" {
+            text-align: center;
+            color: #999;
+        }
+
+        /* 화면에 검색 결과 있을 때 */
+        article th:if="${isSearched}" {
+            font-size: 0.9em;
+        }
+
+    </style>
 </head>
 <body>
+
 <section th:fragment="main">
+    <!-- 검색 폼 -->
     <article>
         <form th:action="@{/search}" method="get">
             <h4>검색</h4>
-            <select name ="how">
+            <select name="how">
                 <option value="id" th:selected="${how == 'id'}">ID</option>
                 <option value="name" th:selected="${how == 'name'}">이름</option>
                 <option value="type" th:selected="${how == 'type'}">카테고리</option>
@@ -19,6 +128,7 @@
             </button>
         </form>
     </article>
+
     <!-- 검색을 하지 않았을 때 보이는 테이블 -->
     <article th:if="${!isSearched}">
         <table>
@@ -31,7 +141,6 @@
                 <th>대여 가능 여부</th>
             </tr>
             </thead>
-            <!-- 랜덤한 비품 정보 출력 -->
             <tbody>
             <tr th:each="item : ${items}">
                 <td th:text="${item.itemName}"></td>
@@ -43,19 +152,20 @@
             </tbody>
         </table>
     </article>
+
     <!-- 검색을 했을 때 보이는 테이블 -->
     <article th:if="${isSearched}">
         <table>
             <thead>
             <tr>
-                <td>비품 ID</td>
-                <td>비품 명</td>
+                <th>비품 ID</th>
+                <th>비품 명</th>
                 <th>종류</th>
-                <td colspan="2">위치</td>
+                <th colspan="2">위치</th>
                 <th>상태</th>
-                <td>관리자</td>
+                <th>관리자</th>
                 <th>대여 가능 여부</th>
-                <td>대여 상태</td>
+                <th>대여 상태</th>
             </tr>
             </thead>
             <tbody>
@@ -74,5 +184,6 @@
         </table>
     </article>
 </section>
+
 </body>
 </html>

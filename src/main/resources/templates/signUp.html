@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>회원가입</title>
   <script>
+    let isUsernameChanged = false;
+    let isDuplicateChecked = false;
+
     function checkDuplicate(){
       const username = document.getElementById('username').value;
 
@@ -12,22 +15,40 @@
         return;
       }
 
+      if (isDuplicateChecked) {
+        alert('이미 중복 확인을 했습니다.');
+        return;
+      }
+
       fetch(`/checkUsername?username=${encodeURIComponent(username)}`, {
       method: 'GET',
-    })
+      })
       .then(response => response.json())
       .then(data => {
         if (data.isDuplicate) {
           alert('이미 사용 중인 아이디입니다.');
           document.getElementById('username').value = '';
+          isDuplicateChecked = false;
         } else {
           alert('사용 가능한 아이디입니다.');
+          isDuplicateChecked = true;
         }
       })
       .catch(error => {
         console.error('Error:', error);
         alert('중복 확인 중 오류가 발생했습니다.');
       });
+    }
+
+    function validateForm(event) {
+      if (!isDuplicateChecked) {
+        alert('아이디 중복 확인을 먼저 해주세요.');
+        event.preventDefault();
+      }
+    }
+
+    function resetDuplicateCheck() {
+      isDuplicateChecked = false;
     }
   </script>
 </head>
@@ -36,9 +57,9 @@
   <h3>회원가입</h3>
 </header>
 <section>
-  <form action="/signUp" method="post">
+  <form action="/signUp" method="post" onsubmit="validateForm(event)">
     <label for="username">아이디</label>
-    <input type="text" id="username" name="username" required>
+    <input type="text" id="username" name="username" oninput="resetDuplicateCheck()" required>
     <button onclick="checkDuplicate()">중복확인</button><br>
 
     <label for="password">비밀번호</label>

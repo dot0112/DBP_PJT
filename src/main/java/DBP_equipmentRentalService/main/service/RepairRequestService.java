@@ -6,17 +6,24 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 @Transactional
 public class RepairRequestService {
     private RepairRequestRepository repairRequestRepository;
 
     @Autowired
-    public RepairRequestService(RepairRequestRepository repairRequestRepository){
+    public RepairRequestService(RepairRequestRepository repairRequestRepository) {
         this.repairRequestRepository = repairRequestRepository;
     }
 
-    public void join(RepairRequest repairRequest){
+    public void join(RepairRequest repairRequest) {
         repairRequestRepository.save(repairRequest);
+    }
+
+    public List<RepairRequest> findRequest(String userId) {
+        return repairRequestRepository.findByCriteria(Map.of("userId", userId, "isRepaired", 0));
     }
 }

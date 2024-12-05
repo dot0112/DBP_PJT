@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rentalId", updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     String rentalId;
     String userId;
     String itemId;

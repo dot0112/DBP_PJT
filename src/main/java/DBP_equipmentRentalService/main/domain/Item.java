@@ -6,13 +6,13 @@ import jakarta.persistence.*;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "itemId", updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     String itemId;
     String itemName;
     String itemType;
     String roomNumber;
     String buildingName;
-    @Column(name = "currentState", insertable = false)
+    @Column(insertable = false)
     String currentState;
     String adminId;
     String rentableStatus;

@@ -2,11 +2,13 @@ package DBP_equipmentRentalService.main.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 
 import java.time.LocalDate;
 
 
 @Entity
+@IdClass(RepairRecordId.class)
 public class RepairRecord {
     @Id
     String itemId;

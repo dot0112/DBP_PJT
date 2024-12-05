@@ -17,8 +17,12 @@
 <nav>
   <ul>
     <li><a th:href="@{/}">홈</a></li>
+    <li th:if="${role == 'admin'}">
+      <a th:href="@{/item}">비품 관리</a>
+    </li>
     <li>
-      <a th:if="${isLoggedIn}" th:href="@{/repairRequest}">수리요청</a>
+      <a th:if="${isLoggedIn} and !${role == 'admin'}" th:href="@{/repairRequest}">수리요청</a>
+      <a th:if="${isLoggedIn} and ${role == 'admin'}" th:href="@{/repairRecord}">수리요청</a>
       <a th:if="${!isLoggedIn}" th:href="@{/login}" onclick="alert('로그인이 필요합니다.')">수리요청</a>
     </li>
     <li>

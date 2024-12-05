@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class RepairRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "repairRequestId", updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     String repairRequestId;
     String itemId;
     String userId;

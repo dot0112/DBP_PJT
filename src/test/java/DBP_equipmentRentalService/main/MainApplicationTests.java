@@ -1,26 +1,52 @@
 package DBP_equipmentRentalService.main;
 
-import DBP_equipmentRentalService.main.domain.Admin;
-import DBP_equipmentRentalService.main.service.AdminService;
+import DBP_equipmentRentalService.main.service.TestService;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
+@SpringBootTest(classes = MainApplication.class)
+@Transactional
+class MainApplicationTest {
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+    @Autowired
+    private TestService testService;
 
-@SpringBootTest
-class MainApplicationTests {
+    @BeforeEach
+    public void before() {
+        System.out.println("Test Before");
+    }
 
-	@Autowired
-	private AdminService adminService; // 서비스 클래스 주입
+    @AfterEach
+    public void after() {
+        System.out.println("Test After");
+    }
 
-	@Test
-	void contextLoads() {
-		System.out.println(1);
-	}
+    @Test
+    @DisplayName("비품 등록 테스트")
+    void testItemCreate() {
+        testService.testItemCreate();
+    }
 
+    @Test
+    @DisplayName("대여 등록 테스트")
+    void testRentalCreate() {
+        testService.testRentalCreate();
+    }
+
+    @Test
+    @DisplayName("반납 등록 테스트")
+    void testReturnsCreate() {
+        testService.testReturnsCreate();
+    }
+
+    @Test
+    @DisplayName("수리 요청 등록 테스트")
+    void testRepairRequestCreate() {
+        testService.testRepairRequestCreate();
+    }
 }

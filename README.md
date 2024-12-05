@@ -1,4 +1,5 @@
-# DBP 장비 대여 서비스
+# DEU 장비 대여 서비스
+DatabaseProgramming Project Repository
 
 ## 사전 요구 사항
 - **Java Development Kit (JDK) 17** 이상

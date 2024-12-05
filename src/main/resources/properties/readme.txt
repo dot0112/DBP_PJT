@@ -1,0 +1,1 @@
+이곳에 env.properties 파일을 넣어주세요.

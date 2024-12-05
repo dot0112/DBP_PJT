@@ -2,14 +2,13 @@ package DBP_equipmentRentalService.main.controller;
 
 import DBP_equipmentRentalService.main.domain.Item;
 import DBP_equipmentRentalService.main.domain.Rental;
-import DBP_equipmentRentalService.main.domain.RepairRequest;
 import DBP_equipmentRentalService.main.service.RentalService;
 import DBP_equipmentRentalService.main.service.search.ItemSearchService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,16 +24,16 @@ public class RentalController {
     private final RentalService rentalService;
 
     @Autowired
-    public RentalController(ItemSearchService itemSearchService, RentalService rentalService){
+    public RentalController(ItemSearchService itemSearchService, RentalService rentalService) {
         this.itemSearchService = itemSearchService;
         this.rentalService = rentalService;
     }
 
-    @GetMapping ("/rental")
-    public String rental(Model model, HttpSession session){
+    @GetMapping("/rental")
+    public String rental(Model model, HttpSession session) {
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 
-        if(isLoggedIn == null){
+        if (isLoggedIn == null) {
             isLoggedIn = false;
         }
 
@@ -43,11 +42,11 @@ public class RentalController {
         return "layout";
     }
 
-    @GetMapping ("/SearchRentItem")
-    public String SearchRentItem(@RequestParam(name="option", required = false, defaultValue = "") String option, @RequestParam(name = "searchRentalItem", required = false, defaultValue = "") String searchRentalItem, Model model, HttpSession session){
+    @GetMapping("/SearchRentItem")
+    public String SearchRentItem(@RequestParam(name = "option", required = false, defaultValue = "") String option, @RequestParam(name = "searchRentalItem", required = false, defaultValue = "") String searchRentalItem, Model model, HttpSession session) {
         List<Item> searchedItems = new ArrayList<>();
 
-        switch (option){
+        switch (option) {
             case "id":
                 Optional<Item> optionalItem = itemSearchService.searchById(searchRentalItem);
                 searchedItems = optionalItem.map(Collections::singletonList).orElse(Collections.emptyList());
@@ -65,7 +64,7 @@ public class RentalController {
 
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 
-        if(isLoggedIn == null){
+        if (isLoggedIn == null) {
             isLoggedIn = false;
         }
 
@@ -77,19 +76,17 @@ public class RentalController {
     }
 
     @PostMapping("/applyRental")
-    public String applyRental(@RequestParam(value = "rentalItem", required = false, defaultValue = "") String rentalItem, @RequestParam(value = "returnDate", required = false, defaultValue = "") LocalDate returnDate, HttpSession session){
+    public String applyRental(@RequestParam(value = "rentalItem", required = false, defaultValue = "") String rentalItem, @RequestParam(value = "returnDate", required = false, defaultValue = "") LocalDate returnDate, HttpSession session) {
         Rental rental = new Rental();
 
-        try{
+        try {
             rental.setUserId((String) session.getAttribute("ID"));
             rental.setItemId(rentalItem);
-            rental.setRentalId("y");
             rental.setRentalDate(LocalDate.now());
             rental.setReturnDate(returnDate);
 
             rentalService.join(rental);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return "redirect:/?rentalError";
         }
         return "redirect:/?rentalSuccess";

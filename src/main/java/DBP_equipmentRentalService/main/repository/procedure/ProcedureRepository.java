@@ -1,5 +1,7 @@
 package DBP_equipmentRentalService.main.repository.procedure;
 
+import jakarta.annotation.Nullable;
+
 import java.util.List;
 import java.util.Map;
 
@@ -30,5 +32,25 @@ public interface ProcedureRepository {
      */
     List<Map<String, Object>> equipmentHistory(String itemId);
 
-    void manageItems(String itemName, String itemType, String adminId, Integer quantity, String roomNumber, String buildingName);
+    /**
+     * 주어진 관리자 Id, 횟수, 비품 이름으로 등록, 배치를 반복합니다.
+     * <p>
+     * 필수 Parameter
+     * 공통 필수 Parameter: adminId, quantity, itemName
+     * 등록 필수 Parameter: itemType
+     * 배치 필수 Parameter: roomNumber, buildingName
+     * <p>
+     * 선택 Parameter
+     * 등록 선택 Parameter: rentableStatus, rentalStatus
+     *
+     * @param adminId        관리자 Id
+     * @param quantity       반복할 횟수
+     * @param itemName       비품 이름
+     * @param itemType       비품 타입: 등록
+     * @param roomNumber     강의실 번호: 배치
+     * @param buildingName   건물 번호: 배치
+     * @param rentableStatus 대여 가능 여부: 등록
+     * @param rentalStatus   대여 상태: 등록
+     */
+    void manageItems(String adminId, Integer quantity, String itemName, @Nullable String itemType, @Nullable String roomNumber, @Nullable String buildingName, @Nullable String rentableStatus, @Nullable String rentalStatus);
 }

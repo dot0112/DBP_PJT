@@ -3,7 +3,6 @@ package DBP_equipmentRentalService.main.controller;
 import DBP_equipmentRentalService.main.DTO.RentalWithItemName;
 import DBP_equipmentRentalService.main.domain.Rental;
 import DBP_equipmentRentalService.main.domain.Returns;
-import DBP_equipmentRentalService.main.repository.rental.RentalRepository;
 import DBP_equipmentRentalService.main.service.RentalService;
 import DBP_equipmentRentalService.main.service.ReturnService;
 import jakarta.servlet.http.HttpSession;
@@ -22,12 +21,12 @@ import java.util.Optional;
 @Controller
 public class ReturnController {
     private final ReturnService returnService;
-    private final RentalRepository rentalRepository;
+    private final RentalService rentalService;
 
     @Autowired
-    public ReturnController(ReturnService returnService, RentalRepository rentalRepository){
+    public ReturnController(ReturnService returnService, RentalService rentalService){
         this.returnService = returnService;
-        this.rentalRepository = rentalRepository;
+        this.rentalService = rentalService;
     }
 
     @GetMapping ("/return")
@@ -47,19 +46,17 @@ public class ReturnController {
 
     @PostMapping ("/returnitem")
     public String returnitem(@RequestParam(value = "returnAndRepair", required = false) Boolean returnAndRepair, @RequestParam(value = "returnBtn") String rentalId, HttpSession session){
-        Returns returns = new Returns();
-        Optional<Rental> optionalRental = rentalRepository.findById(rentalId);
-        Rental rental = new Rental();
-
-        if(optionalRental.isPresent()){
-            rental = optionalRental.get();
+        Optional<Rental> optionalRental = rentalService.findByRentalId(rentalId);
+        if (optionalRental.isEmpty()) {
+            return "redirect:/?returnError";
         }
+        Rental rental = optionalRental.get();
+        Returns returns = new Returns();
 
         try {
             returns.setUserId((String) session.getAttribute("ID"));
             returns.setItemId(rental.getItemId());
             returns.setRentalId(rental.getRentalId());
-            returns.setReturnId("y");
             returns.setActualReturnDate(LocalDate.now());
             if(returnAndRepair != null && returnAndRepair){
                 returns.setRepairRequest("Y");

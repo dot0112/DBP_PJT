@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ReturnService {
     private final ReturnsRepository returnsRepository;
     private final ItemRepository itemRepository;
@@ -51,6 +52,5 @@ public class ReturnService {
         return rentalWithItemNames;
     }
 
-    @Transactional
     public void join(Returns returns){returnsRepository.save(returns);}
 }

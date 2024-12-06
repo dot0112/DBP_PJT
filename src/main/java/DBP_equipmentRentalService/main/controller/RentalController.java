@@ -34,6 +34,7 @@ public class RentalController {
     @GetMapping("/rental")
     public String rental(Model model, HttpSession session) {
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+        String role = (String) session.getAttribute("role");
 
         if (isLoggedIn == null) {
             isLoggedIn = false;
@@ -41,6 +42,7 @@ public class RentalController {
 
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("contentFragment", "rental");
+        model.addAttribute("role", role);
         return "layout";
     }
 

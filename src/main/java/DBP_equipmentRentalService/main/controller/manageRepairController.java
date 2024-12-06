@@ -32,12 +32,14 @@ public class manageRepairController {
         List<RepairRequest> allRepairRequest = repairRequestService.findAll();
 
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+        String role = (String) session.getAttribute("role");
 
         if (isLoggedIn == null){
            isLoggedIn = false;
         }
 
         model.addAttribute("isLoggedIn", isLoggedIn);
+        model.addAttribute("role", role);
         model.addAttribute("contentFragment", "manageRepair");
         model.addAttribute("repairList", allRepairRequest);
         return "layout";

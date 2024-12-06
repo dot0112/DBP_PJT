@@ -41,14 +41,17 @@
   const urlParams = new URLSearchParams(window.location.search);
   //request
   const requestSuccess = urlParams.get('requestSuccess');
+  const requestErrorMessage = urlParams.get('requestErrorMessage');
   const requestError = urlParams.get('requestError');
 
   //rental
   const rentalSuccess = urlParams.get('rentalSuccess');
+  const rentalErrorMessage = urlParams.get('rentalErrorMessage');
   const rentalError = urlParams.get('rentalError');
 
   //return
   const returnSuccess = urlParams.get('returnSuccess');
+  const returnErrorMessage = urlParams.get('returnErrorMessage');
   const returnError = urlParams.get('returnError');
 
   //request condition
@@ -56,15 +59,15 @@
       alert("성공적으로 수리 요청되었습니다.");
   }
   if(requestError !== null){
-      alert("수리 요청에 실패했습니다.");
+      alert("수리 요청 오류: " + (requestErrorMessage ? requestErrorMessage : "알 수 없는 오류"));
   }
 
   //rental condition
   if(rentalSuccess !== null){
       alert("성공적으로 대여했습니다.");
   }
-  if(rentalError !== null){
-      alert("대여에 실패했습니다.");
+  if (rentalError !== null) {
+      alert("대여 오류: " + (rentalErrorMessage ? rentalErrorMessage : "알 수 없는 오류"));
   }
 
   //return condition
@@ -72,7 +75,7 @@
       alert("성공적으로 반납했습니다.");
   }
   if(returnError !== null){
-      alert("반납에 실패했습니다.");
+      alert("반납 오류: " + (returnErrorMessage ? returnErrorMessage : "알 수 없는 오류"));
   }
 </script>
 </body>

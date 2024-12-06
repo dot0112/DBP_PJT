@@ -60,7 +60,7 @@
             </thead>
             <tbody>
             <tr th:each="item : ${items}">
-                <td th:text="${item.itemId}"></td>
+                <td><a th:href="@{/{itemId}(itemId=${item.itemId})}" th:text="${item.itemId}"></a></td>
                 <td th:text="${item.itemName}"></td>
                 <td th:text="${item.itemType}"></td>
                 <td th:text="${item.buildingName}"></td>

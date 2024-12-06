@@ -1,27 +1,28 @@
 package DBP_equipmentRentalService.main.controller;
 
 import DBP_equipmentRentalService.main.domain.Item;
+import DBP_equipmentRentalService.main.service.EquipmentHistoryService;
 import DBP_equipmentRentalService.main.service.search.ItemSearchService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class MainController {
     private final ItemSearchService itemSearchService;
+    private EquipmentHistoryService equipmentHistoryService;
     private boolean isSearched;
 
     @Autowired
-    public MainController(ItemSearchService itemSearchService){
+    public MainController(ItemSearchService itemSearchService, EquipmentHistoryService equipmentHistoryService){
         this.itemSearchService = itemSearchService;
+        this.equipmentHistoryService = equipmentHistoryService;
     }
 
     @GetMapping("/")
@@ -81,5 +82,10 @@ public class MainController {
         model.addAttribute("equipment", equipment);
         model.addAttribute("items", items);
         return "layout";
+    }
+
+    @GetMapping("/{itemId}")
+    public String getItemHistory(@PathVariable String itemId, Model model) {
+        return "itemLog";
     }
 }

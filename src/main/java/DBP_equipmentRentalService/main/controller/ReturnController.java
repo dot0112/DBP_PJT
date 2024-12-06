@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -68,8 +70,7 @@ public class ReturnController {
             returnService.join(returns);
         }
         catch (Exception e){
-            System.out.println(e);
-            return "redirect:/?returnError";
+            return "redirect:/?returnError=true&returnErrorMessage=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8);
         }
         return "redirect:/?returnSuccess";
     }

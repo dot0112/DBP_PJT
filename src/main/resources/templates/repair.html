@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>수리</title>
+</head>
+<body>
+<header>
+  <h3>수리</h3>
+</header>
+<section>
+  <p>비품 Id : <span th:text="${repairItemId}"></span></p>
+  <p>비품 명 : <span th:text="${repairItemName}"></span></p>
+  <form action="/repair" method="post">
+    <label for="repairMethod">수리 방법</label>
+    <input type="text" id="repairMethod" name="repairMethod"><br>
+
+    <label for="repairCost">수리 비용</label>
+    <input type="number" id="repairCost" name="repairCost"><br>
+
+    <input type="submit" value="저장"><br>
+  </form>
+</section>
+</body>
+</html>

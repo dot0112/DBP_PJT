@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class RentalController {
@@ -61,6 +59,11 @@ public class RentalController {
                 searchedItems = new ArrayList<>();
                 break;
         }
+
+        List<String> acceptableStatuses = Arrays.asList("대여가능", "대여 가능");
+        searchedItems = searchedItems.stream()
+                .filter(item -> acceptableStatuses.contains(item.getRentableStatus()))
+                .collect(Collectors.toList());
 
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class manageRepairController {
@@ -31,6 +32,10 @@ public class manageRepairController {
     public String manageRepair(Model model, HttpSession session){
         List<RepairRequest> allRepairRequest = repairRequestService.findAll();
 
+        List<RepairRequest> notRepairedRequest = allRepairRequest.stream()
+                .filter(repairRequest -> repairRequest.getIsRepaired() == 0)
+                .toList();
+
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
         String role = (String) session.getAttribute("role");
 
@@ -41,26 +46,13 @@ public class manageRepairController {
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("role", role);
         model.addAttribute("contentFragment", "manageRepair");
-        model.addAttribute("repairList", allRepairRequest);
+        model.addAttribute("repairList", notRepairedRequest);
         return "layout";
     }
 
     @GetMapping("/manageRepair/{repairRequestId}")
-    public String managingRequest(@PathVariable String repairRequestId, Model model, HttpSession session){
+    public String managingRequest(@PathVariable String repairRequestId, Model model){
         List<RepairRequest> repairRequestList = repairRequestService.findRequestByRepairRequest(repairRequestId);
-        RepairRequest repairRequest = repairRequestList.get(0);
-
-        session.setAttribute("repairRequestId", repairRequest.getRepairRequestId());
-
-        if(repairRequest.getIsRepaired() == 0)
-            return "redirect:/repair";
-        else
-            return "redirect:/repairRecord";
-    }
-
-    @GetMapping("/repair")
-    public String repair(Model model, HttpSession session) {
-        List<RepairRequest> repairRequestList = repairRequestService.findRequestByRepairRequest((String) session.getAttribute("repairRequestId"));
         RepairRequest repairRequest = repairRequestList.get(0);
 
         model.addAttribute("repairItemId", repairRequest.getItemId());
@@ -68,6 +60,9 @@ public class manageRepairController {
 
         return "repair";
     }
+
+    @GetMapping("/repair")
+    public String repair() {return "repair";}
 
     @PostMapping("/repair")
     public String repair(@RequestParam String repairMethod, @RequestParam Integer repairCost, HttpSession session){
@@ -83,7 +78,4 @@ public class manageRepairController {
         repairRecordService.join(repairRecord);
         return "redirect:/";
     }
-
-    @GetMapping("/repairRecord")
-    public String repairRecord() {return "repairRecord";}
 }

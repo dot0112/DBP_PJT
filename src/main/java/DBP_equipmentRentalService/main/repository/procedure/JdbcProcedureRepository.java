@@ -1,5 +1,6 @@
 package DBP_equipmentRentalService.main.repository.procedure;
 
+import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
@@ -76,26 +77,40 @@ public class JdbcProcedureRepository implements ProcedureRepository {
     }
 
     @Override
-    public void manageItems(String itemName, String itemType, String adminId, Integer quantity, String roomNumber, String buildingName) {
-        String sql = "{CALL MANAGE_ITEMS(?, ?, ?, ?, ?, ?)}";
-        Connection conn = null;
-        CallableStatement cstmt = null;
-        ResultSet rs = null;
+    public void manageItems(String adminId, Integer quantity, String itemName,
+                            @Nullable String itemType, @Nullable String roomNumber,
+                            @Nullable String buildingName, @Nullable String rentableStatus,
+                            @Nullable String rentalStatus) {
+        // 필수 매개변수 검증
+        if (adminId == null || quantity == null || itemName == null) {
+            throw new IllegalArgumentException("adminId, quantity, and itemName must not be null");
+        }
 
-        try {
-            conn = getConnection();
-            cstmt = conn.prepareCall(sql);
+        String sql = "{CALL MANAGE_ITEMS(?, ?, ?, ?, ?, ?, ?, ?)}";
+
+        try (Connection conn = getConnection();
+             CallableStatement cstmt = conn.prepareCall(sql)) {
+
             cstmt.setString(1, itemName);
-            cstmt.setString(2, itemType);
+            setNullableString(cstmt, 2, itemType);
             cstmt.setString(3, adminId);
             cstmt.setInt(4, quantity);
-            cstmt.setString(5, roomNumber);
-            cstmt.setString(6, buildingName);
+            setNullableString(cstmt, 5, roomNumber);
+            setNullableString(cstmt, 6, buildingName);
+            setNullableString(cstmt, 7, rentableStatus);
+            setNullableString(cstmt, 8, rentalStatus);
+
             cstmt.execute();
         } catch (Exception e) {
             throw new IllegalStateException(e);
-        } finally {
-            close(conn, cstmt, rs);
+        }
+    }
+
+    private void setNullableString(CallableStatement cstmt, int parameterIndex, String value) throws SQLException {
+        if (value == null) {
+            cstmt.setNull(parameterIndex, Types.VARCHAR);
+        } else {
+            cstmt.setString(parameterIndex, value);
         }
     }
 

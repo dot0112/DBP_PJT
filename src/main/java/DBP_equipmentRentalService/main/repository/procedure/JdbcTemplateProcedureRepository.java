@@ -1,5 +1,6 @@
 package DBP_equipmentRentalService.main.repository.procedure;
 
+import jakarta.annotation.Nullable;
 import oracle.jdbc.internal.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -79,22 +80,32 @@ public class JdbcTemplateProcedureRepository implements ProcedureRepository {
     }
 
     @Override
-    public void manageItems(String itemName, String itemType, String adminId, Integer quantity, String roomNumber, String buildingName) {
+    public void manageItems(String adminId, Integer quantity, String itemName, @Nullable String itemType, @Nullable String roomNumber, @Nullable String buildingName, @Nullable String rentableStatus, @Nullable String rentalStatus) {
+
+        if (adminId == null || quantity == null || itemName == null) {
+            throw new IllegalArgumentException("adminId, quantity, and itemName must not be null");
+        }
+
+
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("MANAGE_ITEMS");
-        jdbcCall.addDeclaredParameter(new SqlParameter("p_itemname", Types.VARCHAR));
-        jdbcCall.addDeclaredParameter(new SqlParameter("p_itemtype", Types.VARCHAR));
-        jdbcCall.addDeclaredParameter(new SqlParameter("p_adminid", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_itemName", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_itemType", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_adminId", Types.VARCHAR));
         jdbcCall.addDeclaredParameter(new SqlParameter("p_quantity", Types.INTEGER));
-        jdbcCall.addDeclaredParameter(new SqlParameter("p_roomnumber", Types.VARCHAR));
-        jdbcCall.addDeclaredParameter(new SqlParameter("p_buildingname", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_roomNumber", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_buildingName", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_rentableStatus", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_rentalStatus", Types.VARCHAR));
 
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("p_itemname", itemName);
-        paramMap.put("p_itemtype", itemType);
-        paramMap.put("p_adminid", adminId);
+        paramMap.put("p_itemName", itemName);
+        paramMap.put("p_itemType", itemType);
+        paramMap.put("p_adminId", adminId);
         paramMap.put("p_quantity", quantity);
-        paramMap.put("p_roomnumber", roomNumber);
-        paramMap.put("p_buildingname", buildingName);
+        paramMap.put("p_roomNumber", roomNumber);
+        paramMap.put("p_buildingName", buildingName);
+        paramMap.put("p_rentableStatus", rentableStatus);
+        paramMap.put("p_rentalStatus", rentalStatus);
 
         try {
             Map<String, Object> result = jdbcCall.execute(paramMap);

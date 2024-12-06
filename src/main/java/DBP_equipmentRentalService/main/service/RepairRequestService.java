@@ -23,7 +23,11 @@ public class RepairRequestService {
         repairRequestRepository.save(repairRequest);
     }
 
-    public List<RepairRequest> findRequest(String userId) {
+    public List<RepairRequest> findRepairRequestByUserId(String userId) {
         return repairRequestRepository.findByCriteria(Map.of("userId", userId, "isRepaired", 0));
+    }
+
+    public List<RepairRequest> findRepairRequestAll() {
+        return repairRequestRepository.findByCriteria(Map.of("isRepaired", 0));
     }
 }

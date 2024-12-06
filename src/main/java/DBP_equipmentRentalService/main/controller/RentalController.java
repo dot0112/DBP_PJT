@@ -60,10 +60,10 @@ public class RentalController {
                 break;
         }
 
-        List<String> acceptableStatuses = Arrays.asList("대여가능", "대여 가능");
-        searchedItems = searchedItems.stream()
-                .filter(item -> acceptableStatuses.contains(item.getRentableStatus()))
-                .collect(Collectors.toList());
+//        List<String> acceptableStatuses = Arrays.asList("대여가능", "대여 가능");
+//        searchedItems = searchedItems.stream()
+//                .filter(item -> acceptableStatuses.contains(item.getRentableStatus()))
+//                .collect(Collectors.toList());
 
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 

@@ -92,8 +92,10 @@ public class MainController {
     public String getItemHistory(@PathVariable String itemId, Model model) {
         List<Map<String, Object>> history = equipmentHistoryService.getEquipmentHistory(itemId);
 
-//        model.addAttribute("history", history);
-//        model.addAttribute("itemId", itemId);
+        System.out.println(history);
+
+        model.addAttribute("history", history);
+        model.addAttribute("itemId", itemId);
 
         return "itemLog";
     }

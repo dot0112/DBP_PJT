@@ -1,11 +1,106 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>대여</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f4f8;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    section {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 80%; /* 너비 조정 */
+        max-width: 800px; /* 최대 너비 설정 */
+        margin: auto;
+    }
+
+    h3 {
+        color: #4CAF50;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    select, input[type="text"], input[type="date"], button {
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1em;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        margin-top: 20px;
+        display: block;
+        width: 100%;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+    }
+  </style>
+</head>
 <body>
 <section th:fragment="rental">
   <h3>대여</h3>
+
   <article th:if="${isLoggedIn} and !${role == 'admin'}">
     <form th:action="@{/SearchRentItem}" method="get">
-      <select name ="option">
+      <select name="option">
         <option value="id" th:selected="${option == 'id'}">ID</option>
         <option value="name" th:selected="${option == 'name'}">이름</option>
         <option value="type" th:selected="${option == 'type'}">카테고리</option>
@@ -13,7 +108,7 @@
       <input type="text" name="searchRentalItem" placeholder="검색어를 입력하세요">
       <button type="submit">
         <img src="/media/search.png" alt="검색" width="30px">
-      </button><br>
+      </button>
     </form>
 
     <form th:action="@{/applyRental}" method="post">

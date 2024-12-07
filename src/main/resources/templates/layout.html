@@ -3,15 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <title>강의실 비품 관리</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f4f8;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+    }
+    header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    h3 {
+        color: #4CAF50;
+        font-size: 2.5em;
+        margin: 0;
+    }
+    button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    button:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+    }
+    nav {
+        margin: 20px 0;
+        text-align: center;
+    }
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    nav li {
+        margin: 0 15px;
+    }
+    nav a {
+        text-decoration: none;
+        color: #4CAF50;
+        font-weight: bold;
+        font-size: 1.1em;
+        transition: color 0.3s, transform 0.2s;
+    }
+    nav a:hover {
+        color: #45a049;
+        transform: scale(1.1);
+    }
+    section {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    footer {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 0.9em;
+        color: #777;
+    }
+    .alert {
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 5px;
+        display: none;
+    }
+    .alert.success {
+        background-color: #dff0d8;
+        color: #3c763d;
+    }
+    .alert.error {
+        background-color: #f2dede;
+        color: #a94442;
+    }
+    .button-container {
+        text-align: center; /* 중앙 정렬 */
+        margin: 20px 0; /* 여백 추가 */
+    }
+  </style>
 </head>
 <body>
 <header>
   <h3>강의실 비품 관리</h3>
 </header>
-<div th:if="${!isLoggedIn}">
+<div class="button-container" th:if="${!isLoggedIn}">
   <button onclick="location.href='/login'">로그인</button>
 </div>
-<div th:if="${isLoggedIn}">
+<div class="button-container" th:if="${isLoggedIn}">
   <button onclick="location.href='/logout'">로그아웃</button>
 </div>
 <nav>
@@ -37,6 +126,9 @@
 </nav>
 <!-- 네비게이션바까지 분리 -->
 <section th:replace="~{${contentFragment}}"></section> <!-- 페이지를 선택할 때마다 바뀌는 부분 -->
+<footer>
+  <p>&copy; 2024 강의실 비품 관리 시스템</p>
+</footer>
 <script>
   const urlParams = new URLSearchParams(window.location.search);
   //request
@@ -64,44 +156,57 @@
   const replaceItemsErrorMessage = urlParams.get('replaceItemsErrorMessage');
   const replaceItemsError = urlParams.get('replaceItemsError');
 
+  //alert messages
+  function showAlert(message, type) {
+      const alertBox = document.createElement('div');
+      alertBox.className = `alert ${type}`;
+      alertBox.innerText = message;
+      document.body.prepend(alertBox);
+      alertBox.style.display = 'block';
+      setTimeout(() => {
+          alertBox.style.display = 'none';
+          alertBox.remove();
+      }, 5000);
+  }
+
   //request condition
   if(requestSuccess !== null){
-      alert("성공적으로 수리 요청되었습니다.");
+      showAlert("성공적으로 수리 요청되었습니다.", "success");
   }
   if(requestError !== null){
-      alert("수리 요청 오류: " + (requestErrorMessage ? requestErrorMessage : "알 수 없는 오류"));
+      showAlert("수리 요청 오류: " + (requestErrorMessage ? requestErrorMessage : "알 수 없는 오류"), "error");
   }
 
   //rental condition
   if(rentalSuccess !== null){
-      alert("성공적으로 대여했습니다.");
+      showAlert("성공적으로 대여했습니다.", "success");
   }
   if (rentalError !== null) {
-      alert("대여 오류: " + (rentalErrorMessage ? rentalErrorMessage : "알 수 없는 오류"));
+      showAlert("대여 오류: " + (rentalErrorMessage ? rentalErrorMessage : "알 수 없는 오류"), "error");
   }
 
   //return condition
   if(returnSuccess !== null){
-      alert("성공적으로 반납했습니다.");
+      showAlert("성공적으로 반납했습니다.", "success");
   }
   if(returnError !== null){
-      alert("반납 오류: " + (returnErrorMessage ? returnErrorMessage : "알 수 없는 오류"));
+      showAlert("반납 오류: " + (returnErrorMessage ? returnErrorMessage : "알 수 없는 오류"), "error");
   }
 
   //registerItems condition
   if(registerItemsSuccess !== null){
-      alert("성공적으로 등록했습니다.");
+      showAlert("성공적으로 등록했습니다.", "success");
   }
   if(registerItemsError !== null){
-      alert("등록 오류: " + (registerItemsErrorMessage ? registerItemsErrorMessage : "알 수 없는 오류"));
+      showAlert("등록 오류: " + (registerItemsErrorMessage ? registerItemsErrorMessage : "알 수 없는 오류"), "error");
   }
 
-  //registerItems condition
+  //replaceItems condition
   if(replaceItemsSuccess !== null){
-      alert("성공적으로 등록했습니다.");
+      showAlert("성공적으로 등록했습니다.", "success");
   }
   if(replaceItemsError !== null){
-      alert("등록 오류: " + (replaceItemsErrorMessage ? replaceItemsErrorMessage : "알 수 없는 오류"));
+      showAlert("등록 오류: " + (replaceItemsErrorMessage ? replaceItemsErrorMessage : "알 수 없는 오류"), "error");
   }
 </script>
 </body>

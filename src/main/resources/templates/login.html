@@ -3,20 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
+    <style>
+        * {
+            box-sizing: border-box; /* 모든 요소에 대해 box-sizing을 border-box로 설정 */
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column; /* 세로 방향으로 정렬 */
+            align-items: center; /* 수평 중앙 정렬 */
+            height: 100vh;
+        }
+        header {
+            text-align: center; /* 중앙 정렬 */
+            margin-top: 50px; /* 위쪽 여백 추가 */
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #4CAF50;
+        }
+        section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 300px; /* 섹션의 너비 설정 */
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%; /* 너비를 100%로 설정 */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        button {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%; /* 버튼의 너비를 100%로 설정 */
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
 <header>
-    <h3>로그인</h3>
+    <h3>로그인</h3> <!-- 타이틀을 중앙에 위치 -->
 </header>
 <section>
     <form action="/login" method="post">
         <label for="username">아이디</label>
-        <input type="text" id="username" name="username"><br>
+        <input type="text" id="username" name="username" required>
 
         <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password"><br>
+        <input type="password" id="password" name="password" required>
 
-        <input type="submit" value="로그인"><br>
+        <input type="submit" value="로그인">
     </form>
     <button onclick="location.href='/signUp'">회원가입</button>
 </section>

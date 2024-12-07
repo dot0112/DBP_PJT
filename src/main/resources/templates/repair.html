@@ -1,8 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>수리</title>
+  <meta charset="UTF-8">
+  <title>수리</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f4f8;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    header {
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        color: #4CAF50;
+    }
+
+    section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px; /* 최대 너비 설정 */
+    }
+
+    p {
+        margin: 10px 0;
+        font-size: 16px;
+    }
+
+    label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049; /* 호버 시 색상 변경 */
+    }
+  </style>
 </head>
 <body>
 <header>
@@ -13,10 +76,10 @@
   <p>비품 명 : <span th:text="${repairItemName}"></span></p>
   <form action="/repair" method="post">
     <label for="repairMethod">수리 방법</label>
-    <input type="text" id="repairMethod" name="repairMethod"><br>
+    <input type="text" id="repairMethod" name="repairMethod" required><br>
 
     <label for="repairCost">수리 비용</label>
-    <input type="number" id="repairCost" name="repairCost"><br>
+    <input type="number" id="repairCost" name="repairCost" required><br>
 
     <input type="submit" value="저장"><br>
   </form>

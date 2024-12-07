@@ -1,11 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>비품 기록</title>
+  <meta charset="UTF-8">
+  <title>비품 기록</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f4f8;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h4 {
+        color: #4CAF50;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    a {
+        margin-top: 20px;
+        text-decoration: none;
+        color: #4CAF50;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    a:hover {
+        color: #45a049;
+    }
+  </style>
 </head>
 <body>
-<h4 th:text="${itemId}+' 비품 기록'"></h4>
+<h4 th:text="${itemId} + ' 비품 기록'"></h4>
 <table>
   <thead>
   <tr>

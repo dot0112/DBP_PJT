@@ -2,6 +2,57 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>수리 관리</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h3 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            max-width: 800px; /* 최대 너비 설정 */
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <section th:fragment="manageRepair">
@@ -9,12 +60,12 @@
     <table>
         <thead>
         <tr>
-            <td>비품 ID</td>
-            <td>사용자 ID</td>
-            <td>수리요청 ID</td>
-            <td>비품 명</td>
-            <td>수리 요청 날짜</td>
-            <td>수리 여부</td>
+            <th>비품 ID</th>
+            <th>사용자 ID</th>
+            <th>수리요청 ID</th>
+            <th>비품 명</th>
+            <th>수리 요청 날짜</th>
+            <th>수리 여부</th>
         </tr>
         </thead>
         <tbody>

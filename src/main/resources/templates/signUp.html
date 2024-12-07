@@ -3,14 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <title>회원가입</title>
+  <style>
+    * {
+      box-sizing: border-box; /* 모든 요소에 box-sizing 설정 */
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      justify-content: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      color: #4CAF50;
+    }
+
+    section {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 300px; /* 고정된 너비 */
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="date"],
+    input[type="tel"],
+    input[type="submit"],
+    button {
+      width: 100%; /* 100% 너비 */
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus,
+    input[type="date"]:focus,
+    input[type="tel"]:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+
+    button {
+      background-color: #f0f0f0;
+      color: #333;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+  </style>
   <script>
     let isUsernameChanged = false;
     let isDuplicateChecked = false;
 
-    function checkDuplicate(){
+    function checkDuplicate() {
       const username = document.getElementById('username').value;
 
-      if(!username){
+      if (!username) {
         alert('아이디를 입력해주세요.');
         return;
       }
@@ -21,7 +112,7 @@
       }
 
       fetch(`/checkUsername?username=${encodeURIComponent(username)}`, {
-      method: 'GET',
+        method: 'GET',
       })
       .then(response => response.json())
       .then(data => {
@@ -60,22 +151,22 @@
   <form action="/signUp" method="post" onsubmit="validateForm(event)">
     <label for="username">아이디</label>
     <input type="text" id="username" name="username" oninput="resetDuplicateCheck()" required>
-    <button onclick="checkDuplicate()">중복확인</button><br>
+    <button type="button" onclick="checkDuplicate()">중복확인</button>
 
     <label for="password">비밀번호</label>
-    <input type="password" id="password" name="password" required><br>
+    <input type="password" id="password" name="password" required>
 
     <label for="name">이름</label>
-    <input type="text" id="name" name="name" required><br>
+    <input type="text" id="name" name="name" required>
 
     <label for="birth">생년월일</label>
-    <input type="date" id="birth" name="birth"><br>
+    <input type="date" id="birth" name="birth">
 
     <label for="mail">Email</label>
-    <input type="email" id="mail" name="mail"><br>
+    <input type="email" id="mail" name="mail">
 
     <label for="phone">전화번호</label>
-    <input type="tel" id="phone" name="phone" required><br>
+    <input type="tel" id="phone" name="phone" required>
 
     <input type="submit" value="회원가입">
   </form>

@@ -2,6 +2,90 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>비품 관리</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h3 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%; /* 전체 너비로 설정 */
+            max-width: 800px; /* 최대 너비를 800px로 설정 */
+            margin-bottom: 20px; /* 폼 간격 */
+            box-sizing: border-box; /* 패딩과 테두리를 포함한 크기 계산 */
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: calc(100% - 22px); /* 전체 너비에서 패딩과 테두리 크기를 뺀 너비 */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* 패딩과 테두리를 포함한 크기 계산 */
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%; /* 버튼을 전체 너비로 설정 */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 <body>
 <section th:fragment="manageItem">
@@ -18,24 +102,24 @@
     <article th:if="${selected == 'itemRegistration'}">
         <form action="/registerItems" method="post">
             <label for="itemId">비품 ID</label>
-            <input type="text" id="itemId" name="itemId"><br>
+            <input type="text" id="itemId" name="itemId" required>
 
             <label for="itemName">비품 명</label>
-            <input type="text" id="itemName" name="itemName"><br>
+            <input type="text" id="itemName" name="itemName" required>
 
             <label for="itemType">종류</label>
-            <input type="text" id="itemType" name="itemType"><br>
+            <input type="text" id="itemType" name="itemType" required>
 
             <label for="counts">비품 개수</label>
-            <input type="number" id="counts" name="counts"><br>
+            <input type="number" id="counts" name="counts" required min="1">
 
             <label for="location">위치</label>
-            <select id="location" name="location">
+            <select id="location" name="location" required>
                 <option value="null-null" selected>장소를 선택해주세요</option>
                 <option th:each="location : ${locations}"
                         th:value="${location.buildingName} + '-' + ${location.roomNumber}"
                         th:text="${location.buildingName} + ' - ' + ${location.roomNumber}"></option>
-            </select><br>
+            </select>
 
             <input type="submit" value="등록하기">
         </form>
@@ -49,21 +133,20 @@
                     <td>비품 ID</td>
                     <td>비품 명</td>
                     <th>종류</th>
-                    <td colspan="2">위치</td>
-                    <th>상태</th>
+                    <td>위치</td>
+                    <td>상태</td>
                     <td>관리자</td>
-                    <th>대여 가능 여부</th>
+                    <td>대여 가능 여부</td>
                     <td>대여 상태</td>
                     <td>선택</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="item : ${items}">
-                    <td th:text="${item.itemId}"></a></td>
+                    <td th:text="${item.itemId}"></td>
                     <td th:text="${item.itemName}"></td>
                     <td th:text="${item.itemType}"></td>
-                    <td th:text="${item.buildingName}"></td>
-                    <td th:text="${item.roomNumber}"></td>
+                    <td th:text="${item.buildingName} + ' - ' + ${item.roomNumber}"></td>
                     <td th:text="${item.currentState}"></td>
                     <td th:text="${item.adminId}"></td>
                     <td th:text="${item.rentableStatus}"></td>
@@ -74,11 +157,11 @@
             </table>
 
             <label for="replaceLocation">위치</label>
-            <select id="replaceLocation" name="location">
+            <select id="replaceLocation" name="location" required>
                 <option th:each="location : ${locations}"
                         th:value="${location.buildingName} + '-' + ${location.roomNumber}"
                         th:text="${location.buildingName} + ' - ' + ${location.roomNumber}"></option>
-            </select><br>
+            </select>
 
             <input type="submit" value="배치하기">
         </form>

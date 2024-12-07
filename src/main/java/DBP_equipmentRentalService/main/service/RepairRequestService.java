@@ -26,4 +26,16 @@ public class RepairRequestService {
     public List<RepairRequest> findRequest(String userId) {
         return repairRequestRepository.findByCriteria(Map.of("userId", userId, "isRepaired", 0));
     }
+
+    public List<RepairRequest> findAll(){
+        return repairRequestRepository.findAll();
+    }
+
+    public List<RepairRequest> findRequestByRepairRequest(String repairRequestId){
+        return repairRequestRepository.findByCriteria(Map.of("repairRequestId", repairRequestId));
+    }
+
+    public List<RepairRequest> findByItemId(String itemId){
+        return repairRequestRepository.findByCriteria(Map.of("itemID", itemId));
+    }
 }

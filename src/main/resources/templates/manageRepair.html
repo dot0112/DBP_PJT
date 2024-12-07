@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<section th:fragment="manageRepair">
+    <h3>수리 관리</h3>
+    <table>
+        <thead>
+        <tr>
+            <td>비품 ID</td>
+            <td>사용자 ID</td>
+            <td>수리요청 ID</td>
+            <td>비품 명</td>
+            <td>수리 요청 날짜</td>
+            <td>수리 여부</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="repair : ${repairList}">
+            <td th:text="${repair.itemId}"></td>
+            <td th:text="${repair.userId}"></td>
+            <td><a th:href="@{/manageRepair/{repairRequestId}(repairRequestId=${repair.repairRequestId})}" th:text="${repair.repairRequestId}"></a></td>
+            <td th:text="${repair.itemName}"></td>
+            <td th:text="${repair.requestDate}"></td>
+            <td th:text="${repair.isRepaired}"></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

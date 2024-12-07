@@ -34,6 +34,7 @@ public class RepairRequestController {
     @GetMapping("/repairRequest")
     public String repairRequest(Model model, HttpSession session) {
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+        String role = (String) session.getAttribute("role");
 
         if (isLoggedIn == null) {
             isLoggedIn = false;
@@ -41,6 +42,7 @@ public class RepairRequestController {
 
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("contentFragment", "repairRequest");
+        model.addAttribute("role", role);
         return "layout";
     }
 

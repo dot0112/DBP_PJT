@@ -22,7 +22,7 @@
     </li>
     <li>
       <a th:if="${isLoggedIn} and !${role == 'admin'}" th:href="@{/repairRequest}">수리요청</a>
-      <a th:if="${isLoggedIn} and ${role == 'admin'}" th:href="@{/repairRecord}">수리요청</a>
+      <a th:if="${isLoggedIn} and ${role == 'admin'}" th:href="@{/manageRepair}">수리관리</a>
       <a th:if="${!isLoggedIn}" th:href="@{/login}" onclick="alert('로그인이 필요합니다.')">수리요청</a>
     </li>
     <li>

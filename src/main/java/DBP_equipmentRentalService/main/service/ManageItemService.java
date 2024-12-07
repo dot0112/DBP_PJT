@@ -15,6 +15,14 @@ public class ManageItemService {
     }
 
     public void manageItems(String adminId, Integer quantity, String itemName, @Nullable String itemType, @Nullable String roomNumber, @Nullable String buildingName){
-        procedureRepository.manageItems(adminId, quantity, itemName, itemType, roomNumber, buildingName, null, null);
+        if(itemType == null){
+            procedureRepository.manageItems(adminId, quantity, itemName, null, roomNumber, buildingName, null, null);
+        }
+        else if(buildingName == null && roomNumber == null){
+            procedureRepository.manageItems(adminId, quantity, itemName, itemType, null, null, null, null);
+        }
+        else{
+            procedureRepository.manageItems(adminId, quantity, itemName, itemType, roomNumber, buildingName, null, null);
+        }
     }
 }

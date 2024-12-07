@@ -55,9 +55,14 @@
   const returnError = urlParams.get('returnError');
 
   //registerItems
-  const returnSuccess = urlParams.get('registerItemsSuccess');
-  const returnErrorMessage = urlParams.get('registerItemsErrorMessage');
-  const returnError = urlParams.get('registerItemsError');
+  const registerItemsSuccess = urlParams.get('registerItemsSuccess');
+  const registerItemsErrorMessage = urlParams.get('registerItemsErrorMessage');
+  const registerItemsError = urlParams.get('registerItemsError');
+
+  //replaceItems
+  const replaceItemsSuccess = urlParams.get('replaceItemsSuccess');
+  const replaceItemsErrorMessage = urlParams.get('replaceItemsErrorMessage');
+  const replaceItemsError = urlParams.get('replaceItemsError');
 
   //request condition
   if(requestSuccess !== null){
@@ -89,6 +94,14 @@
   }
   if(registerItemsError !== null){
       alert("등록 오류: " + (registerItemsErrorMessage ? registerItemsErrorMessage : "알 수 없는 오류"));
+  }
+
+  //registerItems condition
+  if(replaceItemsSuccess !== null){
+      alert("성공적으로 등록했습니다.");
+  }
+  if(replaceItemsError !== null){
+      alert("등록 오류: " + (replaceItemsErrorMessage ? replaceItemsErrorMessage : "알 수 없는 오류"));
   }
 </script>
 </body>

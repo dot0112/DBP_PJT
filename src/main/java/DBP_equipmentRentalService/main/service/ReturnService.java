@@ -5,6 +5,7 @@ import DBP_equipmentRentalService.main.domain.Item;
 import DBP_equipmentRentalService.main.domain.Rental;
 import DBP_equipmentRentalService.main.domain.Returns;
 import DBP_equipmentRentalService.main.repository.item.ItemRepository;
+import DBP_equipmentRentalService.main.repository.procedure.ProcedureRepository;
 import DBP_equipmentRentalService.main.repository.rental.RentalRepository;
 import DBP_equipmentRentalService.main.repository.returns.ReturnsRepository;
 import jakarta.transaction.Transactional;
@@ -22,12 +23,14 @@ public class ReturnService {
     private final ReturnsRepository returnsRepository;
     private final ItemRepository itemRepository;
     private final RentalRepository rentalRepository;
+    private final ProcedureRepository procedureRepository;
 
     @Autowired
-    public ReturnService(ReturnsRepository returnsRepository, ItemRepository itemRepository, RentalRepository rentalRepository){
+    public ReturnService(ReturnsRepository returnsRepository, ItemRepository itemRepository, RentalRepository rentalRepository, ProcedureRepository procedureRepository){
         this.returnsRepository = returnsRepository;
         this.itemRepository = itemRepository;
         this.rentalRepository = rentalRepository;
+        this.procedureRepository = procedureRepository;
     }
 
     public List<RentalWithItemName> setList(String userId){
@@ -53,4 +56,6 @@ public class ReturnService {
     }
 
     public void join(Returns returns){returnsRepository.save(returns);}
+
+    public void setBorrowLimit(String userId){procedureRepository.setBorrowLimit(userId);}
 }

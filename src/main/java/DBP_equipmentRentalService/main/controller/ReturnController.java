@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -68,6 +67,7 @@ public class ReturnController {
             else {
                 returns.setRepairRequest("N");
             }
+            returnService.setBorrowLimit((String) session.getAttribute("ID"));
 
             returnService.join(returns);
         }

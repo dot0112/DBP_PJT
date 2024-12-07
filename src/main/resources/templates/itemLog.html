@@ -5,6 +5,7 @@
     <title>비품 기록</title>
 </head>
 <body>
+<h4 th:text="${itemId}+' 비품 기록'"></h4>
 <table>
   <thead>
   <tr>
@@ -14,11 +15,11 @@
   </tr>
   </thead>
   <tbody>
-<!--  <tr th:each="event : ${history}">-->
-<!--    <td th:text="${event['EVENT_DATE']}"></td>-->
-<!--    <td th:text="${event['EVENT_TYPE']}"></td>-->
-<!--    <td th:text="${event['DETAILS']}"></td>-->
-<!--  </tr>-->
+  <tr th:each="event : ${history}">
+    <td th:text="${event['eventDate']}"></td>
+    <td th:text="${event['eventType']}"></td>
+    <td th:text="${event['details']}"></td>
+  </tr>
   </tbody>
 </table>
 

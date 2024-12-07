@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<section th:fragment="manageItem">
+    <h3>비품 관리</h3>
+    <form>
+        <label>
+            <input type="radio" name="option" value="itemRegistration" onclick="location.href='?selected=itemRegistration'" th:checked="${selected == 'itemRegistration'}">비품 등록
+        </label>
+        <label>
+            <input type="radio" name="option" value="itemPlace" onclick="location.href='?selected=itemPlace'" th:checked="${selected == 'itemPlace'}">비품 배치
+        </label>
+    </form>
+
+    <article th:if="${selected == 'itemRegistration'}">
+        <form action="/registerItems" method="post">
+            <label for="itemId">비품 ID</label>
+            <input type="text" id="itemId" name="itemId"><br>
+
+            <label for="itemName">비품 명</label>
+            <input type="text" id="itemName" name="itemName"><br>
+
+            <label for="itemType">종류</label>
+            <input type="text" id="itemType" name="itemType"><br>
+
+            <label for="counts">비품 개수</label>
+            <input type="number" id="counts" name="counts"><br>
+
+            <label for="location">위치</label>
+            <select id="location" name="location">
+                <option value="null-null" selected>장소를 선택해주세요</option>
+                <option th:each="location : ${locations}"
+                        th:value="${location.buildingName} + '-' + ${location.roomNumber}"
+                        th:text="${location.buildingName} + ' - ' + ${location.roomNumber}"></option>
+            </select><br>
+
+            <input type="submit" value="등록하기">
+        </form>
+    </article>
+
+    <article th:if="${selected == 'itemPlace'}">
+        <form th:action="@{/replaceItems}" method="post">
+            <table>
+                <thead>
+                <tr>
+                    <td>비품 ID</td>
+                    <td>비품 명</td>
+                    <th>종류</th>
+                    <td colspan="2">위치</td>
+                    <th>상태</th>
+                    <td>관리자</td>
+                    <th>대여 가능 여부</th>
+                    <td>대여 상태</td>
+                    <td>선택</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.itemId}"></a></td>
+                    <td th:text="${item.itemName}"></td>
+                    <td th:text="${item.itemType}"></td>
+                    <td th:text="${item.buildingName}"></td>
+                    <td th:text="${item.roomNumber}"></td>
+                    <td th:text="${item.currentState}"></td>
+                    <td th:text="${item.adminId}"></td>
+                    <td th:text="${item.rentableStatus}"></td>
+                    <td th:text="${item.rentalStatus}"></td>
+                    <td><input type="checkbox" name="replace" th:value="${item.itemId}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <label for="replaceLocation">위치</label>
+            <select id="replaceLocation" name="location">
+                <option th:each="location : ${locations}"
+                        th:value="${location.buildingName} + '-' + ${location.roomNumber}"
+                        th:text="${location.buildingName} + ' - ' + ${location.roomNumber}"></option>
+            </select><br>
+
+            <input type="submit" value="배치하기">
+        </form>
+    </article>
+</section>
+</body>
+</html>

@@ -5,10 +5,8 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.*;
 
 public abstract class JdbcGenericRepository<T> {
@@ -85,6 +83,12 @@ public abstract class JdbcGenericRepository<T> {
                 for (Field field : entityType.getDeclaredFields()) {
                     field.setAccessible(true);
                     Object value = rs.getObject(field.getName());
+                    if (value instanceof Timestamp) {
+                        value = ((Timestamp) value).toLocalDateTime().toLocalDate();
+                    }
+                    if (value instanceof BigDecimal) {
+                        value = ((BigDecimal) value).intValue();
+                    }
                     field.set(object, value);
                 }
 
@@ -118,7 +122,6 @@ public abstract class JdbcGenericRepository<T> {
             }
             parameters.put(key, value);
         }
-        sql.append(";");
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -141,6 +144,12 @@ public abstract class JdbcGenericRepository<T> {
                 for (Field field : entityType.getDeclaredFields()) {
                     field.setAccessible(true);
                     Object value = rs.getObject(field.getName());
+                    if (value instanceof Timestamp) {
+                        value = ((Timestamp) value).toLocalDateTime().toLocalDate();
+                    }
+                    if (value instanceof BigDecimal) {
+                        value = ((BigDecimal) value).intValue();
+                    }
                     field.set(object, value);
                 }
 

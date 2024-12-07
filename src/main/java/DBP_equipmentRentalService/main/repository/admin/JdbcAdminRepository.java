@@ -32,7 +32,7 @@ public class JdbcAdminRepository extends JdbcGenericRepository<Admin> implements
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 Admin admin = new Admin();
-                admin.setAdminId(rs.getString("ID"));
+                admin.setAdminId(rs.getString("ADMINID"));
                 admin.setPassword(rs.getString("PASSWORD"));
                 admin.setName(rs.getString("NAME"));
                 admin.setDateOfBirth(rs.getString("DATEOFBIRTH"));

@@ -1,5 +1,6 @@
 package DBP_equipmentRentalService.main.repository.procedure;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,12 +33,14 @@ import java.util.Map;
         name = "manageItems",
         procedureName = "MANAGE_ITEMS",
         parameters = {
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemname"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemtype"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_adminid"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemName"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemType"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_adminId"),
                 @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "p_quantity"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_roomnumber"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_buildingname"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_roomNumber"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_buildingName"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_rentableStatus"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_rentalStatus"),
         }
 )
 
@@ -97,9 +100,14 @@ public class JpaProcedureRepository implements ProcedureRepository {
     }
 
     @Override
-    public void manageItems(String itemName, String itemType, String adminId, Integer quantity, String roomNumber, String buildingName) {
+    public void manageItems(String adminId, Integer quantity, String itemName, @Nullable String itemType, @Nullable String roomNumber, @Nullable String buildingName, @Nullable String rentableStatus, @Nullable String rentalStatus) {
+
+        if (adminId == null || quantity == null || itemName == null) {
+            throw new IllegalArgumentException("adminId, quantity, and itemName must not be null");
+        }
+
         try {
-            em.createNamedStoredProcedureQuery("manageItem").setParameter("p_itemname", itemName).setParameter("p_itemtype", itemType).setParameter("p_adminid", adminId).setParameter("p_quantity", quantity).setParameter("p_roomnumber", roomNumber).setParameter("p_buildingname", buildingName).execute();
+            em.createNamedStoredProcedureQuery("manageItems").setParameter("p_itemName", itemName).setParameter("p_itemType", itemType).setParameter("p_adminId", adminId).setParameter("p_quantity", quantity).setParameter("p_roomNumber", roomNumber).setParameter("p_buildingName", buildingName).setParameter("p_rentableStatus", rentableStatus).setParameter("p_rentalStatus", rentalStatus).execute();
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }

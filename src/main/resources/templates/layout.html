@@ -18,7 +18,7 @@
   <ul>
     <li><a th:href="@{/}">홈</a></li>
     <li th:if="${role == 'admin'}">
-      <a th:href="@{/item}">비품 관리</a>
+      <a th:href="@{/manageItem}">비품 관리</a>
     </li>
     <li>
       <a th:if="${isLoggedIn} and !${role == 'admin'}" th:href="@{/repairRequest}">수리요청</a>

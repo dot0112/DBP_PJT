@@ -1,13 +1,14 @@
 package DBP_equipmentRentalService.main.controller;
 
 import DBP_equipmentRentalService.main.domain.Item;
+import DBP_equipmentRentalService.main.repository.procedure.ProcedureRepository;
 import DBP_equipmentRentalService.main.service.EquipmentHistoryService;
 import DBP_equipmentRentalService.main.service.search.ItemSearchService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,14 +20,22 @@ public class MainController {
     private final EquipmentHistoryService equipmentHistoryService;
     private boolean isSearched;
 
+    private final ProcedureRepository procedureRepository;
+
     @Autowired
-    public MainController(ItemSearchService itemSearchService, EquipmentHistoryService equipmentHistoryService){
+    public MainController(ItemSearchService itemSearchService, EquipmentHistoryService equipmentHistoryService, ProcedureRepository procedureRepository) {
         this.itemSearchService = itemSearchService;
         this.equipmentHistoryService = equipmentHistoryService;
+        this.procedureRepository = procedureRepository;
+    }
+
+    @GetMapping("/test")
+    public void Test() {
+        System.out.println(procedureRepository.equipmentHistory("gkYAbeIW"));
     }
 
     @GetMapping("/")
-    public String home(Model model, HttpSession session){
+    public String home(Model model, HttpSession session) {
         List<Item> allItems = itemSearchService.searchAll();
         Collections.shuffle(allItems);
         List<Item> items = allItems.subList(0, Math.min(10, allItems.size()));
@@ -35,7 +44,7 @@ public class MainController {
         isSearched = false;
         String role = (String) session.getAttribute("role");
 
-        if(isLoggedIn == null){
+        if (isLoggedIn == null) {
             isLoggedIn = false;
         }
 
@@ -50,11 +59,11 @@ public class MainController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(name = "how", required = false, defaultValue = "type") String how, @RequestParam(name = "equipment", required = false, defaultValue = "") String equipment, Model model, HttpSession session){
+    public String search(@RequestParam(name = "how", required = false, defaultValue = "type") String how, @RequestParam(name = "equipment", required = false, defaultValue = "") String equipment, Model model, HttpSession session) {
         isSearched = true;
         List<Item> items = new ArrayList<>();
 
-        switch (how){
+        switch (how) {
             case "id":
                 Optional<Item> optionalItem = itemSearchService.searchById(equipment);
                 items = optionalItem.map(Collections::singletonList).orElse(Collections.emptyList());
@@ -72,7 +81,7 @@ public class MainController {
 
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 
-        if(isLoggedIn == null){
+        if (isLoggedIn == null) {
             isLoggedIn = false;
         }
 

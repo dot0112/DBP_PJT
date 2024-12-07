@@ -1,5 +1,6 @@
 package DBP_equipmentRentalService.main;
 
+import DBP_equipmentRentalService.main.service.TestExecuteProcedure;
 import DBP_equipmentRentalService.main.service.TestInsertService;
 import DBP_equipmentRentalService.main.service.TestUpdateService;
 import jakarta.transaction.Transactional;
@@ -18,6 +19,8 @@ class MainApplicationTest {
     private TestInsertService testInsertService;
     @Autowired
     private TestUpdateService testUpdateService;
+    @Autowired
+    private TestExecuteProcedure testExecuteProcedure;
 
     @BeforeEach
     public void before() {
@@ -123,5 +126,11 @@ class MainApplicationTest {
     @DisplayName("사용자 수정 테스트")
     void testUsersUpdate() {
         testUpdateService.testUsersUpdate();
+    }
+
+    @Test
+    @DisplayName("EquipmentHistory 프로시저 호출")
+    void testEquipmentHistory() {
+        testExecuteProcedure.testEquipmentHistory();
     }
 }

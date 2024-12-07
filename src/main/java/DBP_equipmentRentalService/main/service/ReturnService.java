@@ -58,4 +58,6 @@ public class ReturnService {
     public void join(Returns returns){returnsRepository.save(returns);}
 
     public void setBorrowLimit(String userId){procedureRepository.setBorrowLimit(userId);}
+
+    public List<Returns> findAll(){return returnsRepository.findAll();}
 }

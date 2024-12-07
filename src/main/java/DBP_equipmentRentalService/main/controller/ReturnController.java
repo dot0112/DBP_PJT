@@ -35,6 +35,7 @@ public class ReturnController {
         List<RentalWithItemName> rentalWithItemNames = returnService.setList((String) session.getAttribute("ID"));
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
         String role = (String) session.getAttribute("role");
+        List<Returns> returns = returnService.findAll();
 
         if(isLoggedIn == null){
             isLoggedIn = false;
@@ -44,6 +45,7 @@ public class ReturnController {
         model.addAttribute("role", role);
         model.addAttribute("contentFragment", "return");
         model.addAttribute("items", rentalWithItemNames);
+        model.addAttribute("returns", returns);
         return "layout";
     }
 

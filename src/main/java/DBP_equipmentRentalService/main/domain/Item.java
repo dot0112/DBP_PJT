@@ -3,6 +3,20 @@ package DBP_equipmentRentalService.main.domain;
 import jakarta.persistence.*;
 
 @Entity
+@NamedStoredProcedureQuery(
+        name = "manageItems",
+        procedureName = "MANAGE_ITEMS",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemName"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemType"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_adminId"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "p_quantity"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_roomNumber"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_buildingName"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_rentableStatus"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_rentalStatus"),
+        }
+)
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

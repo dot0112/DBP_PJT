@@ -28,12 +28,7 @@ public class MainController {
         this.equipmentHistoryService = equipmentHistoryService;
         this.procedureRepository = procedureRepository;
     }
-
-    @GetMapping("/test")
-    public void Test() {
-        System.out.println(procedureRepository.equipmentHistory("gkYAbeIW"));
-    }
-
+    
     @GetMapping("/")
     public String home(Model model, HttpSession session) {
         List<Item> allItems = itemSearchService.searchAll();

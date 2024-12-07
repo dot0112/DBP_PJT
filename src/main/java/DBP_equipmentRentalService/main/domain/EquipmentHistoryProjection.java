@@ -1,11 +1,6 @@
 package DBP_equipmentRentalService.main.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.NamedStoredProcedureQuery;
-import jakarta.persistence.ParameterMode;
-import jakarta.persistence.StoredProcedureParameter;
-
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
 @Entity
 @NamedStoredProcedureQuery(
@@ -17,9 +12,8 @@ import java.time.LocalDate;
         }
 )
 public class EquipmentHistoryProjection {
-    LocalDate eventDate;
-    String eventType;
-    String details;
+    @Id
+    Object event;
 
     public EquipmentHistoryProjection() {
     }

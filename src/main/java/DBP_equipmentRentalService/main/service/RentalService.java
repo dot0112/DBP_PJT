@@ -43,4 +43,6 @@ public class RentalService {
     public Optional<Rental> findByRentalId(String rentalId) {
         return rentalRepository.findById(rentalId);
     }
+
+    public List<Rental> findAll(){return rentalRepository.findAll();}
 }

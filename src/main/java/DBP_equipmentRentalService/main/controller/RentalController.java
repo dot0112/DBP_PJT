@@ -33,6 +33,7 @@ public class RentalController {
     public String rental(Model model, HttpSession session) {
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
         String role = (String) session.getAttribute("role");
+        List<Rental> rentals = rentalService.findAll();
 
         if (isLoggedIn == null) {
             isLoggedIn = false;
@@ -41,6 +42,7 @@ public class RentalController {
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("contentFragment", "rental");
         model.addAttribute("role", role);
+        model.addAttribute("rentals", rentals);
         return "layout";
     }
 

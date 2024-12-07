@@ -34,6 +34,7 @@ public interface ProcedureRepository {
 
     /**
      * 주어진 관리자 Id, 횟수, 비품 이름으로 등록, 배치를 반복합니다.
+     * 사용하지 않는 Parameter 는 null 을 넣어야합니다.
      * <p>
      * 필수 Parameter
      * 공통 필수 Parameter: adminId, quantity, itemName
@@ -42,6 +43,7 @@ public interface ProcedureRepository {
      * <p>
      * 선택 Parameter
      * 등록 선택 Parameter: rentableStatus, rentalStatus
+     * <p>
      *
      * @param adminId        관리자 Id
      * @param quantity       반복할 횟수

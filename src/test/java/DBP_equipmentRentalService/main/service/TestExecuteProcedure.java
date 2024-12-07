@@ -25,6 +25,24 @@ public class TestExecuteProcedure {
     }
 
     public void testManageItems() {
-//        procedureRepository.manageItems();
+        procedureRepository.manageItems("manager001", 2, "testName", "testType", "603", "생활과학관", null, null);
+    }
+
+    public void testManageItemsInsert() {
+        procedureRepository.manageItems("manager001", 2, "testName", "testType", null, null, null, null);
+    }
+
+    public void testManageItemsInsertError() {
+        procedureRepository.manageItems("manager001", -1, "testName", "testType", null, null, null, null);
+    }
+
+    public void testManageItemsAssign() {
+        procedureRepository.manageItems("manager001", 2, "testName", "testType", null, null, null, null);
+        procedureRepository.manageItems("manager001", 2, "testName", null, "603", "생활과학관", null, null);
+    }
+
+    public void testManageItemsAssignError() {
+        procedureRepository.manageItems("manager001", 2, "testName", "testType", null, null, null, null);
+        procedureRepository.manageItems("manager001", 4, "testName", null, "603", "생활과학관", null, null);
     }
 }

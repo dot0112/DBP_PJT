@@ -133,4 +133,36 @@ class MainApplicationTest {
     void testEquipmentHistory() {
         testExecuteProcedure.testEquipmentHistory();
     }
+
+    @Test
+    @DisplayName("ManageItems 프로시저 호출 - 배치 오류")
+    void testManageItemsAssignError() {
+        testExecuteProcedure.testManageItemsAssignError();
+    }
+
+    @Test
+    @DisplayName("ManageItems 프로시저 호출")
+    void testManageItems() {
+        testExecuteProcedure.testManageItems();
+    }
+    
+    @Test
+    @DisplayName("ManageItems 프로시저 호출 - 등록 오류")
+    void testManageItemsInsertError() {
+        testExecuteProcedure.testManageItemsInsertError();
+    }
+
+    @Test
+    @DisplayName("ManageItems 프로시저 호출 - 등록")
+    void testManageItemsInsert() {
+        testExecuteProcedure.testManageItemsInsert();
+    }
+
+    @Test
+    @DisplayName("ManageItems 프로시저 호출 - 배치")
+    void testManageItemsAssign() {
+        testExecuteProcedure.testManageItemsAssign();
+    }
+
+
 }

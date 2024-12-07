@@ -28,7 +28,7 @@ public class MainController {
         this.equipmentHistoryService = equipmentHistoryService;
         this.procedureRepository = procedureRepository;
     }
-    
+
     @GetMapping("/")
     public String home(Model model, HttpSession session) {
         List<Item> allItems = itemSearchService.searchAll();
@@ -57,17 +57,18 @@ public class MainController {
     public String search(@RequestParam(name = "how", required = false, defaultValue = "type") String how, @RequestParam(name = "equipment", required = false, defaultValue = "") String equipment, Model model, HttpSession session) {
         isSearched = true;
         List<Item> items = new ArrayList<>();
+        String searchKeyword = "%" + equipment.strip() + "%";
 
         switch (how) {
             case "id":
-                Optional<Item> optionalItem = itemSearchService.searchById(equipment);
+                Optional<Item> optionalItem = itemSearchService.searchById(equipment.strip());
                 items = optionalItem.map(Collections::singletonList).orElse(Collections.emptyList());
                 break;
             case "name":
-                items = itemSearchService.searchByName(equipment);
+                items = itemSearchService.searchByName(searchKeyword);
                 break;
             case "type":
-                items = itemSearchService.searchByType(equipment);
+                items = itemSearchService.searchByType(searchKeyword);
                 break;
             default:
                 items = new ArrayList<>();

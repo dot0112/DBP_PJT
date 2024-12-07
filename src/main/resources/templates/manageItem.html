@@ -1,9 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
 </head>
 <body>
+<section th:fragment="manageItem">
+    <h3>비품 관리</h3>
+    <form>
+        <label>
+            <input type="radio" name="option" value="itemRegistration" onclick="location.href='?selected=itemRegistration'" th:checked="${selected == 'itemRegistration'}">비품 등록
+        </label>
+        <label>
+            <input type="radio" name="option" value="itemPlace" onclick="location.href='?selected=itemPlace'" th:checked="${selected == 'itemPlace'}">비품 배치
+        </label>
+    </form>
 
+    <article th:if="${selected == 'itemRegistration'}">
+        registration
+    </article>
+
+    <article th:if="${selected == 'itemPlace'}">
+        place
+    </article>
+</section>
 </body>
 </html>

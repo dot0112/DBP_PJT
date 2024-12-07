@@ -16,7 +16,28 @@
     </form>
 
     <article th:if="${selected == 'itemRegistration'}">
-        registration
+        <form action="/registerItems" method="post">
+            <label for="itemId">비품 ID</label>
+            <input type="text" id="itemId" name="itemId"><br>
+
+            <label for="itemName">비품 명</label>
+            <input type="text" id="itemName" name="itemName"><br>
+
+            <label for="itemType">종류</label>
+            <input type="text" id="itemType" name="itemType"><br>
+
+            <label for="counts">비품 개수</label>
+            <input type="number" id="counts" name="counts"><br>
+
+            <label for="location">위치</label>
+            <select id="location" name="location">
+                <option th:each="location : ${locations}"
+                        th:value="${location.buildingName} + '-' + ${location.roomNumber}"
+                        th:text="${location.buildingName} + ' - ' + ${location.roomNumber}"></option>
+            </select><br>
+
+            <input type="submit" value="등록하기">
+        </form>
     </article>
 
     <article th:if="${selected == 'itemPlace'}">

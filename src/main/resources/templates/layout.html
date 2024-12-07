@@ -54,6 +54,11 @@
   const returnErrorMessage = urlParams.get('returnErrorMessage');
   const returnError = urlParams.get('returnError');
 
+  //registerItems
+  const returnSuccess = urlParams.get('registerItemsSuccess');
+  const returnErrorMessage = urlParams.get('registerItemsErrorMessage');
+  const returnError = urlParams.get('registerItemsError');
+
   //request condition
   if(requestSuccess !== null){
       alert("성공적으로 수리 요청되었습니다.");
@@ -76,6 +81,14 @@
   }
   if(returnError !== null){
       alert("반납 오류: " + (returnErrorMessage ? returnErrorMessage : "알 수 없는 오류"));
+  }
+
+  //registerItems condition
+  if(registerItemsSuccess !== null){
+      alert("성공적으로 등록했습니다.");
+  }
+  if(registerItemsError !== null){
+      alert("등록 오류: " + (registerItemsErrorMessage ? registerItemsErrorMessage : "알 수 없는 오류"));
   }
 </script>
 </body>

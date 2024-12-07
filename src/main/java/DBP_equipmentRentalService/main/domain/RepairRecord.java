@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 
@@ -31,6 +32,10 @@ public class RepairRecord {
 
     public void setRepairDate(LocalDate repairDate) {
         this.repairDate = repairDate;
+    }
+
+    public void setRepairDate(Timestamp repairDate) {
+        this.repairDate = repairDate.toLocalDateTime().toLocalDate();
     }
 
     public String getRepairDesc() {

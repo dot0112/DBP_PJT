@@ -1,5 +1,6 @@
 package DBP_equipmentRentalService.main.domain;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -15,6 +16,7 @@ public class Users {
     String email;
     String phoneNumber;
     int rentalAvailability;
+    @Nullable
     LocalDate rentalAvailabilityDate;
 
     public String getUserId() {

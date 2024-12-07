@@ -1,131 +1,133 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>반납</title>
-  <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f0f4f8;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+    <meta charset="UTF-8">
+    <title>반납</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    section {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        width: 80%;
-        max-width: 800px;
-        margin: auto;
-    }
+        section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            margin: auto;
+        }
 
-    h3 {
-        color: #4CAF50;
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        h3 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    form {
-        margin-bottom: 20px;
-    }
+        form {
+            margin-bottom: 20px;
+        }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-    th, td {
-        padding: 10px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
 
-    th {
-        background-color: #f2f2f2;
-    }
+        th {
+            background-color: #f2f2f2;
+        }
 
-    tr:hover {
-        background-color: #f1f1f1;
-    }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
 
-    button {
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-    }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
 
-    button:hover {
-        background-color: #45a049;
-        transform: scale(1.05);
-    }
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
 
-    input[type="checkbox"] {
-        transform: scale(1.5);
-        cursor: pointer;
-    }
-  </style>
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <section th:fragment="return">
-  <h3>반납</h3>
+    <h3>반납</h3>
 
-  <article th:if="${isLoggedIn} and !${role == 'admin'}">
-    <form th:action="@{/returnitem}" method="post">
-      <table>
-        <thead>
-        <tr>
-          <td>비품 ID</td>
-          <td>비품 명</td>
-          <td>수리 요청</td>
-          <td>반납</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${items}">
-          <td th:text="${item.itemId}"></td>
-          <td th:text="${item.itemName}"></td>
-          <td><input type="checkbox" name="returnAndRepair" th:value="${item.rentalId}"></td>
-          <td><button name="returnBtn" th:value="${item.rentalId}">반납</button></td>
-        </tr>
-        </tbody>
-      </table>
-    </form>
-  </article>
+    <article th:if="${isLoggedIn} and !${role == 'admin'}">
+        <form th:action="@{/returnitem}" method="post">
+            <table>
+                <thead>
+                <tr>
+                    <td>비품 ID</td>
+                    <td>비품 명</td>
+                    <td>수리 요청</td>
+                    <td>반납</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.itemId}"></td>
+                    <td th:text="${item.itemName}"></td>
+                    <td><input type="checkbox" name="returnAndRepair" th:value="true"></td>
+                    <td>
+                        <button name="returnBtn" th:value="${item.rentalId}">반납</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </article>
 
-  <article th:if="${isLoggedIn} and ${role == 'admin'}">
-    <table>
-      <thead>
-      <tr>
-        <td>사용자 ID</td>
-        <td>비품 ID</td>
-        <td>대여 ID</td>
-        <td>반납 ID</td>
-        <td>반납 일자</td>
-        <td>수리 요청 여부</td>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="returnOne : ${returns}">
-        <td th:text="${returnOne.userId}"></td>
-        <td th:text="${returnOne.itemId}"></td>
-        <td th:text="${returnOne.rentalId}"></td>
-        <td th:text="${returnOne.returnId}"></td>
-        <td th:text="${returnOne.actualReturnDate}"></td>
-        <td th:text="${returnOne.repairRequest}"></td>
-      </tr>
-      </tbody>
-    </table>
-  </article>
+    <article th:if="${isLoggedIn} and ${role == 'admin'}">
+        <table>
+            <thead>
+            <tr>
+                <td>사용자 ID</td>
+                <td>비품 ID</td>
+                <td>대여 ID</td>
+                <td>반납 ID</td>
+                <td>반납 일자</td>
+                <td>수리 요청 여부</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="returnOne : ${returns}">
+                <td th:text="${returnOne.userId}"></td>
+                <td th:text="${returnOne.itemId}"></td>
+                <td th:text="${returnOne.rentalId}"></td>
+                <td th:text="${returnOne.returnId}"></td>
+                <td th:text="${returnOne.actualReturnDate}"></td>
+                <td th:text="${returnOne.repairRequest}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </article>
 </section>
 </body>
 </html>

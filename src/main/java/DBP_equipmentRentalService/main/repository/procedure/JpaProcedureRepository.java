@@ -1,48 +1,16 @@
 package DBP_equipmentRentalService.main.repository.procedure;
 
 import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.StoredProcedureQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-@NamedStoredProcedureQuery(
-        name = "setBorrowLimit",
-        procedureName = "SET_BORROW_LIMIT",
-        parameters = {
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_userid")
-        }
-)
-
-@NamedStoredProcedureQuery(
-        name = "equipmentHistory",
-        procedureName = "EQUIPEMENT_HISTORY",
-        parameters = {
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemid"),
-                @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, type = void.class, name = "p_result")
-        }
-)
-
-@NamedStoredProcedureQuery(
-        name = "manageItems",
-        procedureName = "MANAGE_ITEMS",
-        parameters = {
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemName"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_itemType"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_adminId"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "p_quantity"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_roomNumber"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_buildingName"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_rentableStatus"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_rentalStatus"),
-        }
-)
+import java.util.stream.Collectors;
 
 @Repository
 public class JpaProcedureRepository implements ProcedureRepository {
@@ -66,36 +34,23 @@ public class JpaProcedureRepository implements ProcedureRepository {
 
     @Override
     public List<Map<String, Object>> equipmentHistory(String itemId) {
-        ResultSet rs = null;
         try {
             StoredProcedureQuery query = em.createNamedStoredProcedureQuery("equipmentHistory");
             query.setParameter("p_itemid", itemId);
 
             query.execute();
-            rs = (ResultSet) query.getOutputParameterValue("p_result");
-            List<Map<String, Object>> procedureResult = new ArrayList<>();
 
-            while (rs.next()) {
-                LocalDate eventDate = rs.getDate("EVENT_DATE").toLocalDate();
-                String eventType = rs.getString("EVENT_TYPE"),
-                        details = rs.getString("DETAILS");
+            List<Object[]> results = query.getResultList();
+
+            return results.stream().map(row -> {
                 Map<String, Object> event = new HashMap<>();
-                event.put("eventDate", eventDate);
-                event.put("eventType", eventType);
-                event.put("details", details);
-                procedureResult.add(event);
-            }
-            return procedureResult;
+                event.put("eventDate", ((Date) row[0]));
+                event.put("eventType", (String) row[1]);
+                event.put("details", (String) row[2]);
+                return event;
+            }).collect(Collectors.toList());
         } catch (Exception e) {
-            throw new IllegalStateException(e);
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (Exception e) {
-                    throw new IllegalStateException(e);
-                }
-            }
+            throw new RuntimeException("장비 이력 조회 중 오류 발생", e);
         }
     }
 

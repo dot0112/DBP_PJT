@@ -5,6 +5,13 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@NamedStoredProcedureQuery(
+        name = "setBorrowLimit",
+        procedureName = "SET_BORROW_LIMIT",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_userid")
+        }
+)
 public class Returns {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

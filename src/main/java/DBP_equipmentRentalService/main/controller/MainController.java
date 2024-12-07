@@ -16,7 +16,7 @@ import java.util.*;
 @Controller
 public class MainController {
     private final ItemSearchService itemSearchService;
-    private EquipmentHistoryService equipmentHistoryService;
+    private final EquipmentHistoryService equipmentHistoryService;
     private boolean isSearched;
 
     @Autowired
@@ -84,8 +84,13 @@ public class MainController {
         return "layout";
     }
 
-    @GetMapping("/{itemId}")
+    @GetMapping("/history/{itemId}")
     public String getItemHistory(@PathVariable String itemId, Model model) {
+        List<Map<String, Object>> history = equipmentHistoryService.getEquipmentHistory(itemId);
+
+//        model.addAttribute("history", history);
+//        model.addAttribute("itemId", itemId);
+
         return "itemLog";
     }
 }

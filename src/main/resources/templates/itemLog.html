@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>비품 기록</title>
+</head>
+<body>
+<table>
+  <thead>
+  <tr>
+    <th>일자</th>
+    <th>이벤트 유형</th>
+    <th>상세 내용</th>
+  </tr>
+  </thead>
+  <tbody>
+<!--  <tr th:each="event : ${history}">-->
+<!--    <td th:text="${event['EVENT_DATE']}"></td>-->
+<!--    <td th:text="${event['EVENT_TYPE']}"></td>-->
+<!--    <td th:text="${event['DETAILS']}"></td>-->
+<!--  </tr>-->
+  </tbody>
+</table>
+
+<a th:href="@{/}">홈 화면으로 돌아가기</a>
+</body>
+</html>

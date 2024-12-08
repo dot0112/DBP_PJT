@@ -52,6 +52,7 @@ public class RentalController {
     public String SearchRentItem(@RequestParam(name = "option", required = false, defaultValue = "") String option, @RequestParam(name = "searchRentalItem", required = false, defaultValue = "") String searchRentalItem, Model model, HttpSession session) {
         List<Item> searchedItems = new ArrayList<>();
 
+        // 검색에서 대여 가능한 물품을 걸러야함
         switch (option) {
             case "id":
                 Optional<Item> optionalItem = itemSearchService.searchById(searchRentalItem);
@@ -79,17 +80,10 @@ public class RentalController {
             isLoggedIn = false;
         }
 
-        List<Item> searchedResult = new ArrayList<>();
-        for (Item item : searchedItems) {
-            if (!item.getRentalStatus().equals("수리 중") && !item.getRentalStatus().equals("대여 중")) {
-                searchedResult.add(item);
-            }
-        }
-
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("contentFragment", "rental");
         model.addAttribute("searchRepairItem", searchRentalItem);
-        model.addAttribute("items", searchedResult);
+        model.addAttribute("items", searchedItems);
         return "layout";
     }
 

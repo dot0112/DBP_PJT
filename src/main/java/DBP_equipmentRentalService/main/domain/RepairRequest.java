@@ -59,7 +59,7 @@ public class RepairRequest {
     }
 
     public Integer getIsRepaired() {
-        return isRepaired;
+        return (isRepaired != null) ? isRepaired : 0;
     }
 
     public void setIsRepaired(Integer isRepaired) {

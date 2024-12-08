@@ -86,6 +86,7 @@
                 <tr>
                     <td>비품 ID</td>
                     <td>비품 명</td>
+                    <td>연체 여부</td>
                     <td>수리 요청</td>
                     <td>반납</td>
                 </tr>
@@ -94,6 +95,7 @@
                 <tr th:each="item : ${items}">
                     <td th:text="${item.itemId}"></td>
                     <td th:text="${item.itemName}"></td>
+                    <td th:text="${item.overdue} + '일'"></td>
                     <td><input type="checkbox" name="returnAndRepair" th:value="true"></td>
                     <td>
                         <button name="returnBtn" th:value="${item.rentalId}">반납</button>

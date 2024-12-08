@@ -1,167 +1,167 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>대여</title>
-  <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f0f4f8;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+    <meta charset="UTF-8">
+    <title>대여</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    section {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        width: 80%; /* 너비 조정 */
-        max-width: 800px; /* 최대 너비 설정 */
-        margin: auto;
-    }
+        section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 80%; /* 너비 조정 */
+            max-width: 800px; /* 최대 너비 설정 */
+            margin: auto;
+        }
 
-    h3 {
-        color: #4CAF50;
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        h3 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    form {
-        margin-bottom: 20px;
-    }
+        form {
+            margin-bottom: 20px;
+        }
 
-    select, input[type="text"], input[type="date"], button {
-        padding: 10px;
-        margin-right: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 1em;
-    }
+        select, input[type="text"], input[type="date"], button {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
 
-    button {
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-    }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
 
-    button:hover {
-        background-color: #45a049;
-        transform: scale(1.05);
-    }
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-    th, td {
-        padding: 10px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
 
-    th {
-        background-color: #f2f2f2;
-    }
+        th {
+            background-color: #f2f2f2;
+        }
 
-    tr:hover {
-        background-color: #f1f1f1;
-    }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
 
-    input[type="submit"] {
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-        margin-top: 20px;
-        display: block;
-        width: 100%;
-    }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+        }
 
-    input[type="submit"]:hover {
-        background-color: #45a049;
-        transform: scale(1.05);
-    }
-  </style>
+        input[type="submit"]:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
 <section th:fragment="rental">
-  <h3>대여</h3>
+    <h3>대여</h3>
 
-  <article th:if="${isLoggedIn} and !${role == 'admin'}">
-    <form th:action="@{/SearchRentItem}" method="get">
-      <select name="option">
-        <option value="id" th:selected="${option == 'id'}">ID</option>
-        <option value="name" th:selected="${option == 'name'}">이름</option>
-        <option value="type" th:selected="${option == 'type'}">카테고리</option>
-      </select>
-      <input type="text" name="searchRentalItem" placeholder="검색어를 입력하세요">
-      <button type="submit">
-        <img src="/media/search.png" alt="검색" width="30px">
-      </button>
-    </form>
+    <article th:if="${isLoggedIn} and !${role == 'admin'}">
+        <form th:action="@{/SearchRentItem}" method="get">
+            <select name="option">
+                <option value="id" th:selected="${option == 'id'}">ID</option>
+                <option value="name" th:selected="${option == 'name'}">이름</option>
+                <option value="type" th:selected="${option == 'type'}">카테고리</option>
+            </select>
+            <input type="text" name="searchRentalItem" placeholder="검색어를 입력하세요">
+            <button type="submit">
+                <img src="/media/search.png" alt="검색" width="30px">
+            </button>
+        </form>
 
-    <form th:action="@{/applyRental}" method="post">
-      <table>
-        <thead>
-        <tr>
-          <td>비품 ID</td>
-          <td>비품 명</td>
-          <th>종류</th>
-          <td colspan="2">위치</td>
-          <th>상태</th>
-          <td>선택</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${items}">
-          <td th:text="${item.itemId}"></td>
-          <td th:text="${item.itemName}"></td>
-          <td th:text="${item.itemType}"></td>
-          <td th:text="${item.buildingName}"></td>
-          <td th:text="${item.roomNumber}"></td>
-          <td th:text="${item.currentState}"></td>
-          <td><input type="radio" name="rentalItem" th:value="${item.itemId}"></td>
-        </tr>
-        </tbody>
-      </table>
-      반납 예정일 <input type="date" name="returnDate"><br>
-      <input type="submit" value="신청하기">
-    </form>
-  </article>
+        <form th:action="@{/applyRental}" method="post">
+            <table>
+                <thead>
+                <tr>
+                    <td>비품 ID</td>
+                    <td>비품 명</td>
+                    <th>종류</th>
+                    <td colspan="2">위치</td>
+                    <th>상태</th>
+                    <td>선택</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.itemId}"></td>
+                    <td th:text="${item.itemName}"></td>
+                    <td th:text="${item.itemType}"></td>
+                    <td th:text="${item.buildingName}"></td>
+                    <td th:text="${item.roomNumber}"></td>
+                    <td th:text="${item.currentState}"></td>
+                    <td><input type="radio" name="rentalItem" th:value="${item.itemId}"></td>
+                </tr>
+                </tbody>
+            </table>
+            반납 예정일 <input type="date" name="returnDate" required><br>
+            <input type="submit" value="신청하기">
+        </form>
+    </article>
 
-  <article th:if="${isLoggedIn} and ${role == 'admin'}">
-    <table>
-      <thead>
-      <tr>
-        <td>사용자 ID</td>
-        <td>비품 ID</td>
-        <td>대여 ID</td>
-        <td>대여 일자</td>
-        <td>반납 예정 일자</td>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="rental : ${rentals}">
-        <td th:text="${rental.userId}"></td>
-        <td th:text="${rental.itemId}"></td>
-        <td th:text="${rental.rentalId}"></td>
-        <td th:text="${rental.rentalDate}"></td>
-        <td th:text="${rental.returnDate}"></td>
-      </tr>
-      </tbody>
-    </table>
-  </article>
+    <article th:if="${isLoggedIn} and ${role == 'admin'}">
+        <table>
+            <thead>
+            <tr>
+                <td>사용자 ID</td>
+                <td>비품 ID</td>
+                <td>대여 ID</td>
+                <td>대여 일자</td>
+                <td>반납 예정 일자</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="rental : ${rentals}">
+                <td th:text="${rental.userId}"></td>
+                <td th:text="${rental.itemId}"></td>
+                <td th:text="${rental.rentalId}"></td>
+                <td th:text="${rental.rentalDate}"></td>
+                <td th:text="${rental.returnDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </article>
 </section>
 </body>
 </html>

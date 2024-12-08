@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class RentalController {
@@ -77,10 +79,17 @@ public class RentalController {
             isLoggedIn = false;
         }
 
+        List<Item> searchedResult = new ArrayList<>();
+        for (Item item : searchedItems) {
+            if (!item.getRentalStatus().equals("수리 중") && !item.getRentalStatus().equals("대여 중")) {
+                searchedResult.add(item);
+            }
+        }
+
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("contentFragment", "rental");
         model.addAttribute("searchRepairItem", searchRentalItem);
-        model.addAttribute("items", searchedItems);
+        model.addAttribute("items", searchedResult);
         return "layout";
     }
 

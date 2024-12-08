@@ -57,18 +57,17 @@ public class MainController {
     public String search(@RequestParam(name = "how", required = false, defaultValue = "type") String how, @RequestParam(name = "equipment", required = false, defaultValue = "") String equipment, Model model, HttpSession session) {
         isSearched = true;
         List<Item> items = new ArrayList<>();
-        String searchKeyword = "%" + equipment.strip() + "%";
 
         switch (how) {
             case "id":
-                Optional<Item> optionalItem = itemSearchService.searchById(equipment.strip());
+                Optional<Item> optionalItem = itemSearchService.searchById(equipment);
                 items = optionalItem.map(Collections::singletonList).orElse(Collections.emptyList());
                 break;
             case "name":
-                items = itemSearchService.searchByName(searchKeyword);
+                items = itemSearchService.searchByName(equipment);
                 break;
             case "type":
-                items = itemSearchService.searchByType(searchKeyword);
+                items = itemSearchService.searchByType(equipment);
                 break;
             default:
                 items = new ArrayList<>();

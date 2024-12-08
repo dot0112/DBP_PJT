@@ -30,11 +30,19 @@ public class JdbcTemplateUsersRepository extends JdbcTemplateGenericRepository<U
             users.setUserId(rs.getString("USERID"));
             users.setPassword(rs.getString("PASSWORD"));
             users.setName(rs.getString("NAME"));
-            users.setDateOfBirth(rs.getDate("DATEOFBIRTH").toLocalDate());
+
             users.setEmail(rs.getString("EMAIL"));
             users.setPhoneNumber(rs.getString("PHONENUMBER"));
             users.setRentalAvailability(rs.getInt("RENTALAVAILABILITY"));
-            users.setRentalAvailabilityDate(rs.getDate("RENTALAVAILABILITYDATE").toLocalDate());
+
+            java.sql.Date dateOfBirth = rs.getDate("DATEOFBIRTH");
+            if (dateOfBirth != null) {
+                users.setDateOfBirth(dateOfBirth.toLocalDate());
+            }
+            java.sql.Date rentalAvailabilityDate = rs.getDate("RENTALAVAILABILITYDATE");
+            if (rentalAvailabilityDate != null) {
+                users.setRentalAvailabilityDate(rentalAvailabilityDate.toLocalDate());
+            }
             return users;
         };
     }

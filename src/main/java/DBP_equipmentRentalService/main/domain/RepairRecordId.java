@@ -3,7 +3,6 @@ package DBP_equipmentRentalService.main.domain;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -26,10 +25,6 @@ public class RepairRecordId implements Serializable {
 
     public void setRepairDate(LocalDate repairDate) {
         this.repairDate = repairDate;
-    }
-
-    public void setRepairDate(Timestamp repairDate) {
-        this.repairDate = repairDate.toLocalDateTime().toLocalDate();
     }
 
     public String getItemId() {

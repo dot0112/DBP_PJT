@@ -21,8 +21,6 @@ public class Returns {
     String itemId;
     String rentalId;
     LocalDate actualReturnDate;
-
-    @Column(name = "REPAIRREQUEST")
     String repairRequest;
 
     public String getUserId() {

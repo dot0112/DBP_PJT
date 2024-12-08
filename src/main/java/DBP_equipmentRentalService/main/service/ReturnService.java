@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,14 +28,14 @@ public class ReturnService {
     private final ProcedureRepository procedureRepository;
 
     @Autowired
-    public ReturnService(ReturnsRepository returnsRepository, ItemRepository itemRepository, RentalRepository rentalRepository, ProcedureRepository procedureRepository){
+    public ReturnService(ReturnsRepository returnsRepository, ItemRepository itemRepository, RentalRepository rentalRepository, ProcedureRepository procedureRepository) {
         this.returnsRepository = returnsRepository;
         this.itemRepository = itemRepository;
         this.rentalRepository = rentalRepository;
         this.procedureRepository = procedureRepository;
     }
 
-    public List<RentalWithItemName> setList(String userId){
+    public List<RentalWithItemName> setList(String userId) {
         List<RentalWithItemName> rentalWithItemNames = new ArrayList<>();
 
         Map<String, Object> userCriteria = Map.of("userId", userId);
@@ -47,7 +49,7 @@ public class ReturnService {
             Optional<Item> optionalItem = itemRepository.findById(userRental.getItemId());
             String itemName = optionalItem.map(Item::getItemName).orElse("Item not found");
 
-            RentalWithItemName rentalWithItemName = new RentalWithItemName(userRental, itemName);
+            RentalWithItemName rentalWithItemName = new RentalWithItemName(userRental, itemName, (int) ChronoUnit.DAYS.between(userRental.getReturnDate(), LocalDate.now()));
 
             rentalWithItemNames.add(rentalWithItemName);
         }
@@ -55,9 +57,15 @@ public class ReturnService {
         return rentalWithItemNames;
     }
 
-    public void join(Returns returns){returnsRepository.save(returns);}
+    public void join(Returns returns) {
+        returnsRepository.save(returns);
+    }
 
-    public void setBorrowLimit(String userId){procedureRepository.setBorrowLimit(userId);}
+    public void setBorrowLimit(String userId) {
+        procedureRepository.setBorrowLimit(userId);
+    }
 
-    public List<Returns> findAll(){return returnsRepository.findAll();}
+    public List<Returns> findAll() {
+        return returnsRepository.findAll();
+    }
 }

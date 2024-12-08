@@ -37,9 +37,9 @@ public class JdbcRepairRecordRepository extends JdbcGenericRepository<RepairReco
             if (rs.next()) {
                 RepairRecord repairRecord = new RepairRecord();
                 repairRecord.setItemId(rs.getString("ITEMID"));
-                repairRecord.setRepairDate(rs.getDate("REPAIRDATE").toLocalDate());
                 repairRecord.setRepairDesc(rs.getString("REPAIRDESC"));
                 repairRecord.setRepairCost(rs.getInt("REPAIRCOST"));
+                repairRecord.setRepairDate(rs.getDate("REPAIRDATE").toLocalDate());
                 return Optional.of(repairRecord);
             } else {
                 return Optional.empty();

@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public class JdbcTemplateRentalRepository extends JdbcTemplateGenericRepository<Rental> implements RentalRepository {
     @Autowired
-    public JdbcTemplateRentalRepository(DataSource dataSource){
+    public JdbcTemplateRentalRepository(DataSource dataSource) {
         super(dataSource, Rental.class);
     }
 
@@ -31,8 +31,14 @@ public class JdbcTemplateRentalRepository extends JdbcTemplateGenericRepository<
             rental.setUserId(rs.getString("USERID"));
             rental.setItemId(rs.getString("ITEMID"));
             rental.setRentalId(rs.getString("RENTALID"));
-            rental.setRentalDate(rs.getDate("RENTALDATE").toLocalDate());
-            rental.setReturnDate(rs.getDate("RETURNDATE").toLocalDate());
+            java.sql.Date rentalDate = rs.getDate("RENTALDATE");
+            if (rentalDate != null) {
+                rental.setRentalDate(rentalDate.toLocalDate());
+            }
+            java.sql.Date returnDate = rs.getDate("RETURNDATE");
+            if (returnDate != null) {
+                rental.setReturnDate(returnDate.toLocalDate());
+            }
             return rental;
         };
     }

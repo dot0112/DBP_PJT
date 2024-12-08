@@ -31,9 +31,12 @@ public class JdbcTemplateRepairRecordRepository extends JdbcTemplateGenericRepos
         return (rs, rowNum) -> {
             RepairRecord repairRecord = new RepairRecord();
             repairRecord.setItemId(rs.getString("ITEMID"));
-            repairRecord.setRepairDate(rs.getDate("REPAIRDATE").toLocalDate());
             repairRecord.setRepairDesc(rs.getString("REPAIRDESC"));
             repairRecord.setRepairCost(rs.getInt("COST"));
+            java.sql.Date repairDate = rs.getDate("REPAIRDATE");
+            if (repairDate != null) {
+                repairRecord.setRepairDate(repairDate.toLocalDate());
+            }
             return repairRecord;
         };
     }

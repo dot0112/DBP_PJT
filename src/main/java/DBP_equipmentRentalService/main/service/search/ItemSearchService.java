@@ -37,7 +37,7 @@ public class ItemSearchService {
      */
     public List<Item> searchByName(String name) {
         Map<String, Object> criteria = Map.of(
-                "itemName", name
+                "itemName", "%" + name.strip() + "%"
         );
         return itemRepository.findByCriteria(criteria);
     }
@@ -50,7 +50,7 @@ public class ItemSearchService {
      */
     public List<Item> searchByType(String type) {
         Map<String, Object> criteria = Map.of(
-                "itemType", type
+                "itemType", "%" + type.strip() + "%"
         );
         return itemRepository.findByCriteria(criteria);
     }
@@ -62,7 +62,7 @@ public class ItemSearchService {
      * @return 검색 조건에 맞는 Item 객체
      */
     public Optional<Item> searchById(String id) {
-        return itemRepository.findById(id);
+        return itemRepository.findById(id.strip());
     }
 
     /**

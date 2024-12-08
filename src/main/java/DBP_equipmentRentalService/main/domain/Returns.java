@@ -22,7 +22,7 @@ public class Returns {
     String rentalId;
     LocalDate actualReturnDate;
 
-    @Column(name = "REPAIR_REQUEST")
+    @Column(name = "REPAIRREQUEST")
     String repairRequest;
 
     public String getUserId() {

@@ -31,7 +31,7 @@ public class ReturnController {
     }
 
     @GetMapping ("/return")
-    public String returnitem(Model model, HttpSession session){
+    public String showReturn(Model model, HttpSession session){
         List<RentalWithItemName> rentalWithItemNames = returnService.setList((String) session.getAttribute("ID"));
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
         String role = (String) session.getAttribute("role");

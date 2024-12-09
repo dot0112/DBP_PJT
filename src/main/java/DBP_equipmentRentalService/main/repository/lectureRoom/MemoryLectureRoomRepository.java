@@ -1,6 +1,7 @@
 package DBP_equipmentRentalService.main.repository.lectureRoom;
 
 import DBP_equipmentRentalService.main.domain.LectureRoom;
+import DBP_equipmentRentalService.main.domain.LectureRoomId;
 import DBP_equipmentRentalService.main.repository.genericRepository.MemoryGenericRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,8 +21,8 @@ public class MemoryLectureRoomRepository extends MemoryGenericRepository<Lecture
     }
 
     @Override
-    public Optional<LectureRoom> findById(String roomNumber, String buildingName) {
-        return Optional.ofNullable(store.get(Arrays.asList(roomNumber, buildingName)));
+    public Optional<LectureRoom> findById(LectureRoomId lectureRoomId) {
+        return Optional.ofNullable(store.get(Arrays.asList(lectureRoomId.getRoomNumber(), lectureRoomId.getBuildingName())));
     }
 
     @Override

@@ -1,8 +1,10 @@
 package DBP_equipmentRentalService.main.repository.lectureRoom;
 
 import DBP_equipmentRentalService.main.domain.LectureRoom;
+import DBP_equipmentRentalService.main.domain.LectureRoomId;
 import DBP_equipmentRentalService.main.repository.genericRepository.JpaGenericRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,14 +19,18 @@ public class JpaLectureRoomRepository extends JpaGenericRepository<LectureRoom> 
     }
 
     @Override
-    public Optional<LectureRoom> findById(String roomNumber, String buildingName) {
-        String jpql = "SELECT e FROM LECTUREROOM e WHERE e.ROOMNUMBER = :ROOMNUMBER AND e.BUILDINGNAME = :BUILDINGNAME";
+    public Optional<LectureRoom> findById(LectureRoomId lectureRoomId) {
+        String jpql = "SELECT e FROM LectureRoom e WHERE e.roomNumber = :roomNumber AND e.buildingName = :buildingName";
         TypedQuery<LectureRoom> query = em.createQuery(jpql, LectureRoom.class);
 
-        query.setParameter("ROOMNUMBER", roomNumber);
-        query.setParameter("BUILDINGNAME", buildingName);
+        query.setParameter("roomNumber", lectureRoomId.getRoomNumber());
+        query.setParameter("buildingName", lectureRoomId.getBuildingName());
 
-        LectureRoom lectureRoom = query.getSingleResult();
-        return Optional.ofNullable(lectureRoom);
+        try {
+            LectureRoom lectureRoom = query.getSingleResult();
+            return Optional.of(lectureRoom);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 }

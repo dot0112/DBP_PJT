@@ -1,13 +1,14 @@
 package DBP_equipmentRentalService.main.repository.repairRecord;
 
 import DBP_equipmentRentalService.main.domain.RepairRecord;
+import DBP_equipmentRentalService.main.domain.RepairRecordId;
 import DBP_equipmentRentalService.main.repository.genericRepository.JpaGenericRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
@@ -18,14 +19,18 @@ public class JpaRepairRecordRepository extends JpaGenericRepository<RepairRecord
     }
 
     @Override
-    public Optional<RepairRecord> findById(String itemId, LocalDate repairDate) {
-        String jpql = "SELECT e FROM REPAIRRECORD e WHERE e.ITEMID = :ITEMID AND e.REPAIRDATE = :REPAIRDATE";
+    public Optional<RepairRecord> findById(RepairRecordId repairRecordId) {
+        String jpql = "SELECT e FROM RepairRecord e WHERE e.itemId = :itemId AND e.repairDate = :repairDate";
         TypedQuery<RepairRecord> query = em.createQuery(jpql, RepairRecord.class);
 
-        query.setParameter("ITEMID", itemId);
-        query.setParameter("REPAIRDATE", repairDate);
+        query.setParameter("itemId", repairRecordId.getItemId());
+        query.setParameter("repairDate", repairRecordId.getRepairDate());
 
-        RepairRecord result = query.getSingleResult();
-        return Optional.ofNullable(result);
+        try {
+            RepairRecord repairRecord = query.getSingleResult();
+            return Optional.of(repairRecord);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 }

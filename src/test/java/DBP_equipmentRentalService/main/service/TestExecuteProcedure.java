@@ -17,6 +17,7 @@ public class TestExecuteProcedure {
     }
 
     public void testSetBorrowLimit() {
+
         procedureRepository.setBorrowLimit("user001");
     }
 
@@ -42,7 +43,7 @@ public class TestExecuteProcedure {
     }
 
     public void testManageItemsAssignError() {
-        procedureRepository.manageItems("manager001", 2, "testName", "testType", null, null, null, null);
-        procedureRepository.manageItems("manager001", 4, "testName", null, "603", "생활과학관", null, null);
+        procedureRepository.manageItems("manager001", 2, "testName1234", "testType", null, null, null, null);
+        procedureRepository.manageItems("manager001", 100, "testName1234", null, "603", "생활과학관", null, null);
     }
 }

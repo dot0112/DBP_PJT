@@ -6,7 +6,9 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 
 public abstract class JdbcGenericRepository<T> {
@@ -120,7 +122,10 @@ public abstract class JdbcGenericRepository<T> {
             } else {
                 sql.append(" AND ").append(key).append(" = ?");
             }
-            parameters.put(key, value);
+            if (value instanceof LocalDate)
+                parameters.put(key, Date.valueOf((LocalDate) value));
+            else
+                parameters.put(key, value);
         }
 
         Connection conn = null;
@@ -165,9 +170,10 @@ public abstract class JdbcGenericRepository<T> {
 
     public Boolean update(Map<String, Object> criteria, Map<String, Object> changeValues) {
         Set<String> validFields = ReflectionUtil.getFieldNames(entityType);
-        StringBuilder sql = new StringBuilder("UPDATE " + entityType.getSimpleName().toLowerCase() + "SET 1 = 1");
+        StringBuilder sql = new StringBuilder("UPDATE ").append(entityType.getSimpleName().toLowerCase()).append(" SET ");
         Map<String, Object> parameters = new HashMap<>();
 
+        boolean firstSet = true;
         for (Map.Entry<String, Object> entry : changeValues.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
@@ -176,7 +182,12 @@ public abstract class JdbcGenericRepository<T> {
                 throw new IllegalArgumentException("Invalid field: " + key);
             }
 
-            sql.append(", ").append(key).append(" = ?");
+            if (firstSet) {
+                sql.append(key).append(" = ?");
+                firstSet = false;
+            } else {
+                sql.append(", ").append(key).append(" = ?");
+            }
             parameters.put(key, value);
         }
 

@@ -76,6 +76,7 @@ public class JdbcProcedureRepository implements ProcedureRepository {
         }
     }
 
+
     @Override
     public void manageItems(String adminId, Integer quantity, String itemName,
                             @Nullable String itemType, @Nullable String roomNumber,
@@ -87,10 +88,13 @@ public class JdbcProcedureRepository implements ProcedureRepository {
         }
 
         String sql = "{CALL MANAGE_ITEMS(?, ?, ?, ?, ?, ?, ?, ?)}";
+        Connection conn = null;
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
 
-        try (Connection conn = getConnection();
-             CallableStatement cstmt = conn.prepareCall(sql)) {
-
+        try {
+            conn = getConnection();
+            cstmt = conn.prepareCall(sql);
             cstmt.setString(1, itemName);
             setNullableString(cstmt, 2, itemType);
             cstmt.setString(3, adminId);
@@ -103,6 +107,8 @@ public class JdbcProcedureRepository implements ProcedureRepository {
             cstmt.execute();
         } catch (Exception e) {
             throw new IllegalStateException(e);
+        } finally {
+            close(conn, cstmt, rs);
         }
     }
 

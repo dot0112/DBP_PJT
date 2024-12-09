@@ -1,6 +1,7 @@
 package DBP_equipmentRentalService.main.repository.repairRecord;
 
 import DBP_equipmentRentalService.main.domain.RepairRecord;
+import DBP_equipmentRentalService.main.domain.RepairRecordId;
 import DBP_equipmentRentalService.main.repository.genericRepository.JdbcGenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
@@ -22,8 +22,8 @@ public class JdbcRepairRecordRepository extends JdbcGenericRepository<RepairReco
 
 
     @Override
-    public Optional<RepairRecord> findById(String itemId, LocalDate repairDate) {
-        String sql = "SELECT * FROM REPAIRRECORD WHERE ITEMID = ? AND LOCALDATE = ?";
+    public Optional<RepairRecord> findById(RepairRecordId repairRecordId) {
+        String sql = "SELECT * FROM REPAIRRECORD WHERE ITEMID = ? AND REPAIRDATE = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -31,8 +31,8 @@ public class JdbcRepairRecordRepository extends JdbcGenericRepository<RepairReco
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, itemId);
-            pstmt.setDate(2, Date.valueOf(repairDate));
+            pstmt.setString(1, repairRecordId.getItemId());
+            pstmt.setDate(2, Date.valueOf(repairRecordId.getRepairDate()));
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 RepairRecord repairRecord = new RepairRecord();

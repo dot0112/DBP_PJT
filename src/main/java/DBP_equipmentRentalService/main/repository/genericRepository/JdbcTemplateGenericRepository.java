@@ -71,9 +71,10 @@ public abstract class JdbcTemplateGenericRepository<T> {
 
     public Boolean update(Map<String, Object> criteria, Map<String, Object> changeValues) {
         Set<String> validFields = ReflectionUtil.getFieldNames(entityType);
-        StringBuilder sql = new StringBuilder("UPDATE ").append(entityType.getSimpleName().toLowerCase()).append(" SET 1 = 1");
+        StringBuilder sql = new StringBuilder("UPDATE ").append(entityType.getSimpleName().toLowerCase()).append(" SET ");
         List<Object> parameters = new ArrayList<>();
 
+        boolean firstSet = true;
         for (Map.Entry<String, Object> entry : changeValues.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
@@ -82,7 +83,12 @@ public abstract class JdbcTemplateGenericRepository<T> {
                 throw new IllegalArgumentException("Invalid field: " + key);
             }
 
-            sql.append(", ").append(key).append(" = ?");
+            if (firstSet) {
+                sql.append(key).append(" = ?");
+                firstSet = false;
+            } else {
+                sql.append(", ").append(key).append(" = ?");
+            }
             parameters.add(value);
         }
 
@@ -104,7 +110,7 @@ public abstract class JdbcTemplateGenericRepository<T> {
         }
 
         try {
-            jdbcTemplate.update(sql.toString(), rowMapper(), parameters.toArray());
+            jdbcTemplate.update(sql.toString(), parameters.toArray());
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }

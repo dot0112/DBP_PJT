@@ -54,7 +54,7 @@ public class TestUpdateService {
     public void testLectureRoomUpdate() {
         Map<String, Object> criteria = new HashMap<>();
         Map<String, Object> changeValues = new HashMap<>();
-        criteria.put("roomNumber", "603");
+        criteria.put("roomNumber", "test");
         changeValues.put("buildingName", "test");
         lectureRoomRepository.update(criteria, changeValues);
     }

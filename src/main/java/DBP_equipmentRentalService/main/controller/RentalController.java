@@ -3,7 +3,7 @@ package DBP_equipmentRentalService.main.controller;
 import DBP_equipmentRentalService.main.domain.Item;
 import DBP_equipmentRentalService.main.domain.Rental;
 import DBP_equipmentRentalService.main.service.RentalService;
-import DBP_equipmentRentalService.main.service.search.ItemSearchService;
+import DBP_equipmentRentalService.main.service.search.RentalSearchService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,18 +16,16 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class RentalController {
-    private final ItemSearchService itemSearchService;
+    private final RentalSearchService rentalSearchService;
     private final RentalService rentalService;
 
     @Autowired
-    public RentalController(ItemSearchService itemSearchService, RentalService rentalService) {
-        this.itemSearchService = itemSearchService;
+    public RentalController(RentalSearchService rentalSearchService, RentalService rentalService) {
+        this.rentalSearchService = rentalSearchService;
         this.rentalService = rentalService;
     }
 
@@ -50,32 +48,15 @@ public class RentalController {
 
     @GetMapping("/SearchRentItem")
     public String SearchRentItem(@RequestParam(name = "option", required = false, defaultValue = "") String option, @RequestParam(name = "searchRentalItem", required = false, defaultValue = "") String searchRentalItem, Model model, HttpSession session) {
-        List<Item> searchedItems = new ArrayList<>();
 
-        // 검색에서 대여 가능한 물품을 걸러야함
-        switch (option) {
-            case "id":
-                Optional<Item> optionalItem = itemSearchService.searchById(searchRentalItem);
-                searchedItems = optionalItem.map(Collections::singletonList).orElse(Collections.emptyList());
-                break;
-            case "name":
-                searchedItems = itemSearchService.searchByName(searchRentalItem);
-                break;
-            case "type":
-                searchedItems = itemSearchService.searchByType(searchRentalItem);
-                break;
-            default:
-                searchedItems = new ArrayList<>();
-                break;
-        }
-
-//        List<String> acceptableStatuses = Arrays.asList("대여가능", "대여 가능");
-//        searchedItems = searchedItems.stream()
-//                .filter(item -> acceptableStatuses.contains(item.getRentableStatus()))
-//                .collect(Collectors.toList());
+        List<Item> searchedItems = switch (option) {
+            case "id" -> rentalSearchService.searchById(searchRentalItem);
+            case "name" -> rentalSearchService.searchByName(searchRentalItem);
+            case "type" -> rentalSearchService.searchByType(searchRentalItem);
+            default -> new ArrayList<>();
+        };
 
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
-
         if (isLoggedIn == null) {
             isLoggedIn = false;
         }

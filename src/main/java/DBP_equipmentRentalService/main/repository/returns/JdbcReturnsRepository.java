@@ -36,7 +36,7 @@ public class JdbcReturnsRepository extends JdbcGenericRepository<Returns> implem
                 returns.setItemId(rs.getString("ITEMID"));
                 returns.setRentalId(rs.getString("RENTALID"));
                 returns.setReturnId(rs.getString("RETURNID"));
-                returns.setRepairRequest(rs.getString("REPAIR_REQUEST"));
+                returns.setRepairRequest(rs.getString("REPAIRREQUEST"));
                 java.sql.Date actualReturnDate = rs.getDate("ACTUALRETURNDATE");
                 if (actualReturnDate != null) {
                     returns.setActualReturnDate(actualReturnDate.toLocalDate());

@@ -1,11 +1,11 @@
 package DBP_equipmentRentalService.main.repository.repairRecord;
 
 import DBP_equipmentRentalService.main.domain.RepairRecord;
+import DBP_equipmentRentalService.main.domain.RepairRecordId;
 import DBP_equipmentRentalService.main.repository.genericRepository.MemoryGenericRepository;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,8 +21,8 @@ public class MemoryRepairRecordRepository extends MemoryGenericRepository<Repair
     }
 
     @Override
-    public Optional<RepairRecord> findById(String itemId, LocalDate repairDate) {
-        return Optional.ofNullable(store.get(Arrays.asList(itemId, repairDate)));
+    public Optional<RepairRecord> findById(RepairRecordId repairRecordId) {
+        return Optional.ofNullable(store.get(Arrays.asList(repairRecordId.getItemId(), repairRecordId.getRepairDate())));
     }
 
     @Override

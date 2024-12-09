@@ -1,8 +1,8 @@
 package DBP_equipmentRentalService.main.repository.repairRecord;
 
 import DBP_equipmentRentalService.main.domain.RepairRecord;
+import DBP_equipmentRentalService.main.domain.RepairRecordId;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,11 +19,10 @@ public interface RepairRecordRepository {
     /**
      * 주어진 Id(비품 번호, 수리 날짜)로 RepairRecord 를 검색합니다.
      *
-     * @param itemId     검색할 비품 번호
-     * @param repairDate 검색할 수리 날짜
+     * @param repairRecordId 검색할 Id(비품 번호, 수리 날짜)
      * @return 검색 조건에 맞는 RepairRecord 객체
      */
-    Optional<RepairRecord> findById(String itemId, LocalDate repairDate);
+    Optional<RepairRecord> findById(RepairRecordId repairRecordId);
 
     /**
      * 주어진 조건으로 RepairRecord 를 검색합니다.

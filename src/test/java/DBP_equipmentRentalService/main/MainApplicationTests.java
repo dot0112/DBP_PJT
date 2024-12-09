@@ -2,6 +2,7 @@ package DBP_equipmentRentalService.main;
 
 import DBP_equipmentRentalService.main.service.TestExecuteProcedure;
 import DBP_equipmentRentalService.main.service.TestInsertService;
+import DBP_equipmentRentalService.main.service.TestSelectService;
 import DBP_equipmentRentalService.main.service.TestUpdateService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
@@ -21,6 +22,8 @@ class MainApplicationTest {
     private TestUpdateService testUpdateService;
     @Autowired
     private TestExecuteProcedure testExecuteProcedure;
+    @Autowired
+    private TestSelectService testSelectService;
 
     @BeforeEach
     public void before() {
@@ -145,7 +148,7 @@ class MainApplicationTest {
     void testManageItems() {
         testExecuteProcedure.testManageItems();
     }
-    
+
     @Test
     @DisplayName("ManageItems 프로시저 호출 - 등록 오류")
     void testManageItemsInsertError() {
@@ -164,5 +167,57 @@ class MainApplicationTest {
         testExecuteProcedure.testManageItemsAssign();
     }
 
+    @Test
+    @DisplayName("SetBorrowLimit 프로시저 호출")
+    void testSetBorrowLimit() {
+        testExecuteProcedure.testSetBorrowLimit();
+    }
 
+    @Test
+    @DisplayName("Admin 검색")
+    void testAdminSelect() {
+        testSelectService.testAdminSelect();
+    }
+
+    @Test
+    @DisplayName("Item 검색")
+    void testItemSelect() {
+        testSelectService.testItemSelect();
+    }
+
+    @Test
+    @DisplayName("LectureRoom 검색")
+    void testLectureRoomSelect() {
+        testSelectService.testLectureRoomSelect();
+    }
+
+    @Test
+    @DisplayName("Rental 검색")
+    void testRentalSelect() {
+        testSelectService.testRentalSelect();
+    }
+
+    @Test
+    @DisplayName("RepairRecord 검색")
+    void testRepairRecordSelect() {
+        testSelectService.testRepairRecordSelect();
+    }
+
+    @Test
+    @DisplayName("RepairRequest 검색")
+    void testRepairRequestSelect() {
+        testSelectService.testRepairRequestSelect();
+    }
+
+    @Test
+    @DisplayName("Returns 검색")
+    void testReturnsSelect() {
+        testSelectService.testReturnsSelect();
+    }
+
+    @Test
+    @DisplayName("Users 검색")
+    void testUsersSelect() {
+        testSelectService.testUsersSelect();
+    }
 }

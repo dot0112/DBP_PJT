@@ -4,12 +4,13 @@ import jakarta.annotation.Nullable;
 import oracle.jdbc.internal.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,42 +43,43 @@ public class JdbcTemplateProcedureRepository implements ProcedureRepository {
     @Override
     public List<Map<String, Object>> equipmentHistory(String itemId) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("EQUIPEMENT_HISTORY");
-        jdbcCall.addDeclaredParameter(new SqlParameter("p_itemid", Types.NUMERIC));
-        jdbcCall.addDeclaredParameter(new SqlParameter("p_result", OracleTypes.CURSOR));
+        jdbcCall.addDeclaredParameter(new SqlParameter("p_itemid", Types.VARCHAR));
+        jdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", OracleTypes.CURSOR));
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("p_itemid", itemId);
 
-        ResultSet rs = null;
+        Map<String, Object> result = null;
         try {
-            Map<String, Object> result = jdbcCall.execute(paramMap);
-            rs = (ResultSet) result.get("p_result");
+            result = jdbcCall.execute(paramMap);
+        } catch (Exception e) {
+            throw new IllegalStateException("Error calling stored procedure", e);
+        }
 
-            List<Map<String, Object>> procedureResult = new ArrayList<>();
+        List<Map<String, Object>> procedureResult = new ArrayList<>();
+        try {
+            // Cast the result to a List<Map<String, Object>> since the cursor usually returns a list of maps
+            List<Map<String, Object>> outputs = (List<Map<String, Object>>) result.get("p_result");
 
-            while (rs.next()) {
-                LocalDate eventDate = rs.getDate("EVENT_DATE").toLocalDate();
-                String eventType = rs.getString("EVENT_TYPE"),
-                        details = rs.getString("DETAILS");
+            for (Map<String, Object> row : outputs) {
+                LocalDate eventDate = ((Timestamp) row.get("EVENT_DATE")).toLocalDateTime().toLocalDate();
+                String eventType = (String) row.get("EVENT_TYPE");
+                String details = (String) row.get("DETAILS");
+
                 Map<String, Object> event = new HashMap<>();
                 event.put("eventDate", eventDate);
                 event.put("eventType", eventType);
                 event.put("details", details);
+
                 procedureResult.add(event);
             }
-            return procedureResult;
         } catch (Exception e) {
-            throw new IllegalStateException(e);
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (Exception e) {
-                    throw new IllegalStateException(e);
-                }
-            }
+            throw new IllegalStateException("Error processing stored procedure result", e);
         }
+
+        return procedureResult;
     }
+
 
     @Override
     public void manageItems(String adminId, Integer quantity, String itemName, @Nullable String itemType, @Nullable String roomNumber, @Nullable String buildingName, @Nullable String rentableStatus, @Nullable String rentalStatus) {

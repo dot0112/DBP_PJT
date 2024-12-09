@@ -1,13 +1,13 @@
 package DBP_equipmentRentalService.main.repository.lectureRoom;
 
 import DBP_equipmentRentalService.main.domain.LectureRoom;
+import DBP_equipmentRentalService.main.domain.LectureRoomId;
 import DBP_equipmentRentalService.main.repository.genericRepository.JdbcTemplateGenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +19,8 @@ public class JdbcTemplateLectureRoomRepository extends JdbcTemplateGenericReposi
     }
 
     @Override
-    public Optional<LectureRoom> findById(String roomNumber, String buildingName) {
-        List<LectureRoom> result = jdbcTemplate.query("SELECT * FROM LECTUREROOM WHERE ROOMNUMBER = ? AND BUILDINGNAME = ?", rowMapper(), Arrays.asList(roomNumber, buildingName));
+    public Optional<LectureRoom> findById(LectureRoomId lectureRoomId) {
+        List<LectureRoom> result = jdbcTemplate.query("SELECT * FROM LECTUREROOM WHERE ROOMNUMBER = ? AND BUILDINGNAME = ?", rowMapper(), lectureRoomId.getRoomNumber(), lectureRoomId.getBuildingName());
         return result.stream().findAny();
     }
 

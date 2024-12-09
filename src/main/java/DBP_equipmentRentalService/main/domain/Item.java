@@ -26,11 +26,15 @@ public class Item {
     String itemType;
     String roomNumber;
     String buildingName;
-    @Column(insertable = false)
+    @Column(nullable = false)
     String currentState;
     String adminId;
     String rentableStatus;
     String rentalStatus;
+
+    public Item() {
+        this.currentState = "양호"; // 기본값 설정
+    }
 
     public String getItemId() {
         return itemId;

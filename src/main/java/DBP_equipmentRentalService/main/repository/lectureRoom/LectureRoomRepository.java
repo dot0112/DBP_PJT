@@ -1,6 +1,7 @@
 package DBP_equipmentRentalService.main.repository.lectureRoom;
 
 import DBP_equipmentRentalService.main.domain.LectureRoom;
+import DBP_equipmentRentalService.main.domain.LectureRoomId;
 
 import java.util.List;
 import java.util.Map;
@@ -18,11 +19,10 @@ public interface LectureRoomRepository {
     /**
      * 주어진 Id(강의실 번호, 건물 이름)으로 LectureRoom 을 검색합니다.
      *
-     * @param roomNumber   검색할 강의실 번호
-     * @param buildingName 검색할 건물 이름
+     * @param lectureRoomId 검색할 Id(강의실 번호, 건물 이름)
      * @return 검색 조건에 맞는 LectureRoom 객체
      */
-    Optional<LectureRoom> findById(String roomNumber, String buildingName);
+    Optional<LectureRoom> findById(LectureRoomId lectureRoomId);
 
     /**
      * 주어진 조건으로 LectureRoom 을 검색합니다.

@@ -1,6 +1,7 @@
 package DBP_equipmentRentalService.main.repository.lectureRoom;
 
 import DBP_equipmentRentalService.main.domain.LectureRoom;
+import DBP_equipmentRentalService.main.domain.LectureRoomId;
 import DBP_equipmentRentalService.main.repository.genericRepository.JdbcGenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ public class JdbcLectureRoomRepository extends JdbcGenericRepository<LectureRoom
 
 
     @Override
-    public Optional<LectureRoom> findById(String roomNumber, String buildingName) {
+    public Optional<LectureRoom> findById(LectureRoomId lectureRoomId) {
         String sql = "SELECT * FROM LECTUREROOM WHERE ROOMNUMBER = ? AND BUILDINGNAME = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -29,8 +30,8 @@ public class JdbcLectureRoomRepository extends JdbcGenericRepository<LectureRoom
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, roomNumber);
-            pstmt.setString(2, buildingName);
+            pstmt.setString(1, lectureRoomId.getRoomNumber());
+            pstmt.setString(2, lectureRoomId.getBuildingName());
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 LectureRoom lectureRoom = new LectureRoom();
